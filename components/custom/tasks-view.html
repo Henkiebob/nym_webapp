@@ -143,7 +143,7 @@
 					<div class="img group" style="background-image:url()"></div>
 				</div>
 
-				<paper-tabs selected="0">
+				<paper-tabs selected="0" noink="true">
 					<paper-tab on-tap="{{headerToTodo}}"><core-icon icon="subject"></core-icon> {{header_todo}} taken</paper-tab>
 					<paper-tab on-tap="{{headerToDone}}"><core-icon icon="done-all"></core-icon> {{header_done}} afgerond</paper-tab>
 					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{header_points}} punten</paper-tab>
@@ -201,7 +201,7 @@
 			</div>
 		</div>
 
-		<paper-tabs selected="0" id="navigation">
+		<paper-tabs selected="0" noink="true" id="navigation">
 			<paper-tab on-tap="{{showSingle}}">Single</paper-tab>
 			<paper-tab on-tap="{{showGroup}}">Group</paper-tab>
 			<paper-tab on-tap="{{gotoSettings}}">Settings</paper-tab>

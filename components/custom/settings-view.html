@@ -1,6 +1,7 @@
 <link rel="import" href="../core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
 <link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
 <link rel="import" href="../core-animation/core-animation.html">
 <link rel="import" href="../core-collapse/core-collapse.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
@@ -10,6 +11,11 @@
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+
+
+<script src="../../lib/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
 
 <link rel="import" href="single-task-settings.html">
 
@@ -38,35 +44,46 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
 .task{
   width:100%;
 }
-      paper-tabs#navigation, core-toolbar{
-        position:fixed;
-        left:0;
-        bottom:0;
-        height:80px;
-        width:100%;
-        background:#DC5957;
-        color:#FFF;
-        box-shadow:0px 3px 2px rgba(0, 0, 0, 0.2);
-      }
+paper-tabs#navigation, core-toolbar{
+  position:fixed;
+  left:0;
+  bottom:0;
+  height:80px;
+  width:100%;
+  background:#DC5957;
+  color:#FFF;
+  box-shadow:0px 3px 2px rgba(0, 0, 0, 0.2);
+}
 
-      paper-tabs#navigation::shadow #selectionBar{
-        background-color:#B32F2D;
-        display:none;
-      }
+paper-tabs#navigation::shadow #selectionBar{
+  background-color:#B32F2D;
+  display:none;
+}
 
-      paper-tabs paper-tab::shadow #ink{
-        color:rgba(255,255,255,0.3);
-      }
+paper-tabs paper-tab::shadow #ink{
+  color:rgba(255,255,255,0.3);
+}
 
-      paper-fab{
-        top:15px;
-        left:10px;
-        position:fixed;
-        background:#5677fc;
-        z-index:1;
-        opacity: 0.6;
-      }
-		</style>
+paper-fab{
+  top:10px;
+  right:10px;
+  z-index:1;
+  position: fixed;
+  background: white;
+  color:black;
+}
+
+core-toolbar{
+  top:0px;
+  z-index:1;
+  position: relative;
+}
+
+core-icon-button{
+  width:55px;
+  float:left;
+}
+</style>
 
 		<core-ajax id="ajaxGetTasks"
 			auto
@@ -93,43 +110,51 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
 		<core-ajax id="deleteTask"
 			auto="false"
 			on-core-response="{{taskDeleted}}"
-      handleAs="text/plain"
+      handleAs="json"
 			method="DELETE">
 		</core-ajax>
 
 		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
 			<div>
+        <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{goBack}}"></core-icon-button>
+          <div flex>Taakbeheer</div>
+          <paper-fab icon="add" on-tap="{{addNew}}" role="button"></paper-fab>
+        </core-toolbar>
+
 				<template repeat="{{task in tasks}}">
 					<single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
 				</template>
-        <paper-fab icon="add" on-tap="{{addNew}}" role="button"></paper-fab>
+
 			</div>
 
 			<div class="settings-container">
+          <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+          <div flex>Taak toevoegen</div>
+        </core-toolbar>
+        <div class="settings-form">
+          <paper-input class="task" value="{{newTaskName}}" autofocus label="Taak"></paper-input>
 
-      <div class="settings-form">
-        <paper-input class="task" value="{{newTaskName}}" autofocus label="Taak"></paper-input>
+          <paper-radio-group id="radio" selected="1">
+            <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
+            <paper-radio-button name="7" label="Elke week"></paper-radio-button>
+            <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
+          </paper-radio-group>
 
-        <paper-radio-group id="radio" selected="1">
-          <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
-          <paper-radio-button name="7" label="Elke week"></paper-radio-button>
-          <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
-        </paper-radio-group>
+          <paper-button raised on-tap="{{addTask}}">
+            Toevoegen
+          </paper-button>
 
-        <paper-button raised on-tap="{{addTask}}">
-          Toevoegen
-        </paper-button>
-
-         <paper-button raised on-tap="{{back}}">
-          Terug
-        </paper-button>
-      </div>
-
+           <paper-button raised on-tap="{{back}}">
+            Terug
+          </paper-button>
+        </div>
 			</div>
 		</core-animated-pages>
 
 
-    <paper-tabs selected="0" id="navigation">
+    <paper-tabs selected="2" noink="true" id="navigation">
       <paper-tab on-tap="{{showSingle}}">Single</paper-tab>
       <paper-tab on-tap="{{showGroup}}">Group</paper-tab>
       <paper-tab on-tap="{{gotoSettings}}">Settings</paper-tab>
@@ -179,14 +204,25 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
         this.$.addTask.go();
       },
       taskAdded:function(){
-        console.log('task added');
-
-        //$("#addedToast").show();
+          swal("Gelukt", "Taak zit erbij!", "success")
+      },
+      taskDeleted:function(){
+          //swal("Good job!", "You clicked the button!", "success")
       },
       back:function(){
         this.$.pages.selected = 0;
+      },
+      showSingle:function(){
+         this.fire('go-to', {page:'tasks-view'});
+      },
+      showGroup:function(){
+        this.fire('go-to', {page:'tasks-view'});
+      },
+      goBack:function(){
+        this.fire('go-to', {page:'tasks-view'});
       }
 		});
+
 
 
 	</script>
