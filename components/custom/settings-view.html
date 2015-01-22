@@ -54,6 +54,7 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
 		<core-ajax id="deleteTask"
 			auto="false"
 			on-core-response="{{taskDeleted}}"
+      handleAs="text/plain"
 			method="DELETE">
 		</core-ajax>
 
@@ -69,7 +70,7 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
 
         <paper-input value="{{newTaskName}}" label="Taak"></paper-input>
 
-        <paper-radio-group selected="1" value="{{duration}}">
+        <paper-radio-group id="radio" selected="1">
           <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
           <paper-radio-button name="7" label="Elke week"></paper-radio-button>
           <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
@@ -116,9 +117,8 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
 			},
 			deleteTask:function(event, detail, sender){
 				this.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
-				//this.$.deleteTask.go();
 
-				console.log(this.$.deleteTask.headers, this.$.deleteTask.url);
+        this.$.deleteTask.go();
 			},
 			addNew:function(){
 				this.$.pages.selected = 1;
@@ -128,7 +128,7 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
         this.$.addTask.params = {
         'task[name]':this.newTaskName,
         'task[house_id]':localStorage.house_id,
-        'task[deadline]':this.duration
+        'task[duration]':this.$.radio.selected
         };
 
         this.$.addTask.go();
@@ -140,5 +140,7 @@ paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::be
         //$("#addedToast").show();
       }
 		});
+
+
 	</script>
 </polymer-element>
