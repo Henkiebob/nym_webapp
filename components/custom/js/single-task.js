@@ -1,13 +1,12 @@
 Polymer({
 	ready:function(){
-		if(this.deadline.indexOf('T') > -1){
-			var date = this.deadline.split('T')[0],
-				day = date.split('-')[2],
-				month = date.split('-')[1],
-				months = ["januari","februari","maart","april","mei","juni","juli", "augustus","september","oktober","november","december"],
-				deadline = day+' '+months[month-1];
-			this.deadline = deadline;
-		}
+        var deadline = new Date(this.deadline),
+            day = deadline.getDate(),
+            month = deadline.getMonth(),
+  		    months = ["januari","februari","maart","april","mei","juni","juli", "augustus","september","oktober","november","december"];
+        
+        this.deadline = day+' '+months[month];
+        
 		animate = {};
 	},
 	taskTap:function(event, detail, sender){
@@ -80,7 +79,7 @@ Polymer({
 			}];
 			task_ani.fill = 'forwards';
 			task_ani.target = task;
-			task_ani.play();
+			//task_ani.play();
 						
 			this_task = this;
 			task_ani.addEventListener('core-animation-finish', function(){
@@ -104,5 +103,8 @@ Polymer({
 			delete animate.icon;
 			delete animate.target;
 		}
+	},
+    pickTask:function(){
+		this.fire('pick-task', {task_id:this.task_id, task_pos:this.task_position});
 	}
 });

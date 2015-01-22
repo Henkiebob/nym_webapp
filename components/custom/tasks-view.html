@@ -157,7 +157,7 @@
 							<h2>Wat moet ik nog gaan doen?</h2>
 							
 							<template repeat="{{task, taskIndex in tasks}}">
-								<single-task name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>
+								<single-task name="{{task.name}}" duration="{{task.duration}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>
 							</template>
 						</core-collapse>
 						
@@ -282,16 +282,29 @@
 			},
 			finishTask:function(event, detail, sender){
 				var task = this.tasks[detail.task_pos];
-				this.tasks_done.push(task);
-				this.tasks.splice(detail.task_pos, 1);
 				
-				this.header_todo--;
-				this.header_done++;
-				
-				//update database				
-				this.$.ajaxUpdateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
-				this.$.ajaxUpdateTask.params = {'task[status]':1};
-				this.$.ajaxUpdateTask.go();
+                if(detail.task_id == task.id){
+                    //update task lists
+                    var task_done = task;
+                    task_done.deadline = new Date;
+                    this.tasks_done.push(task_done);
+				    //this.tasks.splice(detail.task_pos, 1);
+                    
+                    //update header
+                    this.header_todo--;
+                    this.header_done++;
+
+                    //set new deadline			
+                    if(!task.duration) task.duration = 7;                
+                    var date = new Date;
+                    var next = date.setDate(date.getDate() + task.duration);
+
+                    //update database
+                    this.$.ajaxUpdateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
+                    //this.$.ajaxUpdateTask.params = {'task[status]':1};
+                    this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next)};
+                    //this.$.ajaxUpdateTask.go();
+                }
 			},
 			taskUpdated:function(event, detail, sender){
 				//console.log()
