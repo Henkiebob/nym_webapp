@@ -284,11 +284,16 @@
 				var task = this.tasks[detail.task_pos];
 				
                 if(detail.task_id == task.id){
-                    //update task lists
+                    //duplicate to done list
                     var task_done = (JSON.parse(JSON.stringify(task)));
                     task_done.deadline = new Date;
                     this.tasks_done.push(task_done);
-				    //this.tasks.splice(detail.task_pos, 1);
+                    
+                    //remove from todo list
+				    this.tasks.splice(detail.task_pos, 1);
+                    
+                    //add to open list
+                    this.tasks_open.push(task);
                     
                     //update header
                     this.header_todo--;
@@ -309,7 +314,7 @@
                     //update database
                     this.$.ajaxUpdateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
                     //this.$.ajaxUpdateTask.params = {'task[status]':1};
-                    this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next)};
+                    this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next), 'task[user]':''};
                     //this.$.ajaxUpdateTask.go();
                 }
 			},
