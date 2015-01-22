@@ -85,6 +85,8 @@ Polymer({
 			task_ani.addEventListener('core-animation-finish', function(){
             	this_task.fire('finish-task', {task_id:this_task.task_id, task_pos:this_task.task_position});
  			});
+            
+            this_task.fire('finish-task', {task_id:this_task.task_id, task_pos:this_task.task_position});
 			
 		}else{ //Not tapped on button, but on task
 			this.cancelConfimation();
