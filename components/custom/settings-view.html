@@ -1,0 +1,108 @@
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-animation/core-animation.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
+
+<link rel="import" href="single-task-settings.html">
+
+
+<polymer-element name="settings-view">
+	<template>
+		<style>
+core-animated-pages{
+	height:calc(100vh - 80px);
+	width:100%;
+	overflow-y:auto;
+	overflow-x:hidden;
+	background:#F8F8F8;
+}
+paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::before, paper-slider::shadow #sliderBar::shadow #activeProgress{
+ 	background:#DC5957;
+}
+		</style>
+		
+		<core-ajax id="ajaxGetTasks" 
+			auto
+			url="http://178.62.205.200/api/tasks"
+			on-core-response="{{tasksLoaded}}" 
+			handleAs="json" 
+			method="GET">
+		</core-ajax>
+		
+		<core-ajax id="updateTask" 
+			auto="false"
+			on-core-response="{{taskUpdated}}" 
+			handleAs="json" 
+			method="PUT">
+		</core-ajax>
+		
+		<core-ajax id="deleteTask" 
+			auto="false"
+			on-core-response="{{taskDeleted}}" 
+			method="DELETE">
+		</core-ajax>
+		
+		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
+			<div>
+				<template repeat="{{task in tasks}}">
+					<single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+				</template>
+			</div>
+			
+			<div>
+				<input type="text" placeholder="name" value="{{newTaskName}}">
+								
+				<input type="text" placeholder="deadline" value="{{newTaskDeadline}}">
+				
+				<paper-slider min="0" max="20" step="5" value="0" snaps="true" pin="true" id="deadline"></paper-slider>
+			</div>
+		</core-animated-pages>
+		
+		<paper-tabs selected="0" id="navigation">
+			<paper-tab on-tap="{{addNew}}">New</paper-tab>
+			<paper-tab on-tap="{{showGroup}}">Group</paper-tab>
+			<paper-tab on-tap="{{gotoSettings}}">Settings</paper-tab>
+		</paper-tabs>
+	</template>
+	<script>
+		Polymer({
+			ready:function(){
+				var auth = {'Authorization': 'Token token='+localStorage.token};
+				this.$.ajaxGetTasks.headers = auth;
+				this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id}; 
+				this.$.updateTask.headers = auth;
+				this.$.deleteTask.headers = auth;
+				
+				var deadline = this.$.deadline;
+				deadline.addEventListener('change', function(){
+					this.newTaskPoints = deadline.value;
+				});
+			},
+			tasksLoaded:function(){
+				this.tasks = this.$.ajaxGetTasks.response;
+			},
+			updateTask:function(event, detail, sender){
+				console.log('update task '+detail.task_id+' ("'+detail.name+'")');
+				
+				this.$.updateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
+				this.$.updateTask.params = {'task[name]':detail.name, 'task[points]':detail.points};
+				this.$.updateTask.go();
+			},
+			taskUpdated:function(){
+				console.log('task updated');
+			},
+			deleteTask:function(event, detail, sender){
+				this.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
+				//this.$.deleteTask.go();
+				
+				console.log(this.$.deleteTask.headers, this.$.deleteTask.url);
+			},
+			addNew:function(){
+				this.$.pages.selected = 1;
+			}
+		});
+	</script>
+</polymer-element>

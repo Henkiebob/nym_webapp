@@ -1,0 +1,18 @@
+<polymer-element name="single-task-group" attributes="name deadline points avatar done">
+	<template>	
+		<link rel="stylesheet" type="text/css" href="style/single-task.css">
+		
+		<div class="task group {{done}}">						
+			<img class="btn avatar" src="http://178.62.205.200{{avatar}}">
+			
+			<h3>{{name}}</h3>
+			
+			<div class="details">
+				<core-icon icon="star"></core-icon> {{points}}
+				<core-icon icon="alarm"></core-icon> {{deadline}}
+			</div>
+		</div>
+	</template>
+	
+	<script type="text/javascript" src="js/single-task-open.js"></script>
+</polymer-element>

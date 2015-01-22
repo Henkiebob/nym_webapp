@@ -1,0 +1,183 @@
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../custom/user-profile.html">
+
+<polymer-element name="login-profiles">
+	<template>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+				box-sizing:border-box;
+			}
+			
+			h2{
+				text-align:center;
+				font-size:18px;
+				margin:20px 0;
+				color:#FFF;
+			}
+			
+			core-animated-pages > div{
+				text-align:center;
+				width:100vw;
+				height:100vh;
+				margin:0 auto;
+				background:#DC5957;
+			}
+			
+			.photos{
+				position:relative;
+				width:200px;
+				height:200px;
+				margin:40px auto;
+				transform-style:preserve-3d;
+			}
+
+			.photos img{
+				position:absolute;
+				left:0;
+				top:0;
+				width:200px;
+				height:200px;
+				border-radius:100px;
+				border:2px solid #FFF;
+				backface-visibility:hidden;
+			}
+
+			input{
+				display:block;
+				width:90%;
+				max-width:400px;
+				height:40px;
+				margin:0 auto 20px;
+				background:none;
+				border:1px solid #FFF;
+				padding:0 10px;
+				font-size:18px;
+				color:#FFF;
+				border-radius:3px;
+				transition:all 100ms;
+				-webkit-appearance:none;
+    			border-radius:0;
+			}
+			
+			input:focus{
+				outline:none;
+			}
+
+			input[type="text"]:focus, input[type="password"]:focus{
+				border-left-width:7px;
+			}
+
+			input[type="submit"]{
+				background:#FFF;
+				color:#DC5957;
+			}
+
+			::-webkit-input-placeholder{
+			   color:rgba(255,255,255,0.8);
+			}
+			:-moz-placeholder{ 
+			   color:rgba(255,255,255,0.8);
+			}
+			::-moz-placeholder{  
+			   color:rgba(255,255,255,0.8);
+			}
+			:-ms-input-placeholder{  
+			   color:rgba(255,255,255,0.8);
+			}
+			
+			ul{
+				width:300px;
+				margin:0 auto;
+			}
+		</style>
+		
+		<core-ajax id="ajaxLogin" 
+			auto="false"
+			url="http://178.62.205.200/api/sessions"
+			on-core-response="{{houseLoggedIn}}" 
+			method="POST">
+		</core-ajax>
+		
+		<core-ajax id="ajaxGetUsers" 
+			auto="false"
+			on-core-response="{{usersLoaded}}" 
+			handleAs="json" 
+			method="GET">
+		</core-ajax>
+		
+		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
+			<div>
+				<div class="photos">
+					<img src="../../images/logo.svg" class="logo">
+					<!--<img src="group.png" class="group">-->
+				</div>
+
+				<input type="text" id="housename" placeholder="Groepsnaam">
+				<input type="password" id="password" placeholder="Wachtwoord">
+
+				<input type="submit" value="Inloggen" on-tap="{{login}}">
+			</div>
+			<div>
+				<h2>Met wie heb ik het genoegen?</h2>
+				
+				<ul>
+					<template repeat="{{user in users}}">
+						<user-profile name="{{user.name}}" avatar="{{user.avatar}}" user_id="{{user.id}}" on-show-tasks="{{goToTasks}}"></user-profile>
+					</template>
+				</ul>
+			</div>
+		</core-animated-pages>
+	</template>
+	<script>
+		Polymer({
+			ready:function(){
+				if(localStorage.token && !localStorage.user_id){
+					this.loadUsers();
+					this.$.pages.selected = 1;
+				}
+			},
+			login:function(){				
+				var name = this.$.housename.value;
+				var pass = this.$.password.value;
+				
+				this.$.ajaxLogin.params = {'house[name]':'test', 'house[password]':'test'};			
+				this.$.ajaxLogin.go();
+			},
+			houseLoggedIn:function(){
+				var response = JSON.parse(this.$.ajaxLogin.response)[0];
+				
+				localStorage.house_id = response.id; //response.apikey[0].house_id;
+				localStorage.token = response.access_token;
+								
+				this.loadUsers();
+			},
+			loadUsers:function(){
+				this.$.ajaxGetUsers.url = 'http://178.62.205.200/api/houses/habitants/'+localStorage.house_id;
+				this.$.ajaxGetUsers.headers = {'Authorization':'Token token='+localStorage.token};
+				this.$.ajaxGetUsers.go();
+			},
+			usersLoaded:function(){
+				this.users = this.$.ajaxGetUsers.response;
+				
+				users = {};
+				for(i = 0; i < this.users.length; i++){
+					var user = this.users[i];
+					
+					users[user.id] = user;
+				}
+				localStorage.users = JSON.stringify(users);
+							
+				this.$.pages.selected = 1;
+			},
+			goToTasks:function(event, detail, sender){
+				if(detail) localStorage.user_id = detail.user_id;
+				
+				Polymer.import(['components/custom/tasks-view.html']);
+				this.fire('go-to', {page:'tasks-view'});
+			}
+		});
+	</script>
+</polymer-element>

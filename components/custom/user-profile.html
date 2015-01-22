@@ -1,0 +1,55 @@
+<polymer-element name="user-profile" attributes="name avatar user_id">
+	<template>
+		<style>
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}	
+
+.user{
+	float:left;
+	margin:0 15px 10px;
+	list-style:none;
+}
+
+.user .img{
+	width:120px;
+	height:120px;
+	border-radius:75px;
+	margin:5px 0;
+	border:2px solid #FFF;
+	background-size:cover;
+	background-position:center;
+	background-repeat:no-repeat;
+}
+
+.user p{
+	font-weight:lighter;
+	color:#FFF;
+	text-transform:capitalize;
+}
+		</style>
+		<li class="user" on-tap="{{goToTasks}}">
+			<div class="img" style="background-image:url({{avatar}})"></div>
+			<p>{{name}}</p>
+		</li>	
+	</template>
+	<script>
+		Polymer({
+			ready:function(){
+				var avatar = this.avatar;
+				if(avatar == '/images/original/missing.png'){
+					this.avatar = 'images/missing.svg'
+				}else{
+					this.avatar = 'http://178.62.205.200/'+this.avatar;
+				}
+				//console.log(this.id);
+			},
+			goToTasks:function(){
+				localStorage.user_id = 1;
+				this.fire('show-tasks', {user_id:this.user_id, user_name:this.name, avatar:this.avatar});
+			}
+		});
+	</script>
+</polymer-element>

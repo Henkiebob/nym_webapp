@@ -1,0 +1,82 @@
+*{
+	box-sizing:border-box;
+}
+.task{
+	position:relative;
+	width:94%;
+	height:75px;
+	background:#FFF;
+	margin:0 3% 15px;
+	border-left:10px solid #B5B5B5;
+	padding:12px 10px;
+	box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.35);
+	overflow:hidden;
+}
+.task.todo, .task.group{
+	border-color:#DC5957;
+}
+.task.done{
+	border-color:green;
+}
+.task.done .btn{
+	background:#080;
+	border-color:#080;
+}
+.task.done .btn core-icon{
+	color:#FFF;
+}
+h3{
+	margin:0;
+	font-size:15px;
+}
+.details{
+	margin-top:14px;
+	color:#636363;
+	font-size:12px;
+}
+.details .points{
+	margin-right:15px;
+}
+.details core-icon{
+	width:20px;
+	height:20px;
+	margin-top:-4px;
+}
+.details core-icon[icon="alarm"]{
+	margin-left:10px;
+}
+.btn{
+	position:absolute;
+	right:15px;
+	top:23px;
+	height:30px;
+	font-size:0;
+	line-height:18px;
+	padding:5px 4px;
+	color:gray;
+	border:1px solid gray;
+	border-radius:20px;
+	text-align:center;
+	overflow:hidden;
+	cursor:pointer;
+}
+.btn core-icon{
+	width:20px;
+	height:20px;
+	opacity:1;
+	color:gray;
+}
+.btn.open{
+	padding:2px 10px;
+	font-size:12px;
+	border-radius:4px;
+	height:24px;
+	top:25px;
+	right:15px;
+	color:#636363;
+}
+.avatar{
+	width:30px;
+	cursor:default;
+	padding:0;
+}
