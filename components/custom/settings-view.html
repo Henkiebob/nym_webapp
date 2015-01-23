@@ -24,7 +24,7 @@
 	<template>
 		<style>
 core-animated-pages{
-	height:calc(100vh - 80px);
+	height:calc(100vh);
 	width:100%;
 	overflow-y:auto;
 	overflow-x:hidden;
@@ -152,14 +152,6 @@ core-icon-button{
         </div>
 			</div>
 		</core-animated-pages>
-
-
-    <paper-tabs selected="2" noink="true" id="navigation">
-      <paper-tab on-tap="{{showSingle}}">Single</paper-tab>
-      <paper-tab on-tap="{{showGroup}}">Group</paper-tab>
-      <paper-tab on-tap="{{gotoSettings}}">Settings</paper-tab>
-    </paper-tabs>
-
 
 	</template>
 	<script>
