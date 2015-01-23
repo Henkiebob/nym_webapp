@@ -118,6 +118,15 @@
 			paper-tabs paper-tab::shadow #ink{
 				color:rgba(255,255,255,0.3);
 			}
+
+      .logout{
+        top:0px;
+        height:10px;
+        width:10px;
+        font-size:11px;
+        right:20px;
+        position: absolute;
+      }
 		</style>
 
 		<core-ajax id="ajaxGetTasks"
@@ -136,7 +145,7 @@
 
 		<div id="wrapper">
 			<header>
-				<h1>{{username}}</h1>
+				<h1>{{username}}</h1> <paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>
 
 				<div class="photos">
 					<div class="img single" style="background-image:url({{avatar}})"></div>
@@ -216,7 +225,7 @@
 			//startChanged:function(oldValue, newValue){
         		//if(newValue == 'true'){
 					this.users = JSON.parse(localStorage.users);
-					this.username = this.users[localStorage.user_id].username;
+					this.username = this.users[localStorage.user_id].name;
 					this.avatar = 'http://178.62.205.200'+this.users[localStorage.user_id].avatar;
 
 					var auth = {'Authorization': 'Token token='+localStorage.token};
@@ -354,7 +363,11 @@
 			},
 			gotoSettings:function(){
 				this.fire('go-to', {page:'settings-view'});
-			}
+			},
+      logout:function(){
+        localStorage.clear();
+        location.reload();
+      }
 		});
 	</script>
 </polymer-element>
