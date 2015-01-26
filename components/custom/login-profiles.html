@@ -180,7 +180,7 @@
 			goToTasks:function(event, detail, sender){
 				if(detail) localStorage.user_id = detail.user_id;
 
-				Polymer.import(['components/custom/tasks-view.html']);
+				Polymer.import(['tasks-view.html']);
 				this.fire('go-to', {page:'tasks-view'});
 			}
 		});
