@@ -1,4 +1,4 @@
-<link rel="import" href="../paper-spinner/paper-spinner.html">			
+<link rel="import" href="../paper-spinner/paper-spinner.html">
 
 <!--<link rel="import" href="../custom/login-profiles.html">
 <link rel="import" href="../custom/tasks-view.html">-->
@@ -16,15 +16,15 @@
 
 			paper-spinner.white::shadow .circle{
 				border-color:white;
-			}			
+			}
 		</style>
-		
+
 		<paper-spinner class="white" active></paper-spinner>
 
 		<login-profiles on-go-to="{{goTo}}" hidden></login-profiles>
-		
+
 		<tasks-view start="false" on-go-to="{{goTo}}" hidden></tasks-view>
-		
+
 		<settings-view on-go-to="{{goTo}}" hidden></settings-view>
 	</template>
 	<script>
@@ -32,19 +32,19 @@
 			ready:function(){
 				if(localStorage.house_id && localStorage.token && localStorage.user_id){
 					Polymer.import(['components/custom/tasks-view.html'], function(){
-						document.querySelector('::shadow tasks-view').hidden = false;
+						document.querySelector('html /deep/ tasks-view').hidden = false;
 					});
 					//document.querySelector('::shadow tasks-view').start = 'true';
 				}else{
 					Polymer.import(['components/custom/login-profiles.html'], function(){
-						document.querySelector('::shadow login-profiles').hidden = false;
+						document.querySelector('html /deep/ login-profiles').hidden = false;
 					});
 				}
 			},
 			goTo:function(event, detail, sender){
 				sender.hidden = true;
-				document.querySelector('::shadow '+detail.page).hidden = false;
-				document.querySelector('::shadow tasks-view').start = 'true';
+				document.querySelector('html /deep/ '+detail.page).hidden = false;
+				document.querySelector('html /deep/ tasks-view').start = 'true';
  			}
 		});
 	</script>

@@ -86,7 +86,7 @@ core-icon-button{
 </style>
 
 		<core-ajax id="ajaxGetTasks"
-			auto
+			auto="false"
 			url="http://178.62.205.200/api/tasks"
 			on-core-response="{{tasksLoaded}}"
 			handleAs="json"
@@ -163,6 +163,10 @@ core-icon-button{
 				this.$.updateTask.headers = auth;
 				this.$.deleteTask.headers = auth;
         this.$.addTask.headers = auth;
+
+        if(localStorage.house_id) {
+          this.$.ajaxGetTasks.go();
+        }
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;
