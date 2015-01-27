@@ -87,7 +87,6 @@
 			:-ms-input-placeholder{
 			   color:rgba(255,255,255,0.8);
 			}
-
 			ul{
 				width:300px;
 				margin:0 auto;
@@ -149,14 +148,15 @@
 				this.$.ajaxLogin.go();
 			},
 			houseLoggedIn:function(){
-				var response = JSON.parse(this.$.ajaxLogin.response)[0];
+				var house  = JSON.parse(this.$.ajaxLogin.response)[0];
+        var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
 
                 if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
                     console.log('wrong inlog');
                 }else{
-                    localStorage.house_id = response.id; //response.apikey[0].house_id;
-                    localStorage.token = response.access_token;
-
+                    localStorage.house_id = house.id; //response.apikey[0].house_id;
+                    localStorage.house_name =  house.name;
+                    localStorage.token = apikey.access_token;
                     this.loadUsers();
                 }
 			},

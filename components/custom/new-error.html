@@ -1,0 +1,31 @@
+
+<polymer-element name="new-error" attributes="message">
+  <template>
+  <style>
+      #notification-bar{
+        width:100%;
+        min-height:50px;
+        padding:10px;
+        position: absolute;
+        top:0;
+        background:white;
+        border-bottom:3px solid #000;
+    }
+  </style>
+    <div id="notification-bar">{{message}}</div>
+  </template>
+  <script>
+Polymer({
+  ready:function(){
+      var animation = new CoreAnimation();
+      animation.duration = 1000;
+      animation.keyframes = [
+        {opacity: 1},
+        {opacity: 0}
+      ];
+      animation.target = document.getElementById('notification-bar');
+      animation.play();
+  }
+});
+  </script>
+</polymer-element>
