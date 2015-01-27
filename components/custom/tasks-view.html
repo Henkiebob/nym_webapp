@@ -70,7 +70,7 @@
 				background-position:center;
 				background-repeat:no-repeat;
 			}
-            
+
             header #photos .img.group{
                 transform:rotateY(180deg);
             }
@@ -114,7 +114,7 @@
 				color:#FFF;
 				box-shadow:0px 3px 2px rgba(0, 0, 0, 0.2);
 			}
-            
+
             paper-tabs paper-tab core-icon{
                 margin-right:5px;
             }
@@ -136,13 +136,13 @@
                 right:20px;
                 position: absolute;
             }
-            
+
             core-icon[icon="backspace"]{
                 position:absolute;
                 left:20px;
                 top:30px;
             }
-            
+
             core-icon[icon="settings"]{
                 position:absolute;
                 right:20px;
@@ -166,12 +166,12 @@
 
 		<div id="wrapper">
 			<header>
-				<h1>{{headername}}</h1> 
-				
+				<h1>{{headername}}</h1>
+
 				<!--<paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>-->
-				
+
 				<core-icon class="logout_btn" icon="backspace" on-tap="{{userSwitch}}"></core-icon>
-				
+
 				<core-icon class="settings_btn" icon="settings" on-tap="{{gotoSettings}}"></core-icon>
 
 				<div id="photos">
@@ -376,9 +376,9 @@
 
 				this.header_todo = this.tasks.length;
 				this.header_done = this.tasks_done.length;
-                
+
                 this.headername = this.username;
-                
+
                 var rotate = new CoreAnimation();
                 rotate.duration = 300;
                 rotate.keyframes = [{
@@ -399,9 +399,13 @@
 
 				this.header_todo = this.tasks_group.length;
 				this.header_done = this.tasks_group_done.length;
-                
-                this.headername = 'GROEP';
-                
+
+                if(localStorage.groupName){
+                      this.headername = localStorage.groupName;
+                } else{
+                     this.headername = 'GROEP';
+                }
+
                 var rotate = new CoreAnimation();
                 rotate.duration = 300;
                 rotate.keyframes = [{
@@ -416,7 +420,7 @@
 			gotoSettings:function(){
                 that = this;
                 Polymer.import(['components/custom/settings-view.html'], function(){
-                   that.fire('go-to', {page:'settings'}); 
+                   that.fire('go-to', {page:'settings'});
                 });
 			},
             logout:function(){

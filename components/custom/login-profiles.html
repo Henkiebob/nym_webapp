@@ -155,7 +155,7 @@
                     console.log('wrong inlog');
                 }else{
                     localStorage.house_id = house.id; //response.apikey[0].house_id;
-                    localStorage.house_name =  house.name;
+                    localStorage.groupName =  house.name;
                     localStorage.token = apikey.access_token;
                     this.loadUsers();
                 }
@@ -180,7 +180,7 @@
 			},
 			goToTasks:function(event, detail, sender){
 				if(detail) localStorage.user_id = detail.user_id;
-                
+
                 that = this;
 				Polymer.import(['components/custom/tasks-view.html'], function(){
                     that.fire('go-to', {page:'tasks'});
