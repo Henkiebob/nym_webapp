@@ -26,10 +26,9 @@
 
     <core-ajax id="addUsers"
       auto="false"
-      url="http://localhost:3000/api/users"
       on-core-response="{{usersAdded}}"
       handleAs="json"
-      method="POST">
+      method="PUT">
     </core-ajax>
 
     <core-animated-pages id="pages" selected="0" transitions="slide-from-right">

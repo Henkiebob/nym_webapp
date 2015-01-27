@@ -38,12 +38,34 @@ Polymer({
       },
       addUsersToHouse:function(event, detail, sender) {
 
-       this.$.addUsers.url = 'http://localhost:3000/api/users/';
-       var auth = {'Authorization': 'Token token='+localStorage.token};
-       this.$.addUsers.headers = auth;
+       // this.$.addUsers.url = 'http://localhost:3000/api/houses/'+localStorage.house_id;
+       // var auth = {'Authorization': 'Token token='+localStorage.token};
+       // this.$.addUsers.headers = auth;
 
-       this.$.addUsers.body = {"users" : {"name": "tjerk", "email" : "tjerk.dijkstra@gmail.com"} };
-       this.$.addUsers.go();
+       this.$.addUsers.body =
+       {
+              "house": {
+                "users_attributes": [
+                    {
+                        "name": "Tjerk",
+                        "email": "tjerk.dijkstra@gmail.com"
+                    },
+                    {
+                        "name": "Tjisse",
+                        "email": "tjrdesign@hotmail.com"
+                    },
+                    {
+                        "name": "Koop",
+                        "email": "kooperoni@koop.com"
+                    },
+                    {
+                        "name": "Ronald",
+                        "email": "thegreatjebbink@hotmail.com"
+                    }
+                ]
+          }
+        };
+       //this.$.addUsers.go();
 
       },
       addNewUser:function() {
