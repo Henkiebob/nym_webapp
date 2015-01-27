@@ -48,7 +48,7 @@
 				text-transform:capitalize;
 			}
 
-			header .photos{
+			header #photos{
 				position:relative;
 				width:130px;
 				height:130px;
@@ -56,7 +56,7 @@
 				transform-style:preserve-3d;
 			}
 
-			header .photos .img{
+			header #photos .img{
 				position:absolute;
 				left:0;
 				top:0;
@@ -69,6 +69,10 @@
 				background-position:center;
 				background-repeat:no-repeat;
 			}
+            
+            header #photos .img.group{
+                transform:rotateY(180deg);
+            }
 
 			header paper-tabs{
 				height:40px;
@@ -145,11 +149,11 @@
 
 		<div id="wrapper">
 			<header>
-				<h1>{{username}}</h1> <paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>
+				<h1>{{headername}}</h1> <paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>
 
-				<div class="photos">
+				<div id="photos">
 					<div class="img single" style="background-image:url({{avatar}})"></div>
-					<!--<div class="img group" style="background-image:url()"></div>-->
+					<div class="img group" style="background-image:url('/images/icon.png')"></div>
 				</div>
 
 				<paper-tabs selected="0" noink="true">
@@ -220,6 +224,7 @@
 	<script>
 		Polymer({
 			ready:function(){
+<<<<<<< Updated upstream
           if(localStorage.house_id && localStorage.token) {
   					this.users = JSON.parse(localStorage.users);
   					this.username = this.users[localStorage.user_id].name;
@@ -235,6 +240,28 @@
   					this.$.tasks_todo.opened = true;
   					this.$.tasks_done.opened = true;
           }
+=======
+			//	this.startChanged();
+			//},
+			//startChanged:function(oldValue, newValue){
+        		//if(newValue == 'true'){
+					this.users = JSON.parse(localStorage.users);
+					this.username = this.users[localStorage.user_id].name;
+					this.avatar = 'http://178.62.205.200'+this.users[localStorage.user_id].avatar;
+                
+                    this.headername = this.username;
+
+					var auth = {'Authorization': 'Token token='+localStorage.token};
+					this.$.ajaxGetTasks.headers = auth;
+					this.$.ajaxUpdateTask.headers = auth;
+
+					this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
+					this.$.ajaxGetTasks.go();
+
+					this.$.tasks_todo.opened = true;
+					this.$.tasks_done.opened = true;
+				//}
+>>>>>>> Stashed changes
 			},
 			tasksLoaded:function(){
 				var tasks = this.$.ajaxGetTasks.response.slice(0);
@@ -347,6 +374,19 @@
 
 				this.header_todo = this.tasks.length;
 				this.header_done = this.tasks_done.length;
+                
+                this.headername = this.username;
+                
+                var rotate = new CoreAnimation();
+                rotate.duration = 300;
+                rotate.keyframes = [{
+                    transform:'rotateY(180deg)'
+                },{
+                    transform:'rotateY(0deg)'
+                }];
+                rotate.fill = 'forwards';
+                rotate.target = document.querySelector('html /deep/ #photos');
+                rotate.play();
 			},
 			showGroup:function(){
 				this.$.tasks_group.opened = true;
@@ -357,14 +397,27 @@
 
 				this.header_todo = this.tasks_group.length;
 				this.header_done = this.tasks_group_done.length;
+                
+                this.headername = 'GROEP';
+                
+                var rotate = new CoreAnimation();
+                rotate.duration = 300;
+                rotate.keyframes = [{
+                    transform:'rotateY(0deg)'
+                },{
+                    transform:'rotateY(180deg)'
+                }];
+                rotate.fill = 'forwards';
+                rotate.target = document.querySelector('html /deep/ #photos');
+                rotate.play();
 			},
 			gotoSettings:function(){
 				this.fire('go-to', {page:'settings-view'});
 			},
-      logout:function(){
-        localStorage.clear();
-        location.reload();
-      }
+            logout:function(){
+                localStorage.clear();
+                location.reload();
+            }
 		});
 	</script>
 </polymer-element>

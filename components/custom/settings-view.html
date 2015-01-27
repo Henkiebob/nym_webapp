@@ -162,11 +162,17 @@ core-icon-button{
 				this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
 				this.$.updateTask.headers = auth;
 				this.$.deleteTask.headers = auth;
-        this.$.addTask.headers = auth;
+                this.$.addTask.headers = auth;
 
+<<<<<<< Updated upstream
         if(localStorage.house_id && localStorage.token) {
           this.$.ajaxGetTasks.go();
         }
+=======
+                if(localStorage.house_id) {
+                  this.$.ajaxGetTasks.go();
+                }
+>>>>>>> Stashed changes
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;
@@ -184,39 +190,39 @@ core-icon-button{
 			deleteTask:function(event, detail, sender){
 				this.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
 
-        this.$.deleteTask.go();
+                this.$.deleteTask.go();
 			},
 			addNew:function(){
 				this.$.pages.selected = 1;
 			},
-      addTask:function(event, detail, sender){
-        this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
-        this.$.addTask.params = {
-        'task[name]':this.newTaskName,
-        'task[house_id]':localStorage.house_id,
-        'task[duration]': Number(this.$.radio.selected)
-        };
+            addTask:function(event, detail, sender){
+                this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
+                this.$.addTask.params = {
+                'task[name]':this.newTaskName,
+                'task[house_id]':localStorage.house_id,
+                'task[duration]': Number(this.$.radio.selected)
+                };
 
-        this.$.addTask.go();
-      },
-      taskAdded:function(){
-          swal("Gelukt", "Taak zit erbij!", "success")
-      },
-      taskDeleted:function(){
-          //swal("Good job!", "You clicked the button!", "success")
-      },
-      back:function(){
-        this.$.pages.selected = 0;
-      },
-      showSingle:function(){
-         this.fire('go-to', {page:'tasks-view'});
-      },
-      showGroup:function(){
-        this.fire('go-to', {page:'tasks-view'});
-      },
-      goBack:function(){
-        this.fire('go-to', {page:'tasks-view'});
-      }
+                this.$.addTask.go();
+            },
+            taskAdded:function(){
+              swal("Gelukt", "Taak zit erbij!", "success")
+            },
+            taskDeleted:function(){
+              //swal("Good job!", "You clicked the button!", "success")
+            },
+            back:function(){
+                this.$.pages.selected = 0;
+            },
+            showSingle:function(){
+                this.fire('go-to', {page:'tasks-view'});
+            },
+            showGroup:function(){
+                this.fire('go-to', {page:'tasks-view'});
+            },
+            goBack:function(){
+                this.fire('go-to', {page:'tasks-view'});
+            }
 		});
 	</script>
 </polymer-element>

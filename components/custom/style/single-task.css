@@ -28,6 +28,10 @@
 h3{
 	margin:0;
 	font-size:15px;
+    width:75%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 .details{
 	margin-top:14px;
