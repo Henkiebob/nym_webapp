@@ -151,14 +151,14 @@
 			houseLoggedIn:function(){
 				var response = JSON.parse(this.$.ajaxLogin.response)[0];
 
-        if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
-          console.log('wrong inlog');
-        }else{
-          localStorage.house_id = response.id; //response.apikey[0].house_id;
-          localStorage.token = response.access_token;
+                if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
+                    console.log('wrong inlog');
+                }else{
+                    localStorage.house_id = response.id; //response.apikey[0].house_id;
+                    localStorage.token = response.access_token;
 
-          this.loadUsers();
-        }
+                    this.loadUsers();
+                }
 
 			},
 			loadUsers:function(){
@@ -182,13 +182,13 @@
 			goToTasks:function(event, detail, sender){
 				if(detail) localStorage.user_id = detail.user_id;
 
-				Polymer.import(['tasks-view.html']);
-				this.fire('go-to', {page:'tasks-view'});
+				Polymer.import(['components/custom/tasks-view.html']);
+				this.fire('go-to', {page:'tasks'});
 			},
-      register:function(event, detail, sender) {
-        Polymer.import(['components/custom/register-view.html']);
-        this.fire('go-to', {page:'register-view'});
-      }
+            register:function(event, detail, sender) {
+                Polymer.import(['components/custom/register-view.html']);
+                this.fire('go-to', {page:'register'});
+            }
 		});
 	</script>
 </polymer-element>

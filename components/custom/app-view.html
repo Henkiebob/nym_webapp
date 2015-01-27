@@ -1,7 +1,8 @@
 <link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
 
-<link rel="import" href="../custom/login-profiles.html">
-<link rel="import" href="../custom/tasks-view.html">
+<!--<link rel="import" href="../custom/login-profiles.html">
+<link rel="import" href="../custom/tasks-view.html">-->
 <link rel="import" href="../custom/settings-view.html">
 
 <polymer-element name="app-view">
@@ -17,40 +18,77 @@
 			paper-spinner.white::shadow .circle{
 				border-color:white;
 			}
+            
+            .fixedpage{
+                height:100vh;
+            }
+            
+            #register{
+                height:100vh !important;
+            }
 		</style>
+		
+		<core-collapse id="settings">
+            <settings-view on-go-to="{{goTo}}"></settings-view>
+        </core-collapse>
+        
+        <core-collapse id="tasks" fixedSize="true">
+            <tasks-view start="false" on-go-to="{{goTo}}"></tasks-view>
+        </core-collapse>
+        
+        <core-collapse id="login" fixedSize="true" class="fixedpage">
+            <login-profiles on-go-to="{{goTo}}"></login-profiles>
+        </core-collapse>
+        
+        <core-collapse id="register">
+            <register-view on-go-to="{{goTo}}"></register-view>
+        </core-collapse>
 
-		<paper-spinner class="white" active></paper-spinner>
+		<!--<paper-spinner class="white" active></paper-spinner>
 
 		<login-profiles on-go-to="{{goTo}}" hidden></login-profiles>
 
 		<tasks-view start="false" on-go-to="{{goTo}}" hidden></tasks-view>
 
-    <register-view on-go-to="{{goTo}}" hidden></register-view>
-
 		<settings-view on-go-to="{{goTo}}" hidden></settings-view>
+		
+		<register-view on-go-to="{{goTo}}"></register-view>-->
 	</template>
 	<script>
 		Polymer({
 			ready:function(){
 				if(localStorage.house_id && localStorage.token && localStorage.user_id){
 					Polymer.import(['components/custom/tasks-view.html'], function(){
-						document.querySelector('html /deep/ tasks-view').hidden = false;
+						//document.querySelector('html /deep/ tasks-view').hidden = false;
 					});
-					//document.querySelector('::shadow tasks-view').start = 'true';
+                    this.$.tasks.opened = true;
 				}else{
 					Polymer.import(['components/custom/login-profiles.html'], function(){
-						document.querySelector('html /deep/ login-profiles').hidden = false;
+						console.log('login');
 					});
+                    this.$.login.opened = true;
 				}
 			},
 			goTo:function(event, detail, sender){
-				sender.hidden = true;
-				document.querySelector('html /deep/ '+detail.page).hidden = false;
-
-        if(detail.page != 'register-view'){
-          document.querySelector('html /deep/ tasks-view').start = 'true';
-        }
-
+				
+                sender.parentElement.opened = false;
+                
+                document.querySelector('html /deep/ #'+detail.page).opened = true;
+                
+                /*if(detail.page == 'settings-view'){
+                    this.$.settings.opened = true;
+                    this.$.tasks.opened = false;
+                
+                }else{
+                    //this.$.settings.opened = false;
+                    sender.hidden = true;
+				    document.querySelector('html /deep/ '+detail.page).hidden = false;
+				    document.querySelector('html /deep/ tasks-view').start = 'true';
+                }
+                
+                 if(detail.page != 'register-view'){
+                  document.querySelector('html /deep/ tasks-view').start = 'true';
+                }*/
  			}
 		});
 	</script>

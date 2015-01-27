@@ -164,15 +164,9 @@ core-icon-button{
 				this.$.deleteTask.headers = auth;
                 this.$.addTask.headers = auth;
 
-<<<<<<< Updated upstream
-        if(localStorage.house_id && localStorage.token) {
-          this.$.ajaxGetTasks.go();
-        }
-=======
-                if(localStorage.house_id) {
-                  this.$.ajaxGetTasks.go();
+                if(localStorage.house_id && localStorage.token){
+                    this.$.ajaxGetTasks.go();
                 }
->>>>>>> Stashed changes
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;
@@ -215,13 +209,13 @@ core-icon-button{
                 this.$.pages.selected = 0;
             },
             showSingle:function(){
-                this.fire('go-to', {page:'tasks-view'});
+                this.fire('go-to', {page:'tasks'});
             },
             showGroup:function(){
-                this.fire('go-to', {page:'tasks-view'});
+                this.fire('go-to', {page:'tasks'});
             },
             goBack:function(){
-                this.fire('go-to', {page:'tasks-view'});
+                this.fire('go-to', {page:'tasks'});
             }
 		});
 	</script>
