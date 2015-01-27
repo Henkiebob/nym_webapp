@@ -164,7 +164,7 @@ core-icon-button{
 				this.$.deleteTask.headers = auth;
         this.$.addTask.headers = auth;
 
-        if(localStorage.house_id) {
+        if(localStorage.house_id && localStorage.token) {
           this.$.ajaxGetTasks.go();
         }
 			},
@@ -218,8 +218,5 @@ core-icon-button{
         this.fire('go-to', {page:'tasks-view'});
       }
 		});
-
-
-
 	</script>
 </polymer-element>

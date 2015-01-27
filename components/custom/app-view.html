@@ -1,7 +1,7 @@
 <link rel="import" href="../paper-spinner/paper-spinner.html">
 
-<!--<link rel="import" href="../custom/login-profiles.html">
-<link rel="import" href="../custom/tasks-view.html">-->
+<link rel="import" href="../custom/login-profiles.html">
+<link rel="import" href="../custom/tasks-view.html">
 <link rel="import" href="../custom/settings-view.html">
 
 <polymer-element name="app-view">
@@ -25,6 +25,8 @@
 
 		<tasks-view start="false" on-go-to="{{goTo}}" hidden></tasks-view>
 
+    <register-view on-go-to="{{goTo}}" hidden></register-view>
+
 		<settings-view on-go-to="{{goTo}}" hidden></settings-view>
 	</template>
 	<script>
@@ -44,7 +46,11 @@
 			goTo:function(event, detail, sender){
 				sender.hidden = true;
 				document.querySelector('html /deep/ '+detail.page).hidden = false;
-				document.querySelector('html /deep/ tasks-view').start = 'true';
+
+        if(detail.page != 'register-view'){
+          document.querySelector('html /deep/ tasks-view').start = 'true';
+        }
+
  			}
 		});
 	</script>

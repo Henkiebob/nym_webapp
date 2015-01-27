@@ -1,0 +1,19 @@
+<polymer-element name="new-user" attributes="name email user_position">
+  <template>
+    <h2>User #{{user_position}}</h2>
+
+    <input value="{{name}}" type="name" name="user[name]">
+
+    <input value="{{email}}" type="e-mail" name="user[email]">
+
+
+
+  </template>
+  <script>
+Polymer({
+  ready:function(){
+
+  }
+});
+  </script>
+</polymer-element>

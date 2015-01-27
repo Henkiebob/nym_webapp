@@ -119,6 +119,8 @@
 				<input type="password" id="password" placeholder="Wachtwoord">
 
 				<input type="submit" value="Inloggen" on-tap="{{login}}">
+
+        <a on-tap="{{register}}">Registreren</a>
 			</div>
 			<div>
 				<h2>Met wie heb ik het genoegen?</h2>
@@ -182,7 +184,11 @@
 
 				Polymer.import(['tasks-view.html']);
 				this.fire('go-to', {page:'tasks-view'});
-			}
+			},
+      register:function(event, detail, sender) {
+        Polymer.import(['components/custom/register-view.html']);
+        this.fire('go-to', {page:'register-view'});
+      }
 		});
 	</script>
 </polymer-element>

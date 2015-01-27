@@ -220,24 +220,21 @@
 	<script>
 		Polymer({
 			ready:function(){
-			//	this.startChanged();
-			//},
-			//startChanged:function(oldValue, newValue){
-        		//if(newValue == 'true'){
-					this.users = JSON.parse(localStorage.users);
-					this.username = this.users[localStorage.user_id].name;
-					this.avatar = 'http://178.62.205.200'+this.users[localStorage.user_id].avatar;
+          if(localStorage.house_id && localStorage.token) {
+  					this.users = JSON.parse(localStorage.users);
+  					this.username = this.users[localStorage.user_id].name;
+  					this.avatar = 'http://178.62.205.200'+this.users[localStorage.user_id].avatar;
 
-					var auth = {'Authorization': 'Token token='+localStorage.token};
-					this.$.ajaxGetTasks.headers = auth;
-					this.$.ajaxUpdateTask.headers = auth;
+  					var auth = {'Authorization': 'Token token='+localStorage.token};
+  					this.$.ajaxGetTasks.headers = auth;
+  					this.$.ajaxUpdateTask.headers = auth;
 
-					this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
-					this.$.ajaxGetTasks.go();
+  					this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
+  					this.$.ajaxGetTasks.go();
 
-					this.$.tasks_todo.opened = true;
-					this.$.tasks_done.opened = true;
-				//}
+  					this.$.tasks_todo.opened = true;
+  					this.$.tasks_done.opened = true;
+          }
 			},
 			tasksLoaded:function(){
 				var tasks = this.$.ajaxGetTasks.response.slice(0);
