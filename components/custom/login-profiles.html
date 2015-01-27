@@ -159,7 +159,6 @@
 
                     this.loadUsers();
                 }
-
 			},
 			loadUsers:function(){
 				this.$.ajaxGetUsers.url = 'http://178.62.205.200/api/houses/habitants/'+localStorage.house_id;
@@ -181,9 +180,11 @@
 			},
 			goToTasks:function(event, detail, sender){
 				if(detail) localStorage.user_id = detail.user_id;
-
-				Polymer.import(['components/custom/tasks-view.html']);
-				this.fire('go-to', {page:'tasks'});
+                
+                that = this;
+				Polymer.import(['components/custom/tasks-view.html'], function(){
+                    that.fire('go-to', {page:'tasks'});
+                });
 			},
             register:function(event, detail, sender) {
                 Polymer.import(['components/custom/register-view.html']);

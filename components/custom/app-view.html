@@ -32,7 +32,7 @@
             <settings-view on-go-to="{{goTo}}"></settings-view>
         </core-collapse>
         
-        <core-collapse id="tasks" fixedSize="true">
+        <core-collapse id="tasks" fixedSize="false">
             <tasks-view start="false" on-go-to="{{goTo}}"></tasks-view>
         </core-collapse>
         
@@ -58,14 +58,10 @@
 		Polymer({
 			ready:function(){
 				if(localStorage.house_id && localStorage.token && localStorage.user_id){
-					Polymer.import(['components/custom/tasks-view.html'], function(){
-						//document.querySelector('html /deep/ tasks-view').hidden = false;
-					});
+					Polymer.import(['components/custom/tasks-view.html']);
                     this.$.tasks.opened = true;
 				}else{
-					Polymer.import(['components/custom/login-profiles.html'], function(){
-						console.log('login');
-					});
+					Polymer.import(['components/custom/login-profiles.html']);
                     this.$.login.opened = true;
 				}
 			},
@@ -74,6 +70,8 @@
                 sender.parentElement.opened = false;
                 
                 document.querySelector('html /deep/ #'+detail.page).opened = true;
+                
+                console.log(sender.parentElement);
                 
                 /*if(detail.page == 'settings-view'){
                     this.$.settings.opened = true;
