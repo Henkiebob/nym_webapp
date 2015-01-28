@@ -1,17 +1,22 @@
 <polymer-element name="new-user" attributes="name email user_position">
+
   <template>
-    <h2>User #{{user_position}}</h2>
+    <span class="user">Huisgenoot</span>
 
-    <paper-input value="{{name}}" type="name" name="user[name]"></paper-input>
+    <paper-input-decorator label="Naam">
+      <input value="{{name}}" type="name" name="user[name]"/>
+    </paper-input-decorator>
 
-    <paper-input value="{{email}}" type="e-mail" name="user[email]"></paper-input>
-
+    <paper-input-decorator label="E-mail">
+      <input value="{{email}}" type="e-mail" name="user[email]"/>
+    </paper-input-decorator>
   </template>
-  <script>
-Polymer({
-  ready:function(){
 
-  }
-});
+  <script>
+  Polymer({
+    ready:function(){
+
+    }
+  });
   </script>
 </polymer-element>

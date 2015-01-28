@@ -33,7 +33,7 @@ core-animated-pages{
 paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::before, paper-slider::shadow #sliderBar::shadow #activeProgress{
  	background:#DC5957;
 }
-            
+
 core-toolbar > div[flex]{
     text-align:center;
 }
@@ -104,33 +104,32 @@ core-icon-button{
 			method="PUT">
 		</core-ajax>
 
-        <core-ajax id="addTask"
-          auto="false"
-          on-core-response="{{taskAdded}}"
-          handleAs="json"
-          method="POST">
-        </core-ajax>
+    <core-ajax id="addTask"
+      auto="false"
+      on-core-response="{{taskAdded}}"
+      handleAs="json"
+      method="POST">
+    </core-ajax>
 
-        <core-ajax id="deleteTask"
-            auto="false"
-            on-core-response="{{taskDeleted}}"
-          handleAs="json"
-            method="DELETE">
-        </core-ajax>
+    <core-ajax id="deleteTask"
+        auto="false"
+        on-core-response="{{taskDeleted}}"
+      handleAs="json"
+        method="DELETE">
+    </core-ajax>
 
 		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
 			<div>
-                <core-toolbar>
-                  <core-icon icon="close" on-tap="{{goBack}}"></core-icon>
-                  <div flex>Taakbeheer</div>
-                  <core-icon icon="add" on-tap="{{addNew}}"></core-icon>
-                  <!--<paper-fab icon="add" on-tap="{{addNew}}" role="button"></paper-fab>-->
-                </core-toolbar>
+        <core-toolbar>
+          <core-icon icon="close" on-tap="{{goBack}}"></core-icon>
+          <div flex>Taakbeheer</div>
+          <core-icon icon="add" on-tap="{{addNew}}"></core-icon>
+          <!--<paper-fab icon="add" on-tap="{{addNew}}" role="button"></paper-fab>-->
+        </core-toolbar>
 
-                <template repeat="{{task in tasks}}">
-                    <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
-                </template>
-
+        <template repeat="{{task in tasks}}">
+            <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+        </template>
 			</div>
 
 			<div class="settings-container">
@@ -138,7 +137,7 @@ core-icon-button{
                     <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
                     <div flex>Taak toevoegen</div>
                 </core-toolbar>
-        
+
                  <div class="settings-form">
                       <paper-input class="task" value="{{newTaskName}}" autofocus label="Taak"></paper-input>
 
