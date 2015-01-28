@@ -192,7 +192,9 @@ paper-radio-button[checked]::shadow #offRadio{
 			</div>
 			
 			<div>
-			    
+			    <template repeat="{{user in users}}">
+                    <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+                </template>
 			</div>
 		</core-animated-pages>
 		
@@ -217,11 +219,13 @@ paper-radio-button[checked]::shadow #offRadio{
                 }
                 
                 this.toolbarname = 'Taakbeheer';
+                
+                this.users = JSON.parse(localStorage.users);
+                
+                console.log(this.users);
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;
-                
-                console.log(this.tasks);
 			},
 			updateTask:function(event, detail, sender){
 				console.log('update task '+detail.task_id+' ("'+detail.name+'")');
@@ -282,7 +286,7 @@ paper-radio-button[checked]::shadow #offRadio{
             },
             taskAdded:function(sender, detail, event){                
                 this.tasks.push(detail.response);
-                swal("Gelukt", "Taak zit erbij!", "success");
+                swal('Taak Toegevoegd', detail.response['name']+' is toegevoed aan de takenlijst.', "success");
                 
                 this.toolbarname = 'Taakbeheer';
                 this.$.pages.selected = 0;
