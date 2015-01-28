@@ -2,6 +2,10 @@ Polymer({
       ready:function(){
         this.users = [];
         this.errors = [];
+        this.housename = "";
+        this.housepassword = "";
+        this.housepassword_confirmation = "";
+        this.uploadMessage = "Selecteer een afbeelding";
       },
       SubmitHouse:function() {
 
@@ -20,7 +24,7 @@ Polymer({
         if(this.errors.length == 0){
 
           this.$.addHouse.url = 'http://localhost:3000/api/houses/';
-
+          console.log(this.housename, this.housepassword);
           this.$.addHouse.params = {
           'house[name]':this.housename,
           'house[password]':this.housepassword,
@@ -40,6 +44,7 @@ Polymer({
           this.users.push({'name':'', 'email':'', 'house_id' : detail.response[0].house_id});
 
           this.$.pages.selected = 1;
+
         } else {
           this.errors.push({message: "Huisnaam is al in gebruik"});
           this.$.pages.selected = 0;
@@ -71,23 +76,21 @@ Polymer({
       },
       goToLogin:function() {
         this.fire('go-to', {page:'login'});
+      },
+      back:function(){
+        var current_page = this.$.pages.selected;
+
+        if(current_page > 0) {
+          this.$.pages.selected = current_page - 1;
+        } else {
+          this.fire('go-to', {page:'login'});
+        }
+      },
+      readFile:function() {
+        this.uploadMessage = "Afbeelding geselecteerd";
+      },
+      usersAdded:function(){
+        this.$.pages.selected = 2;
       }
 });
-
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-       var img = $("<img/>");
-        img.attr('class', 'group-photo');
-
-        reader.onload = function (e) {
-            img.attr('src', e.target.result);
-            localStorage.setItem("groupimage", e.target.result);
-
-            $('.filebutton').html(img);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
 

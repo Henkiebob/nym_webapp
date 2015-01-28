@@ -24,184 +24,145 @@
 	<template>
 		<style>
 core-animated-pages{
-	height:calc(100vh - 112px);
+	height:calc(100vh);
 	width:100%;
 	overflow-y:auto;
 	overflow-x:hidden;
 	background:#F8F8F8;
 }
-            
-core-animated-pages > div{
-    padding-top:15px;    
-}
-            
-core-toolbar{
-    width:100%;
-    background:#DC5957;
-    color:#FFF;
+paper-slider::shadow #sliderKnobInner, paper-slider::shadow #sliderKnobInner::before, paper-slider::shadow #sliderBar::shadow #activeProgress{
+ 	background:#DC5957;
 }
 
-core-icon-button{
-    width:55px;
-    float:left;
-}
-            
-core-toolbar > div{
+core-toolbar > div[flex]{
     text-align:center;
 }
 
-paper-tabs{
-    position:fixed;
-    left:0;
-    bottom:0;
-    width:100%;
-    background:#DC5957;
-    color:#FFF;
+.settings-container{
+  width:100%;
+  background:white;
+}
+.settings-form{
+  padding:20px;
+}
+.task{
+  width:100%;
+}
+paper-tabs#navigation, core-toolbar{
+  position:fixed;
+  left:0;
+  bottom:0;
+  /*height:80px;*/
+  width:100%;
+  background:#DC5957;
+  color:#FFF;
+  /*box-shadow:0px 3px 2px rgba(0, 0, 0, 0.2);*/
 }
 
-paper-tabs::shadow #selectionBar{
-    background-color:#B32F2D;
-    display:none;
+paper-tabs#navigation::shadow #selectionBar{
+  background-color:#B32F2D;
+  display:none;
 }
 
 paper-tabs paper-tab::shadow #ink{
-    color:rgba(255,255,255,0.3);
+  color:rgba(255,255,255,0.3);
 }
 
-paper-button{
-    font-size:12px;
-}
-            
-paper-button[raised]{
-    padding:2px 15px 0;
-    background:#DC5957;
-    color:#FFF;
-}
-
-paper-tabs paper-tab core-icon{
-    margin-right:5px;
-}
-            
-.task-form{
-    background:#FFF;
-    margin:0 3% 15px;
-    padding:14px 10px 24px;
-    box-shadow:0px 2px 8px 0px rgba(0,0,0,0.35);
-}
-       
-.task-form paper-input, .task-form paper-dropdown-menu{
-    width:100%;
+paper-fab{
+  top:10px;
+  right:10px;
+  z-index:1;
+  position: fixed;
+  background: white;
+  color:black;
 }
 
-paper-input-decorator{
-    padding-top:0;
-}            
-            
-paper-input-decorator /deep/ .focused-underline{
-    background-color:#DC5957;
+core-toolbar{
+  top:0px;
+  z-index:1;
+  position: relative;
 }
 
-paper-input-decorator /deep/ paper-input-decorator{
-    padding-top:0;
-}
-            
-paper-input-decorator input{
-    font-size:18px !important;
-    padding:0px 10px !important;
-}
-            
-.task-form paper-radio-button{
-    width:90%;
-}
-
-paper-radio-button::shadow #ink[checked]{
-    color:#DC5957;
-}
-
-paper-radio-group{
-    margin-bottom:20px;
-}
-            
-paper-radio-button::shadow #onRadio{
-    background-color:#DC5957;
-}
-
-paper-radio-button[checked]::shadow #offRadio{
-    border-color:#DC5957;
+core-icon-button{
+  width:55px;
+  float:left;
 }
         </style>
 
 		<core-ajax id="ajaxGetTasks"
-            auto="false"
-            url="http://178.62.205.200/api/tasks"
-            on-core-response="{{tasksLoaded}}"
-            handleAs="json"
-            method="GET">
+			auto="false"
+			url="http://178.62.205.200/api/tasks"
+			on-core-response="{{tasksLoaded}}"
+			handleAs="json"
+			method="GET">
 		</core-ajax>
 
 		<core-ajax id="updateTask"
-            auto="false"
-            on-core-response="{{taskUpdated}}"
-            handleAs="json"
-            method="PUT">
+			auto="false"
+			on-core-response="{{taskUpdated}}"
+			handleAs="json"
+			method="PUT">
 		</core-ajax>
 
-        <core-ajax id="addTask"
-            auto="false"
-            on-core-response="{{taskAdded}}"
-            handleAs="json"
-            method="POST">
-        </core-ajax>
+    <core-ajax id="addTask"
+      auto="false"
+      on-core-response="{{taskAdded}}"
+      handleAs="json"
+      method="POST">
+    </core-ajax>
 
-        <core-ajax id="deleteTask"
-            auto="false"
-            on-core-response="{{taskDeleted}}"
-            handleAs="json"
-            method="DELETE">
-        </core-ajax>
-        
-        <core-toolbar>
-            <core-icon icon="home" on-tap="{{goBack}}"></core-icon>
-            <div flex>{{toolbarname}}</div>
-            <core-icon icon="add" on-tap="{{newTask}}" id="addBtn"></core-icon>
-        </core-toolbar>
+    <core-ajax id="deleteTask"
+        auto="false"
+        on-core-response="{{taskDeleted}}"
+      handleAs="json"
+        method="DELETE">
+    </core-ajax>
 
 		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
 			<div>
-                <template repeat="{{task in tasks}}">
-                    <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
-                </template>
+        <core-toolbar>
+          <core-icon icon="close" on-tap="{{goBack}}"></core-icon>
+          <div flex>Taakbeheer</div>
+          <core-icon icon="add" on-tap="{{addNew}}"></core-icon>
+          <!--<paper-fab icon="add" on-tap="{{addNew}}" role="button"></paper-fab>-->
+        </core-toolbar>
+
+        <template repeat="{{task in tasks}}">
+            <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+        </template>
 			</div>
 
-			<div>
-                <div class="task-form">                    
-                    <paper-input-decorator label="Taaknaam">
-                        <input type="text" value="{{newTaskName}}" id="name">
-                    </paper-input-decorator>
+			<div class="settings-container">
+                <core-toolbar>
+                    <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+                    <div flex>Taak toevoegen</div>
+                </core-toolbar>
 
-                    <paper-radio-group id="radio" selected="1">
+                 <div class="settings-form">
+                      <paper-input class="task" value="{{newTaskName}}" autofocus label="Taak"></paper-input>
+
+                      <paper-radio-group id="radio" selected="1">
                         <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
                         <paper-radio-button name="7" label="Elke week"></paper-radio-button>
                         <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
-                    </paper-radio-group>
+                      </paper-radio-group>
 
-                    <paper-button raised on-tap="{{addTask}}">Opslaan</paper-button>
+                      <paper-button raised on-tap="{{addTask}}">
+                        Toevoegen
+                      </paper-button>
 
-                    <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
+                       <paper-button raised on-tap="{{back}}">
+                        Terug
+                      </paper-button>
                 </div>
 			</div>
-			
+						
 			<div>
 			    <template repeat="{{user in users}}">
                     <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
                 </template>
 			</div>
 		</core-animated-pages>
-		
-		<paper-tabs selected="0" noink="true">
-			<paper-tab on-tap="{{showTakskManager}}"><core-icon icon="assignment"></core-icon> Taakbeheer</paper-tab>
-			<paper-tab on-tap="{{showUsersManager}}"><core-icon icon="account-circle"></core-icon> Gebruikers</paper-tab>
-		</paper-tabs>
 
 	</template>
 	<script>
@@ -242,47 +203,18 @@ paper-radio-button[checked]::shadow #offRadio{
 
                 this.$.deleteTask.go();
 			},
-			newTask:function(sender){
-                var rotate = new CoreAnimation();
-                rotate.duration = 300;
-                rotate.fill = 'forwards';
-                rotate.target = this.$.addBtn;
-                
-                if(this.$.pages.selected == 0){
-                    this.toolbarname = 'Taak Toevoegen';
-				    this.$.pages.selected = 1;
-                    
-                    rotate.keyframes = [{
-                        transform:'rotateZ(0deg)'
-                    },{
-                        transform:'rotateZ(45deg)'
-                    }];
-                    rotate.play();
-                }else{
-                    this.toolbarname = 'Taakbeheer';
-				    this.$.pages.selected = 0;
-                    
-                    rotate.keyframes = [{
-                        transform:'rotateZ(45deg)'
-                    },{
-                        transform:'rotateZ(0deg)'
-                    }];
-                    rotate.play();
-                }
+			addNew:function(){
+				this.$.pages.selected = 1;
 			},
             addTask:function(event, detail, sender){
-                if(this.newTaskName){
-                    this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
-                    this.$.addTask.params = {
-                        'task[name]':this.newTaskName,
-                        'task[house_id]':localStorage.house_id,
-                        'task[duration]':Number(this.$.radio.selected)
-                    };
+                this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
+                this.$.addTask.params = {
+                'task[name]':this.newTaskName,
+                'task[house_id]':localStorage.house_id,
+                'task[duration]': Number(this.$.radio.selected)
+                };
 
-                    this.$.addTask.go();
-                }else{
-                    this.$.name.focus();
-                }
+                this.$.addTask.go();
             },
             taskAdded:function(sender, detail, event){                
                 this.tasks.push(detail.response);
@@ -305,7 +237,9 @@ paper-radio-button[checked]::shadow #offRadio{
             taskDeleted:function(){
               //swal("Good job!", "You clicked the button!", "success")
             },
-
+            back:function(){
+                this.$.pages.selected = 0;
+            },
             showSingle:function(){
                 this.fire('go-to', {page:'tasks'});
             },
@@ -314,16 +248,6 @@ paper-radio-button[checked]::shadow #offRadio{
             },
             goBack:function(){
                 this.fire('go-to', {page:'tasks'});
-            },
-            showTakskManager:function(){
-                this.toolbarname = 'Taakbeheer';
-                this.$.pages.selected = 0;
-                this.$.addBtn.hidden = false;
-            },
-            showUsersManager:function(){
-                this.toolbarname = 'Gebruikers';
-                this.$.pages.selected = 2;
-                this.$.addBtn.hidden = true;
             }
 		});
 	</script>

@@ -2,29 +2,33 @@
 <polymer-element name="new-error" attributes="message">
   <template>
   <style>
-      #notification-bar{
+      .notification-bar{
         width:100%;
-        min-height:50px;
         padding:10px;
-        position: absolute;
-        top:0;
-        background:white;
-        border-bottom:3px solid #000;
+        font-size:12px;
+        background:#FFD2D1;
+        color:black;
+        border-left:3px #DC5957 solid;
+        opacity: 0.9;
+        float:left;
+        border-bottom:2px white solid;
+        margin-top:20px;
+    }
+    core-icon{
+      color:red;
     }
   </style>
-    <div id="notification-bar">{{message}}</div>
+       <div class="notification-bar">
+         <core-icon icon="error" on-tap="{{hideNotification}}"></core-icon>
+        {{message}}
+       </div>
   </template>
   <script>
 Polymer({
   ready:function(){
-      var animation = new CoreAnimation();
-      animation.duration = 1000;
-      animation.keyframes = [
-        {opacity: 1},
-        {opacity: 0}
-      ];
-      animation.target = document.getElementById('notification-bar');
-      animation.play();
+  },
+  hideNotification:function(){
+    //this.hide();
   }
 });
   </script>

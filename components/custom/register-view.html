@@ -13,6 +13,39 @@
 
 <polymer-element name="register-view">
   <template>
+    <style>
+      .registerForm{
+          background:white;
+          height:calc(100vh - 65px);
+          padding-left:10px;
+          padding-top:20px;
+          overflow: auto;
+      }
+      core-toolbar{
+        background:#DC5957;
+        color:white;
+      }
+      core-animated-pages{
+        height:calc(100vh - 64px);
+      }
+      span{
+        color:inherit;
+        font-size:12px;
+      }
+      .nextButton{
+        float: right;
+        background: white;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
+      .addUserButton{
+        font-size: 13px;
+        width: 385px;
+        line-height: 36px;
+        height: 35px;
+      }
+    </style>
 
     <core-ajax id="addHouse"
       auto="false"
@@ -30,41 +63,67 @@
     </core-ajax>
 
     <core-animated-pages id="pages" selected="0" transitions="slide-from-right">
-      <div>
-        <h1>Registreren stap 1</h1>
 
-        <template repeat="{{error, errorIndex in errors}}">
-            <new-error message="{{error.message}}" error_position="{{errorIndex}}"></new-error>
-        </template>
+      <div id="stepone">
 
+        <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+          <div flex>Registeren stap 1 van 3</div>
+        </core-toolbar>
+
+        <div class="registerForm">
           <form class="file-form" method="post" enctype="multipart/form-data">
-                <div class="filebutton">Upload een groepsfoto
-                <input type="file" class="file" name="house[avatar]">
-                </div>
-               <paper-input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam"></paper-input>
+            <input type="file" class="file" name="house[avatar]">
 
-               <paper-input type="password" value="{{housepassword}}" placeholder="Groepswachtwoord" class="groepswachtwoord"></paper-input>
-               <paper-input type="password" value="{{housepassword_confirmation}}" placeholder="Groepswachtwoord" class="groepswachtwoord"></paper-input>
-               <span>Iets wat iedereen makkelijk kan onthouden, zoals het wifi wachtwoord.</span>
+            <paper-input-decorator label="Groepsnaam">
+            <input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam"/>
+            </paper-input-decorator>
+
+            <paper-input-decorator label="Groepswachtwoord">
+            <input id="password" is="core-input" name="password" type="password" value="{{housepassword}}"/>
+            </paper-input-decorator>
+
+            <paper-input-decorator label="Wachtwoord confirmatie">
+            <input id="password" is="core-input" name="password" type="password" value="{{housepassword_confirmation}}"/>
+            </paper-input-decorator>
+
+            <span>Iets wat iedereen makkelijk kan onthouden, zoals het wifi wachtwoord.</span>
           </form>
 
-          <p on-tap="{{SubmitHouse}}">Volgende</p>
+          <paper-button raised="" class="nextButton" on-tap="{{SubmitHouse}}" class="colored" role="button" tabindex="0">
+          Volgende stap
+          </paper-button>
+
+          <template repeat="{{error, errorIndex in errors}}">
+          <new-error message="{{error.message}}" error_position="{{errorIndex}}"></new-error>
+          </template>
+        </div>
       </div>
 
-      <div>
-      <h1>Registeren stap 2</h1>
-        <template repeat="{{user, userIndex in users}}">
-          <new-user name="{{user.name}}" email="{{user.email}}" user_position="{{userIndex}}" on-show-users="{{showUsers}}"></new-user>
-        </template>
+      <div id="steptwo">
+         <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+          <div flex>Registeren stap 2 van 3</div>
+        </core-toolbar>
 
-        <p on-tap="{{addNewUser}}">Nieuw</p>
+        <div class="registerForm">
+          <template repeat="{{user, userIndex in users}}">
+            <new-user name="{{user.name}}" email="{{user.email}}" user_position="{{userIndex}}" on-show-users="{{showUsers}}"></new-user>
+          </template>
 
-        <button on-tap="{{submitUsers}}" id="sendData">asdasdasd</button>
+           <core-icon icon="add-circle-outline" class="addUserButton" on-tap="{{addNewUser}}">
+           Extra huisgenoot
+           </core-icon>
+
+          <paper-button raised="" on-tap="{{submitUsers}}" id="sendData" class="nextButton">Huis aanmaken</paper-button>
+        </div>
       </div>
-      <div>
-            <h1>Je bent geregistreerd, alle huisgenoten krijgen een e-mail met daarin een uitnodiging</h1>
-            <paper-button on-tap="{{goToLogin}}">Joepie</paper-button>
+
+      <div id="stepthree">
+        <h1>Je bent geregistreerd, alle huisgenoten krijgen een e-mail met daarin een uitnodiging</h1>
+        <paper-button on-tap="{{goToLogin}}">Joepie</paper-button>
       </div>
+
     </core-animated-pages>
   </template>
   <script type="text/javascript" src="js/register-view.js"></script>
