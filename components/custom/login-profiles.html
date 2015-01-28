@@ -144,7 +144,12 @@
 				var name = this.$.housename.value;
 				var pass = this.$.password.value;
 
-				this.$.ajaxLogin.params = {'house[name]':'Test', 'house[password]':'test'};
+        //local
+				//this.$.ajaxLogin.params = {'house[name]': 'test', 'house[password]': 'test'};
+
+        //live
+        this.$.ajaxLogin.params = {'house[name]': name, 'house[password]': pass};
+
 				this.$.ajaxLogin.go();
 			},
 			houseLoggedIn:function(){
