@@ -85,12 +85,29 @@ paper-tabs paper-tab core-icon{
 .task-form{
     background:#FFF;
     margin:0 3% 15px;
-    padding:12px 10px;
+    padding:14px 10px 24px;
     box-shadow:0px 2px 8px 0px rgba(0,0,0,0.35);
 }
        
 .task-form paper-input, .task-form paper-dropdown-menu{
     width:100%;
+}
+
+paper-input-decorator{
+    padding-top:0;
+}            
+            
+paper-input-decorator /deep/ .focused-underline{
+    background-color:#DC5957;
+}
+
+paper-input-decorator /deep/ paper-input-decorator{
+    padding-top:0;
+}
+            
+paper-input-decorator input{
+    font-size:18px !important;
+    padding:0px 10px !important;
 }
             
 .task-form paper-radio-button{
@@ -99,6 +116,10 @@ paper-tabs paper-tab core-icon{
 
 paper-radio-button::shadow #ink[checked]{
     color:#DC5957;
+}
+
+paper-radio-group{
+    margin-bottom:20px;
 }
             
 paper-radio-button::shadow #onRadio{
@@ -153,8 +174,10 @@ paper-radio-button[checked]::shadow #offRadio{
 			</div>
 
 			<div>
-                <div class="task-form">
-                    <paper-input class="task" value="{{newTaskName}}" autofocus label="Naam van de taak"></paper-input>
+                <div class="task-form">                    
+                    <paper-input-decorator label="Taaknaam">
+                        <input type="text" value="{{newTaskName}}" id="name">
+                    </paper-input-decorator>
 
                     <paper-radio-group id="radio" selected="1">
                         <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
@@ -197,6 +220,8 @@ paper-radio-button[checked]::shadow #offRadio{
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;
+                
+                console.log(this.tasks);
 			},
 			updateTask:function(event, detail, sender){
 				console.log('update task '+detail.task_id+' ("'+detail.name+'")');
@@ -242,24 +267,41 @@ paper-radio-button[checked]::shadow #offRadio{
                 }
 			},
             addTask:function(event, detail, sender){
-                this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
-                this.$.addTask.params = {
-                'task[name]':this.newTaskName,
-                'task[house_id]':localStorage.house_id,
-                'task[duration]': Number(this.$.radio.selected)
-                };
+                if(this.newTaskName){
+                    this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
+                    this.$.addTask.params = {
+                        'task[name]':this.newTaskName,
+                        'task[house_id]':localStorage.house_id,
+                        'task[duration]':Number(this.$.radio.selected)
+                    };
 
-                this.$.addTask.go();
+                    this.$.addTask.go();
+                }else{
+                    this.$.name.focus();
+                }
             },
-            taskAdded:function(){
-              swal("Gelukt", "Taak zit erbij!", "success")
+            taskAdded:function(sender, detail, event){                
+                this.tasks.push(detail.response);
+                swal("Gelukt", "Taak zit erbij!", "success");
+                
+                this.toolbarname = 'Taakbeheer';
+                this.$.pages.selected = 0;
+                
+                var rotate = new CoreAnimation();
+                rotate.duration = 300;
+                rotate.fill = 'forwards';
+                rotate.target = this.$.addBtn;
+                rotate.keyframes = [{
+                    transform:'rotateZ(45deg)'
+                },{
+                    transform:'rotateZ(0deg)'
+                }];
+                rotate.play();
             },
             taskDeleted:function(){
               //swal("Good job!", "You clicked the button!", "success")
             },
-            back:function(){
-                this.$.pages.selected = 0;
-            },
+
             showSingle:function(){
                 this.fire('go-to', {page:'tasks'});
             },
