@@ -6,6 +6,8 @@ Polymer({
         this.housepassword = "";
         this.housepassword_confirmation = "";
         this.uploadMessage = "Selecteer een afbeelding";
+        //this.domain = "http://localhost:3000";
+        this.domain = "http://178.62.205.200";
       },
       SubmitHouse:function() {
 
@@ -23,7 +25,7 @@ Polymer({
 
         if(this.errors.length == 0){
 
-          this.$.addHouse.url = 'http://localhost:3000/api/houses/';
+          this.$.addHouse.url = this.domain+'/api/houses/';
           console.log(this.housename, this.housepassword);
           this.$.addHouse.params = {
           'house[name]':this.housename,
@@ -51,7 +53,7 @@ Polymer({
         }
       },
       addUsersToHouse:function(event, detail, sender) {
-       this.$.addUsers.url = 'http://localhost:3000/api/houses/1';
+       this.$.addUsers.url = this.domain+'/api/houses/1';
        this.$.addUsers.params = {"house": {"users_attributes": [this.users]}}
 
        this.$.addUsers.go();
@@ -69,7 +71,7 @@ Polymer({
           obj['house[users_attributes]['+i+'][house_id]'] = this.users[i]['house_id'];
         }
 
-        this.$.addUsers.url = 'http://localhost:3000/api/houses/'+localStorage.house_id;
+        this.$.addUsers.url = this.domain+'/api/houses/'+localStorage.house_id;
         this.$.addUsers.params = obj;
 
         this.$.addUsers.go();
