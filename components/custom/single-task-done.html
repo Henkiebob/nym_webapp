@@ -1,18 +1,18 @@
-<polymer-element name="single-task-done" attributes="name deadline points">
-	<template>	
+<polymer-element name="single-task-done" attributes="name deadline points created_at">
+	<template>
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
-		
+
 		<div class="task done">
 			<div class="btn"><core-icon icon="check"></core-icon></div>
-						
+
 			<h3>{{name}}</h3>
-			
+
 			<div class="details">
 				<core-icon icon="star"></core-icon> {{points}}
 				<core-icon icon="alarm"></core-icon> {{deadline}}
 			</div>
 		</div>
 	</template>
-	
+
 	<script type="text/javascript" src="js/single-task-open.js"></script>
 </polymer-element>

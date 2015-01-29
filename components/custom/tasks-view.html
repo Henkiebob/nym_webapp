@@ -230,7 +230,7 @@
 							<h2>Wat ik al gedaan heb</h2>
 
 							<template repeat="{{task in tasks_done}}">
-								<single-task-done name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}}></single-task-done>
+								<single-task-done name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}}></single-task-done>
 							</template>
 						</core-collapse>
 
@@ -238,7 +238,7 @@
 							<h2>Wat de groep al gedaan heeft</h2>
 
 							<template repeat="{{task in tasks_group_done}}">
-								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} avatar="{{task.avatar}}" done="done"></single-task-group>
+								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}" done="done"></single-task-group>
 							</template>
 						</core-collapse>
 					</div>

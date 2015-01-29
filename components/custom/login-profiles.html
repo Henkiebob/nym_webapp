@@ -95,7 +95,6 @@
 
 		<core-ajax id="ajaxLogin"
 			auto="false"
-			url="http://178.62.205.200/api/sessions"
 			on-core-response="{{houseLoggedIn}}"
 			method="POST">
 		</core-ajax>
@@ -139,16 +138,18 @@
 					this.loadUsers();
 					this.$.pages.selected = 1;
 				}
+        this.domain = "http://localhost:3000";
 			},
 			login:function(){
 				var name = this.$.housename.value;
 				var pass = this.$.password.value;
 
         //local
-				//this.$.ajaxLogin.params = {'house[name]': 'test', 'house[password]': 'test'};
+        this.$.ajaxLogin.url = this.domain+'/api/sessions';
+				this.$.ajaxLogin.params = {'house[name]': 'Test', 'house[password]': 'test'};
 
         //live
-        this.$.ajaxLogin.params = {'house[name]': name, 'house[password]': pass};
+        //this.$.ajaxLogin.params = {'house[name]': name, 'house[password]': pass};
 
 				this.$.ajaxLogin.go();
 			},
@@ -166,11 +167,11 @@
                 }
 			},
 			loadUsers:function(){
-				this.$.ajaxGetUsers.url = 'http://178.62.205.200/api/houses/habitants/'+localStorage.house_id;
+				this.$.ajaxGetUsers.url = this.domain+'/api/houses/habitants/'+localStorage.house_id;
 				this.$.ajaxGetUsers.headers = {'Authorization':'Token token='+localStorage.token};
 				this.$.ajaxGetUsers.go();
 			},
-			usersLoaded:function(){
+			usersLoaded:function(event, detail, sender){
 				this.users = this.$.ajaxGetUsers.response;
 
 				users = {};
@@ -185,7 +186,6 @@
 			},
 			goToTasks:function(event, detail, sender){
 				if(detail) localStorage.user_id = detail.user_id;
-
                 that = this;
 				Polymer.import(['components/custom/tasks-view.html'], function(){
                     that.fire('go-to', {page:'tasks'});

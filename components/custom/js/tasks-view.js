@@ -2,7 +2,6 @@
       ready:function(){
         this.domain = "http://localhost:3000";
         //this.domain = "http://178.62.205.200";
-
         if(localStorage.house_id && localStorage.token) {
             this.users = JSON.parse(localStorage.users);
 
@@ -34,21 +33,24 @@
             this.$.ajaxGetLog.go();
         }
       },
+      logLoaded:function(event, detail, sender) {
+
+        logs = [];
+
+        for(var c = 0; c < detail.response.length; c++){
+          logs.push(detail.response[c]);
+          console.log(logs);
+        }
+
+        localStorage.task_logged = JSON.stringify(logs);
+
+      },
       tasksLoaded:function() {
         var tasks = this.$.ajaxGetTasks.response.slice(0);
 
         this.tasks = [];
-        this.tasks_done = [];
-
         this.tasks_open = [];
-
-        // if(task.user_id == localStorage.user_id){ //Task done by user
-        //   this.tasks_done.push(task);
-        //   this.header_done++;
-        // }else{ //Task done by groupmember
-        //   this.tasks_group_done.push(task);
-        //   task.avatar = this.users[task.user_id].avatar;
-        // }
+        this.tasks_done = [];
 
         this.tasks_group = [];
         this.tasks_group_done = [];
@@ -56,9 +58,25 @@
         this.header_todo = 0;
         this.header_done = 0;
 
+        if (localStorage.getItem("task_logged") !== null) {
+          var done_tasks = JSON.parse(localStorage.task_logged);
+          // //done tasks
+          for(var i = 0; i < done_tasks.length; i++){
+              var task = done_tasks[i];
+              console.log(task);
+              if(task.user_id == localStorage.user_id){ //Task done by user
+                this.tasks_done.push(task);
+                this.header_done++;
+              }else{ //Task done by groupmember
+                this.tasks_group_done.push(task);
+                task.avatar = this.users[task.user_id].avatar;
+              }
+          }
+        }
+
+        //open tasks
         for(var i = 0; i < tasks.length; i++){
           var task = tasks[i];
-          if(task.status != 1){ //Unfinished Tasks
             if(task.user_id == localStorage.user_id){ //Task picked-up by user
               this.tasks.push(task);
               this.header_todo++;
@@ -68,7 +86,6 @@
               this.tasks_group.push(task);
               task.avatar = this.users[task.user_id].avatar;
             }
-          }
           //console.log('id: '+task.id+', name: '+task.name+', user: '+task.user_id+', status: '+task.status+', points: '+task.points);
         }
       },
@@ -130,7 +147,7 @@
                     //add task to log
                     this.$.ajaxAddTaskToLog.url = this.domain+'/api/logs/';
                     this.$.ajaxAddTaskToLog.params = {
-                      'log[taskname]': task.name,
+                      'log[name]': task.name,
                       'log[user_id]' : localStorage.user_id,
                       'log[points]'  : task.points
                     };
@@ -207,14 +224,12 @@
         rotate.target = document.querySelector('html /deep/ #photos');
         rotate.play();
 
-      },logLoaded:function(event, detail, sender) {
-          console.log(detail.response);
       },
       gotoSettings:function(){
-                that = this;
-                Polymer.import(['components/custom/settings-view.html'], function(){
-                   that.fire('go-to', {page:'settings'});
-                });
+          that = this;
+          Polymer.import(['components/custom/settings-view.html'], function(){
+             that.fire('go-to', {page:'settings'});
+          });
       },
             logout:function(){
                 localStorage.clear();
