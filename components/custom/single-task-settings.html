@@ -4,7 +4,7 @@
 		
 		<style>
 input{
-    border:1px solid #BBB;
+    
 }
 input[type="text"]{
 	border:0;
@@ -12,6 +12,8 @@ input[type="text"]{
 	font-size:15px;
 	font-family:'Nunito';
 	width:70%;
+    padding:0 8px 5px;
+    border-bottom:1px solid #BBB;
 }
 input[type="number"]{
 	border:0;
@@ -23,11 +25,14 @@ input[type="number"]{
 }
 input:focus{
 	outline:none;
-}		
+}
+.btn core-icon{
+    height:18px;
+}
 		</style>
 		
 		<div class="task todo" on-tap="{{taskTap}}">						
-			<div class="btn"><core-icon icon="clear"></core-icon> Verwijderen</div>
+			<div class="btn"><core-icon icon="create"></core-icon> Verwijderen</div>
 			
 			<!--<h3 contenteditable on-blur="{{focusOutName}}">{{name}}</h3>-->
 			<input type="text" on-focus="{{focusName}}" on-blur="{{focusOutName}}" value="{{name}}">

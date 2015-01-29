@@ -24,7 +24,7 @@
 	<template>
 		<style>
 core-animated-pages{
-	height:calc(100vh - 112px);
+	height:calc(100vh - 132px);
 	width:100%;
 	overflow-y:auto;
 	overflow-x:hidden;
@@ -39,6 +39,8 @@ core-toolbar{
     width:100%;
     background:#DC5957;
     color:#FFF;
+    padding-top:20px;
+    height:84px;
 }
 
 core-icon-button{
@@ -85,7 +87,7 @@ paper-tabs paper-tab core-icon{
 .task-form{
     background:#FFF;
     margin:0 3% 15px;
-    padding:14px 10px 24px;
+    padding:14px 10px 1px;
     box-shadow:0px 2px 8px 0px rgba(0,0,0,0.35);
 }
        
@@ -135,7 +137,18 @@ paper-radio-button[checked]::shadow #offRadio{
     height:1px;
     background:#BBB;
     margin:0 auto 15px;
+}    
+
+paper-button{
+    width:90%;
+    margin:15px auto;
+    display:block;
 }            
+            
+paper-button core-icon{
+    margin-left:-8px;
+    margin-right:10px;
+}
         </style>
 
 		<core-ajax id="ajaxGetTasks"
@@ -199,13 +212,31 @@ paper-radio-button[checked]::shadow #offRadio{
 			</div>
 			
 			<div>
-                <single-user name="{{me.name}} (ik)" avatar="{{me.avatar}}" email="{{me.email}}"></single-user>
+                <single-user id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-user>
                 
                 <div class="seperator"></div>
                 
 			    <template repeat="{{user in group}}">
-                    <single-user name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}"></single-user>
+                    <single-user id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-user>
                 </template>
+                
+                <div class="seperator"></div>
+                
+                <paper-button raised on-tap="{{switchUser}}"><core-icon icon="cached"></core-icon> Gebruiker wisselen</paper-button>
+                
+                <paper-button raised on-tap="{{logOut}}"><core-icon icon="exit-to-app"></core-icon> Uitloggen</paper-button>
+			</div>
+			
+			<div>
+			    <div class="task-form">                    
+                    <paper-input-decorator label="Username">
+                        <input type="text" value="{{editUsername}}" id="name">
+                    </paper-input-decorator>
+
+                    <paper-button raised on-tap="{{updateUser}}">Opslaan</paper-button>
+
+                    <paper-button on-tap="{{updateUser}}">Annuleren</paper-button>
+                </div>
 			</div>
 		</core-animated-pages>
 		
@@ -274,7 +305,7 @@ paper-radio-button[checked]::shadow #offRadio{
                 rotate.target = this.$.addBtn;
                 
                 if(this.$.pages.selected == 0){
-                    this.toolbarname = 'Taak Toevoegen';
+                    this.toolbarname = 'Taak toevoegen';
 				    this.$.pages.selected = 1;
                     
                     rotate.keyframes = [{
@@ -330,16 +361,6 @@ paper-radio-button[checked]::shadow #offRadio{
             taskDeleted:function(){
               //swal("Good job!", "You clicked the button!", "success")
             },
-
-            showSingle:function(){
-                this.fire('go-to', {page:'tasks'});
-            },
-            showGroup:function(){
-                this.fire('go-to', {page:'tasks'});
-            },
-            goBack:function(){
-                this.fire('go-to', {page:'tasks'});
-            },
             showTakskManager:function(){
                 this.toolbarname = 'Taakbeheer';
                 this.$.pages.selected = 0;
@@ -349,6 +370,47 @@ paper-radio-button[checked]::shadow #offRadio{
                 this.toolbarname = 'Gebruikers';
                 this.$.pages.selected = 2;
                 this.$.addBtn.hidden = true;
+            },
+            editUser:function(sender, detail, event){
+                this.editUser = detail.id;
+                this.editUsername = detail.username;
+                //this.$.pages.selected = 3;
+            },
+            updateUser:function(){
+                
+            },
+            switchUser:function(){
+                swal({
+                    title:'Afmelden',   
+                    text:'Weet je zeker dat je van gebruiker wilt wisselen?',
+                    type:'warning',
+                    showCancelButton:true,
+                    cancelButtonText:'Nee',
+                    confirmButtonColor:"#DC5957",
+                    confirmButtonText:'Ja',
+                    closeOnConfirm:false 
+                }, function(){
+                    localStorage.removeItem('user_id');
+                    location.reload(); 
+                });
+            },
+            logOut:function(){
+                swal({
+                    title:'Uitloggen',   
+                    text:'Weet je zeker dat je wilt uitloggen?',
+                    type:'warning',
+                    showCancelButton:true,
+                    cancelButtonText:'Nee',
+                    confirmButtonColor:"#DC5957",
+                    confirmButtonText:'Ja',
+                    closeOnConfirm:false 
+                }, function(){
+                    localStorage.clear();
+                    location.reload();
+                });
+            },
+            goBack:function(){
+                this.fire('go-to', {page:'tasks'});
             }
 		});
 	</script>
