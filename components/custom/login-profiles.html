@@ -1,0 +1,48 @@
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../custom/user-profile.html">
+
+<polymer-element name="login-profiles">
+	<template>
+  <link rel="stylesheet" type="text/css" href="style/login-profiles.css">
+
+		<core-ajax id="ajaxLogin"
+			auto="false"
+			on-core-response="{{houseLoggedIn}}"
+			method="POST">
+		</core-ajax>
+
+		<core-ajax id="ajaxGetUsers"
+			auto="false"
+			on-core-response="{{usersLoaded}}"
+			handleAs="json"
+			method="GET">
+		</core-ajax>
+
+		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
+			<div>
+				<div class="photos">
+					<img src="../../images/logo.svg" class="logo">
+					<!--<img src="group.png" class="group">-->
+				</div>
+
+				<input type="text" id="housename" placeholder="Groepsnaam">
+				<input type="password" id="password" placeholder="Wachtwoord">
+
+				<input type="submit" value="Inloggen" on-tap="{{login}}">
+
+        <a on-tap="{{register}}">Registreren</a>
+			</div>
+			<div>
+				<h2>Met wie heb ik het genoegen?</h2>
+
+				<ul>
+					<template repeat="{{user in users}}">
+						<user-profile name="{{user.name}}" avatar="{{user.avatar}}" user_id="{{user.id}}" on-show-tasks="{{goToTasks}}"></user-profile>
+					</template>
+				</ul>
+			</div>
+		</core-animated-pages>
+	</template>
+	<script type="text/javascript" src="js/login-profiles.js"></script>
+</polymer-element>

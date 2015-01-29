@@ -1,0 +1,125 @@
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-animation/core-animation.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+
+<link rel="import" href="single-task.html">
+<link rel="import" href="single-task-open.html">
+<link rel="import" href="single-task-group.html">
+<link rel="import" href="single-task-done.html">
+
+<polymer-element name="tasks-view" attributes="start">
+	<template>
+  <link rel="stylesheet" type="text/css" href="style/tasks-view.css">
+		<core-ajax id="ajaxGetTasks"
+			auto="false"
+			on-core-response="{{tasksLoaded}}"
+			handleAs="json"
+			method="GET">
+		</core-ajax>
+
+		<core-ajax id="ajaxUpdateTask"
+			auto="false"
+			on-core-response="{{taskUpdated}}"
+      handleAs="json"
+			method="PUT">
+		</core-ajax>
+
+    <core-ajax id="ajaxAddTaskToLog"
+      auto="false"
+      handleAs="json"
+      method="POST">
+    </core-ajax>
+
+    <core-ajax id="ajaxGetLog"
+      auto="false"
+      method="GET"
+      handleAs="json"
+      on-core-response="{{logLoaded}}">
+    </core-ajax>
+
+		<div id="wrapper">
+			<header>
+				<h1>{{headername}}</h1>
+
+				<!--<paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>-->
+
+				<core-icon class="logout_btn" icon="backspace" on-tap="{{userSwitch}}"></core-icon>
+
+				<core-icon class="settings_btn" icon="settings" on-tap="{{gotoSettings}}"></core-icon>
+
+				<div id="photos">
+					<div class="img single" style="background-image:url({{avatar}})"></div>
+					<div class="img group" style="background-image:url('/images/icon.png')"></div>
+				</div>
+
+				<paper-tabs selected="0" noink="true">
+					<paper-tab on-tap="{{headerToTodo}}"><core-icon icon="subject"></core-icon> {{header_todo}} taken</paper-tab>
+					<paper-tab on-tap="{{headerToDone}}"><core-icon icon="done-all"></core-icon> {{header_done}} afgerond</paper-tab>
+					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{header_points}} punten</paper-tab>
+				</paper-tabs>
+			</header>
+
+			<div class="content">
+				<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
+					<div>
+						<core-collapse id="tasks_todo" class="tasks">
+							<h2>Wat moet ik nog gaan doen?</h2>
+
+							<template repeat="{{task, taskIndex in tasks}}">
+								<single-task name="{{task.name}}" duration="{{task.duration}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>
+							</template>
+						</core-collapse>
+
+						<core-collapse id="tasks_group" class="tasks tasks-group">
+							<h2>Wat wordt door de anderen gedaan?</h2>
+
+							<template repeat="{{task in tasks_group}}">
+								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} avatar="{{task.avatar}}"></single-task-group>
+							</template>
+						</core-collapse>
+
+						<section id="tasks_open" class="tasks">
+							<h2>Wat kan ik nog gaan doen?</h2>
+
+							<template repeat="{{task, taskIndex in tasks_open}}">
+								<single-task-open name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-pick-task="{{pickTask}}"></single-task>
+							</template>
+						</section>
+					</div>
+					<div>
+						<core-collapse id="tasks_done" class="tasks">
+							<h2>Wat ik al gedaan heb</h2>
+
+							<template repeat="{{task in tasks_done}}">
+								<single-task-done name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}}></single-task-done>
+							</template>
+						</core-collapse>
+
+						<core-collapse id="tasks_group_done" class="tasks tasks-group">
+							<h2>Wat de groep al gedaan heeft</h2>
+
+							<template repeat="{{task in tasks_group_done}}">
+								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}" done="done"></single-task-group>
+							</template>
+						</core-collapse>
+					</div>
+					<div>
+						Points
+					</div>
+				</core-animated-pages>
+			</div>
+		</div>
+
+		<paper-tabs selected="0" noink="true" id="navigation">
+			<paper-tab on-tap="{{showSingle}}"><core-icon icon="account-circle"></core-icon> Individueel</paper-tab>
+			<paper-tab on-tap="{{showGroup}}"><core-icon icon="group-work"></core-icon> Groep</paper-tab>
+			<!--<paper-tab on-tap="{{gotoSettings}}">Settings</paper-tab>-->
+		</paper-tabs>
+	</template>
+
+ <script type="text/javascript" src="js/tasks-view.js"></script>
+</polymer-element>
