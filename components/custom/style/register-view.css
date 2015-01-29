@@ -1,0 +1,31 @@
+.registerForm{
+    background:white;
+    height:calc(100vh - 65px);
+    padding-left:10px;
+    padding-top:20px;
+    overflow: auto;
+}
+core-toolbar{
+  background:#DC5957;
+  color:white;
+}
+core-animated-pages{
+  height:calc(100vh - 64px);
+}
+span{
+  color:inherit;
+  font-size:12px;
+}
+.nextButton{
+  float: right;
+  background: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+.addUserButton{
+  font-size: 13px;
+  width: 385px;
+  line-height: 36px;
+  height: 35px;
+}

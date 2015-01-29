@@ -13,144 +13,14 @@
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
 <link rel="import" href="../custom/single-user.html">
+<link rel="import" href="single-task-settings.html">
 
 <script src="../../lib/sweet-alert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
 
-<link rel="import" href="single-task-settings.html">
-
-
 <polymer-element name="settings-view">
 	<template>
-		<style>
-core-animated-pages{
-	height:calc(100vh - 132px);
-	width:100%;
-	overflow-y:auto;
-	overflow-x:hidden;
-	background:#F8F8F8;
-}
-            
-core-animated-pages > div{
-    padding-top:15px;    
-}
-            
-core-toolbar{
-    width:100%;
-    background:#DC5957;
-    color:#FFF;
-    padding-top:20px;
-    height:84px;
-}
-
-core-icon-button{
-    width:55px;
-    float:left;
-}
-            
-core-toolbar > div{
-    text-align:center;
-}
-
-paper-tabs{
-    position:fixed;
-    left:0;
-    bottom:0;
-    width:100%;
-    background:#DC5957;
-    color:#FFF;
-}
-
-paper-tabs::shadow #selectionBar{
-    background-color:#B32F2D;
-    display:none;
-}
-
-paper-tabs paper-tab::shadow #ink{
-    color:rgba(255,255,255,0.3);
-}
-
-paper-button{
-    font-size:12px;
-}
-            
-paper-button[raised]{
-    padding:2px 15px 0;
-    background:#DC5957;
-    color:#FFF;
-}
-
-paper-tabs paper-tab core-icon{
-    margin-right:5px;
-}
-            
-.task-form{
-    background:#FFF;
-    margin:0 3% 15px;
-    padding:14px 10px 1px;
-    box-shadow:0px 2px 8px 0px rgba(0,0,0,0.35);
-}
-       
-.task-form paper-input, .task-form paper-dropdown-menu{
-    width:100%;
-}
-
-paper-input-decorator{
-    padding-top:0;
-}            
-            
-paper-input-decorator /deep/ .focused-underline{
-    background-color:#DC5957;
-}
-
-paper-input-decorator /deep/ paper-input-decorator{
-    padding-top:0;
-}
-            
-paper-input-decorator input{
-    font-size:18px !important;
-    padding:0px 10px !important;
-}
-            
-.task-form paper-radio-button{
-    width:90%;
-}
-
-paper-radio-button::shadow #ink[checked]{
-    color:#DC5957;
-}
-
-paper-radio-group{
-    margin-bottom:20px;
-}
-            
-paper-radio-button::shadow #onRadio{
-    background-color:#DC5957;
-}
-
-paper-radio-button[checked]::shadow #offRadio{
-    border-color:#DC5957;
-}
-
-.seperator{
-    width:94%;
-    height:1px;
-    background:#BBB;
-    margin:0 auto 15px;
-}    
-
-paper-button{
-    width:90%;
-    margin:15px auto;
-    display:block;
-}            
-            
-paper-button core-icon{
-    margin-left:-8px;
-    margin-right:10px;
-}
-        </style>
-
+  <link rel="stylesheet" type="text/css" href="style/settings-view.css">
 		<core-ajax id="ajaxGetTasks"
             auto="false"
             url="http://178.62.205.200/api/tasks"
@@ -159,87 +29,84 @@ paper-button core-icon{
             method="GET">
 		</core-ajax>
 
-		<core-ajax id="updateTask"
-            auto="false"
-            on-core-response="{{taskUpdated}}"
-            handleAs="json"
-            method="PUT">
-		</core-ajax>
+    <core-ajax id="updateTask"
+      auto="false"
+      on-core-response="{{taskUpdated}}"
+      handleAs="json"
+      method="PUT">
+    </core-ajax>
 
-        <core-ajax id="addTask"
-            auto="false"
-            on-core-response="{{taskAdded}}"
-            handleAs="json"
-            method="POST">
-        </core-ajax>
+    <core-ajax id="addTask"
+      auto="false"
+      on-core-response="{{taskAdded}}"
+      handleAs="json"
+      method="POST">
+    </core-ajax>
 
-        <core-ajax id="deleteTask"
-            auto="false"
-            on-core-response="{{taskDeleted}}"
-            handleAs="json"
-            method="DELETE">
-        </core-ajax>
-        
-        <core-toolbar>
-            <core-icon icon="home" on-tap="{{goBack}}"></core-icon>
-            <div flex>{{toolbarname}}</div>
-            <core-icon icon="add" on-tap="{{newTask}}" id="addBtn"></core-icon>
-        </core-toolbar>
+    <core-ajax id="deleteTask"
+      auto="false"
+      on-core-response="{{taskDeleted}}"
+      handleAs="json"
+      method="DELETE">
+    </core-ajax>
+
+    <core-toolbar>
+        <core-icon icon="home" on-tap="{{goBack}}"></core-icon>
+        <div flex>{{toolbarname}}</div>
+        <core-icon icon="add" on-tap="{{newTask}}" id="addBtn"></core-icon>
+    </core-toolbar>
 
 		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
 			<div>
-                <template repeat="{{task in tasks}}">
-                    <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
-                </template>
+        <template repeat="{{task in tasks}}">
+            <single-task-settings name="{{task.name}}" points="{{task.points}}" deadline="{{task.deadline}}" task_id="{{task.id}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+        </template>
 			</div>
 
 			<div>
-                <div class="task-form">                    
-                    <paper-input-decorator label="Taaknaam">
-                        <input type="text" value="{{newTaskName}}" id="name">
-                    </paper-input-decorator>
+        <div class="task-form">
+            <paper-input-decorator label="Taaknaam">
+                <input type="text" value="{{newTaskName}}" id="name">
+            </paper-input-decorator>
 
-                    <paper-radio-group id="radio" selected="1">
-                        <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
-                        <paper-radio-button name="7" label="Elke week"></paper-radio-button>
-                        <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
-                    </paper-radio-group>
+            <paper-radio-group id="radio" selected="1">
+                <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
+                <paper-radio-button name="7" label="Elke week"></paper-radio-button>
+                <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
+            </paper-radio-group>
 
-                    <paper-button raised on-tap="{{addTask}}">Opslaan</paper-button>
+            <paper-button raised on-tap="{{addTask}}">Opslaan</paper-button>
 
-                    <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
-                </div>
+            <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
+        </div>
 			</div>
-			
-			<div>
-                <single-user id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-user>
-                
-                <div class="seperator"></div>
-                
-			    <template repeat="{{user in group}}">
-                    <single-user id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-user>
-                </template>
-                
-                <div class="seperator"></div>
-                
-                <paper-button raised on-tap="{{switchUser}}"><core-icon icon="cached"></core-icon> Gebruiker wisselen</paper-button>
-                
-                <paper-button raised on-tap="{{logOut}}"><core-icon icon="exit-to-app"></core-icon> Uitloggen</paper-button>
-			</div>
-			
-			<div>
-			    <div class="task-form">                    
-                    <paper-input-decorator label="Username">
-                        <input type="text" value="{{editUsername}}" id="name">
-                    </paper-input-decorator>
 
-                    <paper-button raised on-tap="{{updateUser}}">Opslaan</paper-button>
+    <div>
+      <single-user id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-user>
 
-                    <paper-button on-tap="{{updateUser}}">Annuleren</paper-button>
-                </div>
-			</div>
+      <div class="seperator"></div>
+
+      <template repeat="{{user in group}}">
+      <single-user id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-user>
+      </template>
+
+      <div class="seperator"></div>
+      <paper-button raised on-tap="{{switchUser}}"><core-icon icon="cached"></core-icon> Gebruiker wisselen</paper-button>
+      <paper-button raised on-tap="{{logOut}}"><core-icon icon="exit-to-app"></core-icon> Uitloggen</paper-button>
+    </div>
+
+      <div>
+        <div class="task-form">
+          <paper-input-decorator label="Username">
+            <input type="text" value="{{editUsername}}" id="name">
+          </paper-input-decorator>
+
+          <paper-button raised on-tap="{{updateUser}}">Opslaan</paper-button>
+          <paper-button on-tap="{{updateUser}}">Annuleren</paper-button>
+        </div>
+      </div>
 		</core-animated-pages>
-		
+
 		<paper-tabs selected="0" noink="true">
 			<paper-tab on-tap="{{showTakskManager}}"><core-icon icon="assignment"></core-icon> Taakbeheer</paper-tab>
 			<paper-tab on-tap="{{showUsersManager}}"><core-icon icon="account-circle"></core-icon> Gebruikers</paper-tab>

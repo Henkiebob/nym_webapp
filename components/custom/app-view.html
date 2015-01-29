@@ -7,39 +7,19 @@
 
 <polymer-element name="app-view">
 	<template>
-		<style>
-			paper-spinner{
-				position:absolute;
-				left:50%;
-				top:50%;
-				margin:-14px 0 0 -14px;
-			}
-
-			paper-spinner.white::shadow .circle{
-				border-color:white;
-			}
-            
-            .fixedpage{
-                height:100vh;
-            }
-            
-            #register{
-                height:100vh !important;
-            }
-		</style>
-		
+  <link rel="stylesheet" type="text/css" href="style/app-view.css">
 		<core-collapse id="settings">
             <settings-view on-go-to="{{goTo}}"></settings-view>
         </core-collapse>
-        
+
         <core-collapse id="tasks" fixedSize="false">
             <tasks-view start="false" on-go-to="{{goTo}}"></tasks-view>
         </core-collapse>
-        
+
         <core-collapse id="login" fixedSize="true" class="fixedpage">
             <login-profiles on-go-to="{{goTo}}"></login-profiles>
         </core-collapse>
-        
+
         <core-collapse id="register">
             <register-view on-go-to="{{goTo}}"></register-view>
         </core-collapse>
@@ -51,7 +31,7 @@
 		<tasks-view start="false" on-go-to="{{goTo}}" hidden></tasks-view>
 
 		<settings-view on-go-to="{{goTo}}" hidden></settings-view>
-		
+
 		<register-view on-go-to="{{goTo}}"></register-view>-->
 	</template>
 	<script type="text/javascript" src="js/app-view.js"></script>
