@@ -39,7 +39,6 @@
 
         for(var c = 0; c < detail.response.length; c++){
           logs.push(detail.response[c]);
-          console.log(logs);
         }
 
         localStorage.task_logged = JSON.stringify(logs);
@@ -63,7 +62,7 @@
           // //done tasks
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
-              console.log(task);
+
               if(task.user_id == localStorage.user_id){ //Task done by user
                 this.tasks_done.push(task);
                 this.header_done++;
@@ -104,10 +103,11 @@
         var task = this.tasks[detail.task_pos];
 
                 if(detail.task_id == task.id){
+
                     // //duplicate to done list
-                    // var task_done = (JSON.parse(JSON.stringify(task)));
-                    // task_done.deadline = new Date;
-                    // this.tasks_done.push(task_done);
+                    var task_done = (JSON.parse(JSON.stringify(task)));
+                    task_done.deadline = new Date;
+                    this.tasks_done.push(task_done);
 
                     //remove from todo list
                     this.tasks.splice(detail.task_pos, 1);
