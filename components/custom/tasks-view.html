@@ -248,8 +248,14 @@
 			ready:function(){
                 if(localStorage.house_id && localStorage.token) {
                     this.users = JSON.parse(localStorage.users);
-                    this.username = this.users[localStorage.user_id].name;
-                    this.avatar = 'http://178.62.205.200'+this.users[localStorage.user_id].avatar;
+                    
+                    var me = this.users.filter(function(obj){
+                        return obj.id == localStorage.user_id;
+                    });
+                    this.me = me[0];
+                    
+                    this.username = this.me.name;
+                    this.avatar = 'http://178.62.205.200'+this.me.avatar;
 
                     this.headername = this.username;
 

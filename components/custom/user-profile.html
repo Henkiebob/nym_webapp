@@ -47,7 +47,7 @@
 				//console.log(this.id);
 			},
 			goToTasks:function(){
-				localStorage.user_id = 1;
+				localStorage.user_id = this.user_id;
 				this.fire('show-tasks', {user_id:this.user_id, user_name:this.name, avatar:this.avatar});
 			}
 		});

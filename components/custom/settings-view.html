@@ -12,7 +12,7 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
-
+<link rel="import" href="../custom/single-user.html">
 
 <script src="../../lib/sweet-alert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
@@ -129,6 +129,13 @@ paper-radio-button::shadow #onRadio{
 paper-radio-button[checked]::shadow #offRadio{
     border-color:#DC5957;
 }
+
+.seperator{
+    width:94%;
+    height:1px;
+    background:#BBB;
+    margin:0 auto 15px;
+}            
         </style>
 
 		<core-ajax id="ajaxGetTasks"
@@ -192,7 +199,13 @@ paper-radio-button[checked]::shadow #offRadio{
 			</div>
 			
 			<div>
-			    
+                <single-user name="{{me.name}} (ik)" avatar="{{me.avatar}}" email="{{me.email}}"></single-user>
+                
+                <div class="seperator"></div>
+                
+			    <template repeat="{{user in group}}">
+                    <single-user name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}"></single-user>
+                </template>
 			</div>
 		</core-animated-pages>
 		
@@ -217,6 +230,22 @@ paper-radio-button[checked]::shadow #offRadio{
                 }
                 
                 this.toolbarname = 'Taakbeheer';
+                
+                if(localStorage.users){
+                    var users = JSON.parse(localStorage.users);
+                                        
+                    var me = users.filter(function(obj){
+                        return obj.id == localStorage.user_id;
+                    });
+                    this.me = me[0];
+                    
+                    var group = users.filter(function(obj){
+                        return obj.id != localStorage.user_id;
+                    });
+                    this.group = group;
+                    
+                    this.users = users;
+                }
 			},
 			tasksLoaded:function(){
 				this.tasks = this.$.ajaxGetTasks.response;

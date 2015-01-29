@@ -154,7 +154,7 @@
 			},
 			houseLoggedIn:function(){
 				var house  = JSON.parse(this.$.ajaxLogin.response)[0];
-        var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
+                var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
 
                 if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
                     console.log('wrong inlog');
@@ -179,7 +179,7 @@
 
 					users[user.id] = user;
 				}
-				localStorage.users = JSON.stringify(users);
+				localStorage.users = JSON.stringify(this.users);
 
 				this.$.pages.selected = 1;
 			},
