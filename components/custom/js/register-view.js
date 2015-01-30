@@ -6,8 +6,8 @@ Polymer({
         this.housepassword = "";
         this.housepassword_confirmation = "";
         this.uploadMessage = "Selecteer een afbeelding";
-        //this.domain = "http://localhost:3000";
-        this.domain = "http://178.62.205.200";
+        this.domain = "http://localhost:3000";
+        //this.domain = "http://178.62.205.200";
       },
       SubmitHouse:function() {
 
@@ -19,6 +19,7 @@ Polymer({
         if(this.housepassword == "") {
           this.errors.push({message: "Wachtwoord is niet ingevuld"});
         }
+
         if(this.housepassword != this.housepassword_confirmation) {
           this.errors.push({message: "Wachtwoorden komen niet overeen"});
         }
@@ -39,6 +40,9 @@ Polymer({
       houseAdded:function(sender, detail, event) {
 
         if(detail.response[0].apikey) {
+
+          console.log(detail.response[0].apikey);
+
           localStorage.token     = detail.response[0].apikey;
           localStorage.house_id  = detail.response[0].house_id;
 
@@ -51,12 +55,6 @@ Polymer({
           this.errors.push({message: "Huisnaam is al in gebruik"});
           this.$.pages.selected = 0;
         }
-      },
-      addUsersToHouse:function(event, detail, sender) {
-       this.$.addUsers.url = this.domain+'/api/houses/1';
-       this.$.addUsers.params = {"house": {"users_attributes": [this.users]}}
-
-       this.$.addUsers.go();
       },
       addNewUser:function() {
          this.users.push({'name':'', 'email':'', 'house_id' : localStorage.house_id});
@@ -71,6 +69,7 @@ Polymer({
           obj['house[users_attributes]['+i+'][house_id]'] = this.users[i]['house_id'];
         }
 
+ 				this.$.addUsers.headers = {'Authorization':'Token token='+localStorage.token};
         this.$.addUsers.url = this.domain+'/api/houses/'+localStorage.house_id;
         this.$.addUsers.params = obj;
 

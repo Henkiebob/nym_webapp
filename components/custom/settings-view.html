@@ -12,7 +12,7 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
-<link rel="import" href="../custom/single-user.html">
+<link rel="import" href="../custom/single-groupmember.html">
 <link rel="import" href="single-task-settings.html">
 
 <script src="../../lib/sweet-alert.min.js"></script>
@@ -82,12 +82,12 @@
 			</div>
 
     <div>
-      <single-user id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-user>
+      <single-groupmember id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-groupmember>
 
       <div class="seperator"></div>
 
       <template repeat="{{user in group}}">
-      <single-user id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-user>
+      <single-groupmember id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-groupmember>
       </template>
 
       <div class="seperator"></div>
