@@ -4,7 +4,8 @@ Polymer({
 			this.loadUsers();
 			this.$.pages.selected = 1;
 		}
-	  		this.domain = "http://localhost:3000";
+	  	//this.domain = "http://localhost:3000";
+      this.domain = "http://178.62.205.200";
 	},
 	login:function(){
 		var name = this.$.housename.value;
@@ -12,10 +13,10 @@ Polymer({
 
 	  //local
 	  this.$.ajaxLogin.url = this.domain+'/api/sessions';
-		this.$.ajaxLogin.params = {'house[name]': 'Test', 'house[password]': 'test'};
+		//this.$.ajaxLogin.params = {'house[name]': 'Test', 'house[password]': 'test'};
 
 	  //live
-	  //this.$.ajaxLogin.params = {'house[name]': name, 'house[password]': pass};
+	  this.$.ajaxLogin.params = {'house[name]': name, 'house[password]': pass};
 
 		this.$.ajaxLogin.go();
 	},

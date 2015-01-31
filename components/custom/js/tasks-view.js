@@ -1,7 +1,7 @@
   Polymer({
       ready:function(){
-        this.domain = "http://localhost:3000";
-        //this.domain = "http://178.62.205.200";
+        //this.domain = "http://localhost:3000";
+        this.domain = "http://178.62.205.200";
         if(localStorage.house_id && localStorage.token) {
             this.users = JSON.parse(localStorage.users);
 

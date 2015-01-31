@@ -6,8 +6,8 @@ Polymer({
         this.housepassword = "";
         this.housepassword_confirmation = "";
         this.uploadMessage = "Selecteer een afbeelding";
-        this.domain = "http://localhost:3000";
-        //this.domain = "http://178.62.205.200";
+        //this.domain = "http://localhost:3000";
+        this.domain = "http://178.62.205.200";
       },
       SubmitHouse:function() {
 
@@ -76,7 +76,7 @@ Polymer({
         this.$.addUsers.go();
       },
       goToLogin:function() {
-        this.fire('go-to', {page:'login'});
+        location.reload();
       },
       back:function(){
         var current_page = this.$.pages.selected;
