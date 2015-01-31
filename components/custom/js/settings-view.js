@@ -5,7 +5,7 @@ Polymer({
 		this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
 		this.$.updateTask.headers = auth;
 		this.$.deleteTask.headers = auth;
-	    this.$.addTask.headers = auth;
+	    this.$.saveTask.headers = auth;
 
 	    if(localStorage.house_id && localStorage.token){
 	        this.$.ajaxGetTasks.go();
@@ -28,13 +28,39 @@ Polymer({
 	        
 	        this.users = users;
 	    }
+        
+        this.editTaskList = null;
 	},
+    sortTasks:function(a,b){
+        var a_name = a.name.toUpperCase();
+        var b_name = b.name.toUpperCase();
+
+        if (a_name < b_name){
+            return -1;
+        }else if (a_name > b_name){
+            return 1;   
+        }else{
+            return 0;   
+        }
+    },
 	tasksLoaded:function(){
 		this.tasks = this.$.ajaxGetTasks.response;
 	    
-	    console.log(this.tasks);
+	    this.tasks.sort(this.sortTasks);
 	},
-	updateTask:function(event, detail, sender){
+    editTask:function(sender, detail, event){
+        this.newTaskName = detail.name;
+        this.$.radio.selected = detail.duration;
+        
+        this.toolbarname = 'Taak bewerken';
+        this.$.pages.selected = 1;
+        
+        this.$.saveTask.method = 'PUT';
+        this.$.saveTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
+        
+        this.editTaskList = detail.list;
+    },
+	/*updateTask:function(sender, detail, event){
 		console.log('update task '+detail.task_id+' ("'+detail.name+'")');
 
 		this.$.updateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
@@ -43,7 +69,7 @@ Polymer({
 	},
 	taskUpdated:function(){
 		console.log('task updated');
-	},
+	},*/
 	deleteTask:function(event, detail, sender){
 		this.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
 
@@ -65,6 +91,9 @@ Polymer({
 	            transform:'rotateZ(45deg)'
 	        }];
 	        rotate.play();
+            
+            this.$.saveTask.method = 'POST';
+            this.$.saveTask.url = 'http://178.62.205.200/api/tasks/';
 	    }else{
 	        this.toolbarname = 'Taakbeheer';
 		    this.$.pages.selected = 0;
@@ -77,37 +106,47 @@ Polymer({
 	        rotate.play();
 	    }
 	},
-	addTask:function(event, detail, sender){
+	saveTask:function(sender, detail, event){
 	    if(this.newTaskName){
-	        this.$.addTask.url = 'http://178.62.205.200/api/tasks/';
-	        this.$.addTask.params = {
+	        this.$.saveTask.params = {
 	            'task[name]':this.newTaskName,
 	            'task[house_id]':localStorage.house_id,
 	            'task[duration]':Number(this.$.radio.selected)
 	        };
 
-	        this.$.addTask.go();
+	        this.$.saveTask.go();
 	    }else{
 	        this.$.name.focus();
 	    }
 	},
-	taskAdded:function(sender, detail, event){                
-	    this.tasks.push(detail.response);
-	    swal("Gelukt", "Taak zit erbij!", "success");
-	    
-	    this.toolbarname = 'Taakbeheer';
-	    this.$.pages.selected = 0;
-	    
-	    var rotate = new CoreAnimation();
-	    rotate.duration = 300;
-	    rotate.fill = 'forwards';
-	    rotate.target = this.$.addBtn;
-	    rotate.keyframes = [{
-	        transform:'rotateZ(45deg)'
-	    },{
-	        transform:'rotateZ(0deg)'
-	    }];
-	    rotate.play();
+	taskSaved:function(sender, detail, event){   
+        
+        if(this.editTaskList != null){
+            this.tasks[this.editTaskList] = detail.response;
+            
+            swal('Gelukt!', 'De wijzigingen zijn opgeslagen.', 'success');
+            
+            this.editTaskList = null;
+        }else{
+            this.tasks.push(detail.response);
+            this.tasks.sort(this.sortTasks);
+	   
+            swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
+
+            var rotate = new CoreAnimation();
+            rotate.duration = 300;
+            rotate.fill = 'forwards';
+            rotate.target = this.$.addBtn;
+            rotate.keyframes = [{
+                transform:'rotateZ(45deg)'
+            },{
+                transform:'rotateZ(0deg)'
+            }];
+            rotate.play();
+        }
+        
+        this.toolbarname = 'Taakbeheer';
+        this.$.pages.selected = 0;
 	},
 	taskDeleted:function(){
 	  //swal("Good job!", "You clicked the button!", "success")

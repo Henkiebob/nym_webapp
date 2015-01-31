@@ -1,4 +1,4 @@
-<polymer-element name="single-task-settings" attributes="name deadline points task_id">
+<polymer-element name="single-task-settings" attributes="name duration deadline points task_id list_position">
 	<template>	
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
 		
@@ -31,18 +31,23 @@ input:focus{
 }
 		</style>
 		
-		<div class="task todo" on-tap="{{taskTap}}">						
-			<div class="btn"><core-icon icon="create"></core-icon> Verwijderen</div>
+		<div class="task todo" on-tap="{{taskTap0}}">						
+			<div class="btn" on-tap="{{editTask}}"><core-icon icon="create"></core-icon> Bewerken</div>
 			
-			<!--<h3 contenteditable on-blur="{{focusOutName}}">{{name}}</h3>-->
-			<input type="text" on-focus="{{focusName}}" on-blur="{{focusOutName}}" value="{{name}}">
+			<h3>{{name}}</h3>
+			<!--<input type="text" on-focus="{{focusName}}" on-blur="{{focusOutName}}" value="{{name}}">-->
 			
 			<div class="details">
-				<label>
+				<!--<label>
 					<core-icon icon="star"></core-icon> 
 					<input type="number" step="5" max="20" value="{{points}}" on-focus="{{focusPoints}}" on-blur="{{focusOutPoints}}">
-				</label>
-				<!--<span class="points" contenteditable on-blur="{{focusOutPoints}}">{{points}}</span>-->
+				</label>-->
+				<core-icon icon="star"></core-icon> 
+				<span class="points">{{points}}</span>
+				
+				<core-icon icon="alarm"></core-icon> 
+				<span class="points">{{drationLabel}}</span>
+				
 				<!--<core-icon icon="alarm"></core-icon> {{deadline}}-->
 			</div>
 		</div>
@@ -54,8 +59,24 @@ Polymer({
 		if(this.points === undefined){
 			this.points = 0;
 		}
-		animate = {};
+        
+        if(this.duration === undefined){
+            this.duration = 7;
+        }
+        
+        if(this.duration == 1){
+            this.drationLabel = 'Dagelijks';
+        }else if(this.duration == 7){
+            this.drationLabel = 'Wekelijks';
+        }if(this.duration == 28){
+            this.drationLabel = 'Maandelijk';
+        }
+		//animate = {};
 	},
+    editTask:function(){
+        this.fire('edit-task', {task_id:this.task_id, name:this.name, duration:this.duration, points:this.points, list:this.list_position});
+    }
+    /*
 	updateTask:function(){
 		this.fire('update-task', {name:this.name, points:this.points, task_id:this.task_id});
 	},
@@ -169,7 +190,7 @@ Polymer({
 			delete animate.icon;
 			delete animate.target;
 		}
-	}
+	}*/
 });
 	</script>
 </polymer-element>
