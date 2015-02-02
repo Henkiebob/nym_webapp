@@ -10,6 +10,7 @@
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
 <link rel="import" href="../custom/single-groupmember.html">
@@ -71,18 +72,19 @@
                     <h4>Herhaling</h4>
                     
                     <paper-radio-group id="radio" selected="1">
+                        <paper-radio-button name="0" label="Eenmalig"></paper-radio-button>
                         <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
                         <paper-radio-button name="7" label="Elke week"></paper-radio-button>
                         <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
                     </paper-radio-group>
                     
-                    <div id="deleteTask" hidden>
-                        <h4>Taak verwijderen</h4>
+                    <div id="deleteBox" hidden>
+                        <h4>Taak verwijderen?</h4>
                         
-                        <input type="checkbox">
+                        <paper-checkbox on-change="{{checkDelete}}"></paper-checkbox>
                     </div>
 
-                    <paper-button raised on-tap="{{deleteTask}}" id="btn_delete">Verwijderen</paper-button>
+                    <paper-button raised on-tap="{{deleteTask}}" id="btn_delete" hidden>Verwijderen</paper-button>
                     
                     <paper-button raised on-tap="{{saveTask}}" id="btn_save">Opslaan</paper-button>
 
@@ -91,13 +93,25 @@
 			</div>
 
             <div>
-              <single-groupmember id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-groupmember>
-
-              <div class="seperator"></div>
+              <!--<single-groupmember id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-groupmember>-->
+                
+                <div class="user">
+                    <div class="avatar">
+                        <img src="http://178.62.205.200{{me.avatar}}" alt="avatar">
+                        <input type="file">
+                    </div>
+                                        
+                    <paper-input-decorator label="Naam">
+                        <input type="text" value="{{me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
+                    </paper-input-decorator>
+                    
+                    <p><core-icon icon="mail"></core-icon>  {{me.email}}</p>
+                </div>
+              <!--<div class="seperator"></div>
 
               <template repeat="{{user in group}}">
                   <single-groupmember id="{{user.id}}" name="{{user.name}}" avatar="{{user.avatar}}" email="{{user.email}}" on-edit-user="{{editUser}}"></single-groupmember>
-              </template>
+              </template>-->
 
               <div class="seperator"></div>
               <paper-button raised on-tap="{{switchUser}}"><core-icon icon="cached"></core-icon> Gebruiker wisselen</paper-button>
@@ -118,7 +132,7 @@
 
 		<paper-tabs selected="0" noink="true">
 			<paper-tab on-tap="{{showTakskManager}}"><core-icon icon="assignment"></core-icon> Taakbeheer</paper-tab>
-			<paper-tab on-tap="{{showUsersManager}}"><core-icon icon="account-circle"></core-icon> Gebruikers</paper-tab>
+			<paper-tab on-tap="{{showUsersManager}}"><core-icon icon="account-circle"></core-icon> Gebruiker</paper-tab>
 		</paper-tabs>
 
 	</template>

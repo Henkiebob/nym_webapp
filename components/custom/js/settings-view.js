@@ -6,7 +6,7 @@ Polymer({
 		this.$.updateTask.headers = auth;
 		this.$.deleteTask.headers = auth;
 	    this.$.saveTask.headers = auth;
-
+        
 	    if(localStorage.house_id && localStorage.token){
 	        this.$.ajaxGetTasks.go();
 	    }
@@ -20,7 +20,7 @@ Polymer({
 	            return obj.id == localStorage.user_id;
 	        });
 	        this.me = me[0];
-	        
+            	        
 	        var group = users.filter(function(obj){
 	            return obj.id != localStorage.user_id;
 	        });
@@ -29,7 +29,14 @@ Polymer({
 	        this.users = users;
 	    }
         
+        this.editTaskId = null;
         this.editTaskList = null;
+        
+        //add button animation
+        rotate = new CoreAnimation();
+	    rotate.duration = 300;
+	    rotate.fill = 'forwards';
+	    rotate.target = this.$.addBtn;
 	},
     sortTasks:function(a,b){
         var a_name = a.name.toUpperCase();
@@ -53,12 +60,26 @@ Polymer({
         this.$.radio.selected = detail.duration;
         
         this.toolbarname = 'Taak bewerken';
+        
+        this.$.deleteBox.hidden = false;
+        this.$.btn_delete.hidden = true;
+        this.$.btn_save.hidden = false;
+        this.$.deleteBox.children[1].checked = false;
+        
         this.$.pages.selected = 1;
         
         this.$.saveTask.method = 'PUT';
         this.$.saveTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
         
+        this.editTaskId = detail.task_id;
         this.editTaskList = detail.list;
+        
+        rotate.keyframes = [{
+            transform:'rotateZ(0deg)'
+        },{
+            transform:'rotateZ(45deg)'
+        }];
+        rotate.play();
     },
 	/*updateTask:function(sender, detail, event){
 		console.log('update task '+detail.task_id+' ("'+detail.name+'")');
@@ -70,19 +91,54 @@ Polymer({
 	taskUpdated:function(){
 		console.log('task updated');
 	},*/
+    checkDelete:function(sender, detail, event){
+        if(event.checked === true){
+            this.$.btn_delete.hidden = false;
+            this.$.btn_save.hidden = true;
+        }else{
+            this.$.btn_delete.hidden = true;
+            this.$.btn_save.hidden = false;
+        }
+    },
 	deleteTask:function(event, detail, sender){
-		this.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
-
-	    this.$.deleteTask.go();
+        that = this;
+        
+        swal({
+	        title:'Taak Verwijderen',   
+	        text:'Weet je zeker dat je deze taak wilt verwijderen?',
+	        type:'warning',
+	        showCancelButton:true,
+	        cancelButtonText:'Nee',
+	        confirmButtonColor:"#DC5957",
+	        confirmButtonText:'Ja',
+	        closeOnConfirm:false 
+	    }, function(){
+            that.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+that.editTaskId;
+            that.$.deleteTask.go(); 
+	    });
+	},
+    taskDeleted:function(sender, detail){
+        var tasks = this.tasks.filter(function(obj){
+            return obj.id != detail.response.id;
+        });
+        this.tasks = tasks;
+        
+        this.$.pages.selected = 0;
+        this.editTask = null;
+        swal('Taak is verwijderd!', '', 'success');
 	},
 	newTask:function(sender){
-	    var rotate = new CoreAnimation();
-	    rotate.duration = 300;
-	    rotate.fill = 'forwards';
-	    rotate.target = this.$.addBtn;
-	    
 	    if(this.$.pages.selected == 0){
 	        this.toolbarname = 'Taak toevoegen';
+        
+            this.newTaskName = '';
+            this.$.radio.selected = 1;
+            
+            this.$.deleteBox.hidden = true;
+            this.$.btn_delete.hidden = true;
+            this.$.btn_save.hidden = false;
+            this.$.deleteBox.children[1].checked = false;
+            
 		    this.$.pages.selected = 1;
 	        
 	        rotate.keyframes = [{
@@ -107,11 +163,25 @@ Polymer({
 	    }
 	},
 	saveTask:function(sender, detail, event){
+        var duration = Number(this.$.radio.selected);
+        var points = 0;
+        
+        if(duration == 1){
+            points = 5;
+        }else if(duration == 7){
+            points = 10;
+        }else if(duration == 28){
+            points = 15;
+        }else if(duration == 0){
+            points = 5;
+        }
+        
 	    if(this.newTaskName){
 	        this.$.saveTask.params = {
 	            'task[name]':this.newTaskName,
 	            'task[house_id]':localStorage.house_id,
-	            'task[duration]':Number(this.$.radio.selected)
+	            'task[duration]':duration,
+                'task[points]':points
 	        };
 
 	        this.$.saveTask.go();
@@ -127,16 +197,13 @@ Polymer({
             swal('Gelukt!', 'De wijzigingen zijn opgeslagen.', 'success');
             
             this.editTaskList = null;
+            this.editTaskId = null;
         }else{
             this.tasks.push(detail.response);
             this.tasks.sort(this.sortTasks);
 	   
             swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
 
-            var rotate = new CoreAnimation();
-            rotate.duration = 300;
-            rotate.fill = 'forwards';
-            rotate.target = this.$.addBtn;
             rotate.keyframes = [{
                 transform:'rotateZ(45deg)'
             },{
@@ -148,9 +215,25 @@ Polymer({
         this.toolbarname = 'Taakbeheer';
         this.$.pages.selected = 0;
 	},
-	taskDeleted:function(){
-	  //swal("Good job!", "You clicked the button!", "success")
-	},
+    updateUsernameBackUp:function(){
+        this.usernameBackUp = this.me.name.toString();  
+    },
+    updateUsername:function(){
+        if(this.usernameBackUp != this.me.name){
+            this.usernameUpdated();   
+        }
+    },
+    usernameUpdated:function(){
+        swal({
+	        title:'Gebruikersnaam gewijzigd',   
+	        //text:'Weet je zeker dat je van gebruiker wilt wisselen?',
+	        type:'success',
+	        confirmButtonColor:"#DC5957",
+	        confirmButtonText:'Dank je',
+	    }, function(){
+
+	    });
+    },
 	showTakskManager:function(){
 	    this.toolbarname = 'Taakbeheer';
 	    this.$.pages.selected = 0;

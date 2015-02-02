@@ -1,4 +1,4 @@
-<polymer-element name="single-groupmember" attributes="id name name_ext avatar email">
+<polymer-element name="single-groupmember" attributes="user_id name name_ext avatar email">
 	<template>
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
 
@@ -16,7 +16,7 @@
 	<script>
 Polymer({
     userTap:function(){
-        this.fire('edit-user', {id:this.id, username:this.name});
+        this.fire('edit-user', {user_id:this.user_id, username:this.name});
     }
 });
     </script>

@@ -34,20 +34,21 @@ Polymer({
 	          }
 	},
 	loadUsers:function(){
-		this.$.ajaxGetUsers.url = this.domain+'/api/houses/habitants/'+localStorage.house_id;
-		this.$.ajaxGetUsers.headers = {'Authorization':'Token token='+localStorage.token};
-		this.$.ajaxGetUsers.go();
+        if(!localStorage.users){
+            this.$.ajaxGetUsers.url = this.domain+'/api/houses/habitants/'+localStorage.house_id;  
+            this.$.ajaxGetUsers.headers = {'Authorization':'Token token='+localStorage.token};
+            this.$.ajaxGetUsers.go();
+        }else{
+            this.usersLoaded();
+        }
 	},
 	usersLoaded:function(event, detail, sender){
-		this.users = this.$.ajaxGetUsers.response;
-
-		users = {};
-		for(i = 0; i < this.users.length; i++){
-			var user = this.users[i];
-
-			users[user.id] = user;
-		}
-		localStorage.users = JSON.stringify(this.users);
+		if(detail){
+            this.users = detail.response;
+            localStorage.users = JSON.stringify(this.users);
+        }else{
+            this.users = JSON.parse(localStorage.users);
+        }		
 
 		this.$.pages.selected = 1;
 	},
