@@ -34,6 +34,11 @@
       method="POST">
     </core-ajax>
 
+    <core-ajax id="ajaxUploadAvatar"
+      auto="false"
+      method="PUT">
+    </core-ajax>
+
     <core-ajax id="ajaxGetLog"
       auto="false"
       method="GET"
@@ -67,7 +72,12 @@
 				<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
 					<div>
 						<core-collapse id="tasks_todo" class="tasks">
+
+              <input type='file' on-change="{{selectAvatar}}"/>
+              <img id="blaat" src=""/>
+
 							<h2>Wat moet ik nog gaan doen?</h2>
+
 
 							<template repeat="{{task, taskIndex in tasks}}">
 								<single-task name="{{task.name}}" duration="{{task.duration}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>

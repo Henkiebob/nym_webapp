@@ -1,7 +1,7 @@
   Polymer({
       ready:function(){
-        //this.domain = "http://localhost:3000";
-        this.domain = "http://178.62.205.200";
+        this.domain = "http://localhost:3000";
+        //this.domain = "http://178.62.205.200";
         if(localStorage.house_id && localStorage.token) {
             this.users = JSON.parse(localStorage.users);
 
@@ -22,6 +22,7 @@
             this.$.ajaxUpdateTask.headers = auth;
             this.$.ajaxAddTaskToLog.headers = auth;
             this.$.ajaxGetLog.headers = auth;
+            this.$.ajaxUploadAvatar.headers = auth;
 
             this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
             this.$.ajaxGetTasks.go();
@@ -34,7 +35,6 @@
         }
       },
       logLoaded:function(event, detail, sender) {
-
         logs = [];
 
         for(var c = 0; c < detail.response.length; c++){
@@ -43,6 +43,31 @@
 
         localStorage.task_logged = JSON.stringify(logs);
 
+      },
+      selectAvatar:function(event, detail, sender){
+
+        // @todo buiten scope blijven
+        that = this;
+        if (event.target.files[0]) {
+          var reader = new FileReader();
+          reader.readAsDataURL(event.target.files[0]);
+
+          name = event.target.files[0].name;
+          type = event.target.files[0].type;
+
+          reader.onload = function(e) {
+              console.log(e.target.result);
+              that.$.blaat.src = e.target.result;
+              that.processAvatar(e.target.result, name, type);
+          };
+        }
+
+      },
+      processAvatar:function(avatar, name, type) {
+        //console.log("post"+avatar);
+        this.$.ajaxUploadAvatar.url = this.domain+"/api/users/upload/"+localStorage.user_id;
+        this.$.ajaxUploadAvatar.params = {'image': avatar, 'name' : name, 'type': type};
+        this.$.ajaxUploadAvatar.go();
       },
       tasksLoaded:function() {
         var tasks = this.$.ajaxGetTasks.response.slice(0);
@@ -239,4 +264,6 @@
                 localStorage.removeItem('user_id');
                 location.reload();
             }
-    });
+});
+
+
