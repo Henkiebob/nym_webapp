@@ -13,6 +13,7 @@
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-image/core-image.html">
 <link rel="import" href="../custom/single-groupmember.html">
 <link rel="import" href="single-task-settings.html">
 
@@ -48,6 +49,11 @@
       on-core-response="{{taskDeleted}}"
       handleAs="json"
       method="DELETE">
+    </core-ajax>
+    
+    <core-ajax id="ajaxUploadAvatar"
+      auto="false"
+      method="PUT">
     </core-ajax>
 
     <core-toolbar>
@@ -97,8 +103,9 @@
                 
                 <div class="user">
                     <div class="avatar">
-                        <img src="http://178.62.205.200{{me.avatar}}" alt="avatar">
-                        <input type="file">
+                        <!--<img src="http://178.62.205.200{{me.avatar}}" id="avatar">-->
+                        <core-image src="{{me.avatar}}" style="width:130px; height:130px;" sizing="cover"></core-image>
+                        <input type="file" on-change="{{selectAvatar}}">
                     </div>
                                         
                     <paper-input-decorator label="Naam">

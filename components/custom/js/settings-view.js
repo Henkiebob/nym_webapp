@@ -1,11 +1,15 @@
 Polymer({
 	ready:function(){
+        //this.domain = "http://localhost:3000";
+        this.domain = "http://178.62.205.200";
+        
 		var auth = {'Authorization': 'Token token='+localStorage.token};
 		this.$.ajaxGetTasks.headers = auth;
 		this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
 		this.$.updateTask.headers = auth;
 		this.$.deleteTask.headers = auth;
 	    this.$.saveTask.headers = auth;
+        this.$.ajaxUploadAvatar.headers = auth;
         
 	    if(localStorage.house_id && localStorage.token){
 	        this.$.ajaxGetTasks.go();
@@ -20,6 +24,8 @@ Polymer({
 	            return obj.id == localStorage.user_id;
 	        });
 	        this.me = me[0];
+            
+            this.me.avatar = 'http://178.62.205.200'+this.me.avatar;
             	        
 	        var group = users.filter(function(obj){
 	            return obj.id != localStorage.user_id;
@@ -215,6 +221,26 @@ Polymer({
         this.toolbarname = 'Taakbeheer';
         this.$.pages.selected = 0;
 	},
+    selectAvatar:function(event){
+        if(event.target.files[0]){            
+            var reader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+
+            name = event.target.files[0].name;
+            type = event.target.files[0].type;
+            
+            that = this;
+            reader.onload = function(e){
+                that.me.avatar = e.target.result;
+                //that.processAvatar(e.target.result, name, type);
+            };
+        }
+    },
+    processAvatar:function(avatar, name, type){
+        this.$.ajaxUploadAvatar.url = this.domain+"/api/users/upload/"+localStorage.user_id;
+        this.$.ajaxUploadAvatar.params = {'image': avatar, 'name' : name, 'type': type};
+        this.$.ajaxUploadAvatar.go();
+    },
     updateUsernameBackUp:function(){
         this.usernameBackUp = this.me.name.toString();  
     },
