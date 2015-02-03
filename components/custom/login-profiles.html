@@ -4,7 +4,106 @@
 
 <polymer-element name="login-profiles">
 	<template>
-  <link rel="stylesheet" type="text/css" href="style/login-profiles.css">
+  <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+paper-button{
+  background:white;
+  width:90%;
+  color:#DC5957;
+  text-transform: none;
+  margin-bottom:15px;
+}
+
+h2{
+  text-align:center;
+  font-size:18px;
+  margin:20px 0;
+  color:#FFF;
+}
+
+core-animated-pages > div{
+  text-align:center;
+  width:100vw;
+  height:100vh;
+  margin:0 auto;
+  background:#DC5957;
+  overflow-y:hidden;
+}
+
+.photos{
+  position:relative;
+  width:200px;
+  height:200px;
+  margin:40px auto;
+  transform-style:preserve-3d;
+}
+
+.photos img{
+  position:absolute;
+  left:0;
+  top:0;
+  width:200px;
+  height:200px;
+  border-radius:100px;
+  border:2px solid #FFF;
+  backface-visibility:hidden;
+}
+
+input{
+  display:block;
+  width:90%;
+  max-width:400px;
+  height:40px;
+  margin:0 auto 20px;
+  background:none;
+  border:1px solid #FFF;
+  padding:0 10px;
+  font-size:18px;
+  color:#FFF;
+  border-radius:3px;
+  transition:all 100ms;
+  -webkit-appearance:none;
+    border-radius:0;
+}
+
+input:focus{
+  outline:none;
+}
+
+input[type="text"]:focus, input[type="password"]:focus{
+  border-left-width:7px;
+}
+
+input[type="submit"]{
+  background:#FFF;
+  color:#DC5957;
+}
+
+::-webkit-input-placeholder{
+   color:rgba(255,255,255,0.8);
+}
+:-moz-placeholder{
+   color:rgba(255,255,255,0.8);
+}
+::-moz-placeholder{
+   color:rgba(255,255,255,0.8);
+}
+:-ms-input-placeholder{
+   color:rgba(255,255,255,0.8);
+}
+
+ul{
+  width:300px;
+  margin:0 auto;
+}
+
+
+  </style>
 
 		<core-ajax id="ajaxLogin"
 			auto="false"
@@ -20,18 +119,19 @@
 		</core-ajax>
 
 		<core-animated-pages id="pages" selected="0" transitions="slide-from-right">
-			<div>
-				<div class="photos">
-					<img src="../../images/logo.svg" class="logo">
-					<!--<img src="group.png" class="group">-->
-				</div>
+			<div style="overflow-y:scroll !important">
+        <div style="height:575px">
+  				<div class="photos">
+  					<img src="../../images/logo.svg" class="logo">
+  					<!--<img src="group.png" class="group">-->
+  				</div>
 
-				<input type="text" id="housename" placeholder="Groepsnaam">
-				<input type="password" id="password" placeholder="Wachtwoord">
+  				<input type="text" id="housename" placeholder="Groepsnaam" autofocus="true">
+  				<input type="password" id="password" placeholder="Wachtwoord" autofocus="true">
 
-				<input type="submit" value="Inloggen" on-tap="{{login}}">
-
-        <a on-tap="{{register}}">Registreren</a>
+  				<paper-button raised class="big-button" role="button" on-tap="{{login}}">Inloggen</paper-button>
+          <paper-button raised class="big-button" role="button" on-tap="{{register}}">Registreren</paper-button>
+        </div>
 			</div>
 			<div>
 				<h2>Met wie heb ik het genoegen?</h2>

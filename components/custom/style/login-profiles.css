@@ -4,6 +4,15 @@
   box-sizing:border-box;
 }
 
+paper-button{
+  background:white;
+  width:90%;
+  color:#DC5957;
+  text-transform: none;
+  margin-bottom:10px;
+  float:left;
+}
+
 h2{
   text-align:center;
   font-size:18px;
@@ -80,7 +89,9 @@ input[type="submit"]{
 :-ms-input-placeholder{
    color:rgba(255,255,255,0.8);
 }
+
 ul{
   width:300px;
   margin:0 auto;
 }
+
