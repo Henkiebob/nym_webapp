@@ -75,9 +75,6 @@ Polymer({
 
         this.$.addUsers.go();
       },
-      goToLogin:function() {
-        location.reload();
-      },
       back:function(){
         var current_page = this.$.pages.selected;
 
@@ -91,7 +88,19 @@ Polymer({
         this.uploadMessage = "Afbeelding geselecteerd";
       },
       usersAdded:function(){
-        this.$.pages.selected = 2;
+        that = this;
+
+        swal({
+          title:'Huis aangemaakt',
+          text:'Iedereen is uitgenodigd!',
+          showCancelButton:false,
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Aan de slag!',
+          closeOnConfirm:true
+          }, function(){
+            that.fire('go-to', {page:'login'});
+          });
+
       }
 });
 

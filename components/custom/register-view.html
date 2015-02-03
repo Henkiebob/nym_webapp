@@ -9,6 +9,9 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../core-toolbar/core-toolbar.html">
 
+<script src="../../lib/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
+
 <link rel="import" href="new-groupmember.html">
 <link rel="import" href="new-error.html">
 
@@ -43,15 +46,15 @@
           <form class="file-form" method="post" enctype="multipart/form-data">
 
             <paper-input-decorator label="Groepsnaam">
-            <input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam"/>
+              <input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam" autofocus="true"/>
             </paper-input-decorator>
 
             <paper-input-decorator label="Groepswachtwoord">
-            <input id="password" is="core-input" name="password" type="password" value="{{housepassword}}"/>
+              <input id="password" is="core-input" name="password" type="password" value="{{housepassword}}"/>
             </paper-input-decorator>
 
-            <paper-input-decorator label="Wachtwoord confirmatie">
-            <input id="password" is="core-input" name="password" type="password" value="{{housepassword_confirmation}}"/>
+            <paper-input-decorator label="Groepswachtwoord nog een keer">
+              <input id="password" is="core-input" name="password" type="password" value="{{housepassword_confirmation}}"/>
             </paper-input-decorator>
 
             <span>Iets wat iedereen makkelijk kan onthouden, zoals het wifi wachtwoord.</span>
@@ -86,10 +89,6 @@
         </div>
       </div>
 
-      <div id="stepthree">
-        <h1>Je bent geregistreerd, alle huisgenoten krijgen een e-mail met daarin een uitnodiging</h1>
-        <paper-button on-tap="{{goToLogin}}">Joepie</paper-button>
-      </div>
 
     </core-animated-pages>
   </template>
