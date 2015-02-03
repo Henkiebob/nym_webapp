@@ -13,6 +13,7 @@
             this.me = me[0];
             this.username = this.me.name;
             this.avatar = this.domain+this.me.avatar;
+            console.log(this.avatar);
 
             this.headername = this.username;
 
@@ -22,33 +23,33 @@
             this.$.ajaxUpdateTask.headers = auth;
             this.$.ajaxAddTaskToLog.headers = auth;
             this.$.ajaxGetLog.headers = auth;
-            
+
             //this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
             //this.$.ajaxGetTasks.go();
-            
+
             this.$.ajaxGetLog.url = this.domain+'/api/logs/';
             this.$.ajaxGetLog.go();
 
             this.$.tasks_todo.opened = true;
             this.$.tasks_done.opened = true;
-            
+
             this.tasks = [];
             this.tasks_open = [];
             this.tasks_done = [];
 
             this.tasks_group = [];
             this.tasks_group_done = [];
-            
+
             this.header_todo = 0;
             this.header_done = 0;
-            
+
             this.total_points = 0;
-            
+
             this.tasksLoaded();
         }
       },
       logLoaded:function(event, detail, sender){
-          var done_tasks = detail.response;          
+          var done_tasks = detail.response;
 
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
@@ -60,8 +61,8 @@
                 this.tasks_group_done.push(task);
                 task.avatar = this.users[task.user_id].avatar;
               }
-              
-              //points              
+
+              //points
               var user = this.users.filter(function(obj){
                   return obj.id == task.user_id;
               });
@@ -70,7 +71,7 @@
               }else{
                   user[0]['points'] = Number(task.points);
               }
-              
+
               this.total_points += Number(task.points);
           }
           //localStorage.users = JSON.stringify(this.users);
@@ -78,7 +79,7 @@
       tasksLoaded:function(event, detail, sender){
         //var tasks = detail.response;
         var tasks = JSON.parse(this.alltasks);
-                    
+
         for(var i = 0; i < tasks.length; i++){
             var task = tasks[i];
             if(task.user_id == localStorage.user_id){ //Task picked-up by user
@@ -158,7 +159,7 @@
             };
 
             this.$.ajaxAddTaskToLog.go();
-            
+
             //points
             if(this.me.points){
                 this.me.points += Number(task.points);

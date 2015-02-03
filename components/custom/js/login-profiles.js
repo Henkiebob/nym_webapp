@@ -25,7 +25,14 @@ Polymer({
           var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
 
           if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
-              console.log('wrong inlog');
+              that = this;
+
+              swal({
+                title:'Geen geldige gegevens',
+                text:'',
+                type:'error'
+                });
+
           }else{
               localStorage.house_id = house.id; //response.apikey[0].house_id;
               localStorage.groupName =  house.name;
@@ -35,7 +42,7 @@ Polymer({
 	},
 	loadUsers:function(){
         if(!localStorage.users){
-            this.$.ajaxGetUsers.url = this.domain+'/api/houses/habitants/'+localStorage.house_id;  
+            this.$.ajaxGetUsers.url = this.domain+'/api/houses/habitants/'+localStorage.house_id;
             this.$.ajaxGetUsers.headers = {'Authorization':'Token token='+localStorage.token};
             this.$.ajaxGetUsers.go();
         }else{
@@ -48,7 +55,7 @@ Polymer({
             localStorage.users = JSON.stringify(this.users);
         }else{
             this.users = JSON.parse(localStorage.users);
-        }		
+        }
 
 		this.$.pages.selected = 1;
 	},
