@@ -55,9 +55,9 @@ header #photos .img{
   background-repeat:no-repeat;
 }
 
-      header #photos .img.group{
-          transform:rotateY(180deg);
-      }
+header #photos .img.group{
+  transform:rotateY(180deg);
+}
 
 header paper-tabs{
   height:40px;
@@ -70,6 +70,12 @@ header paper-tabs::shadow #selectionBar{
 
 header paper-tabs core-icon{
   width:18px;
+}
+
+@media (max-width:420px){
+    header paper-tabs span{
+        display:none;
+    }
 }
 
 .content{
@@ -119,7 +125,7 @@ paper-tabs paper-tab::shadow #ink{
     position: absolute;
 }
 
-core-icon[icon="backspace"]{
+core-icon[icon="refresh"]{
     position:absolute;
     left:20px;
     top:30px;

@@ -1,5 +1,5 @@
   Polymer({
-      ready:function(){
+      alltasksChanged:function(){
         //this.domain = "http://localhost:3000";
         this.domain = "http://178.62.205.200";
         if(localStorage.house_id && localStorage.token) {
@@ -17,48 +17,39 @@
             this.headername = this.username;
 
             var auth = {'Authorization': 'Token token='+localStorage.token};
-            this.$.ajaxGetTasks.headers = auth;
-            this.$.ajaxGetTasks.url = this.domain+"/api/tasks";
+            //this.$.ajaxGetTasks.headers = auth;
+            //this.$.ajaxGetTasks.url = this.domain+"/api/tasks";
             this.$.ajaxUpdateTask.headers = auth;
             this.$.ajaxAddTaskToLog.headers = auth;
             this.$.ajaxGetLog.headers = auth;
-
-            this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
-            this.$.ajaxGetTasks.go();
+            
+            //this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
+            //this.$.ajaxGetTasks.go();
+            
+            this.$.ajaxGetLog.url = this.domain+'/api/logs/';
+            this.$.ajaxGetLog.go();
 
             this.$.tasks_todo.opened = true;
             this.$.tasks_done.opened = true;
+            
+            this.tasks = [];
+            this.tasks_open = [];
+            this.tasks_done = [];
 
-            this.$.ajaxGetLog.url = this.domain+'/api/logs/';
-            this.$.ajaxGetLog.go();
+            this.tasks_group = [];
+            this.tasks_group_done = [];
+            
+            this.header_todo = 0;
+            this.header_done = 0;
+            
+            this.total_points = 0;
+            
+            this.tasksLoaded();
         }
       },
-      logLoaded:function(event, detail, sender) {
-        logs = [];
+      logLoaded:function(event, detail, sender){
+          var done_tasks = detail.response;          
 
-        for(var c = 0; c < detail.response.length; c++){
-          logs.push(detail.response[c]);
-        }
-
-        localStorage.task_logged = JSON.stringify(logs);
-
-      },
-      tasksLoaded:function() {
-        var tasks = this.$.ajaxGetTasks.response.slice(0);
-
-        this.tasks = [];
-        this.tasks_open = [];
-        this.tasks_done = [];
-
-        this.tasks_group = [];
-        this.tasks_group_done = [];
-
-        this.header_todo = 0;
-        this.header_done = 0;
-
-        if (localStorage.getItem("task_logged") !== null) {
-          var done_tasks = JSON.parse(localStorage.task_logged);
-          // //done tasks
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
 
@@ -69,12 +60,27 @@
                 this.tasks_group_done.push(task);
                 task.avatar = this.users[task.user_id].avatar;
               }
+              
+              //points              
+              var user = this.users.filter(function(obj){
+                  return obj.id == task.user_id;
+              });
+              if(user[0]['points']){
+                  user[0]['points'] += Number(task.points);
+              }else{
+                  user[0]['points'] = Number(task.points);
+              }
+              
+              this.total_points += Number(task.points);
           }
-        }
-
-        //open tasks
+          //localStorage.users = JSON.stringify(this.users);
+      },
+      tasksLoaded:function(event, detail, sender){
+        //var tasks = detail.response;
+        var tasks = JSON.parse(this.alltasks);
+                    
         for(var i = 0; i < tasks.length; i++){
-          var task = tasks[i];
+            var task = tasks[i];
             if(task.user_id == localStorage.user_id){ //Task picked-up by user
               this.tasks.push(task);
               this.header_todo++;
@@ -82,7 +88,7 @@
               this.tasks_open.push(task);
             }else{ //Task picked-up by groupmember
               this.tasks_group.push(task);
-              task.avatar = this.users[task.user_id].avatar;
+              task.avatar = this.domain+this.users[task.user_id].avatar;
             }
           //console.log('id: '+task.id+', name: '+task.name+', user: '+task.user_id+', status: '+task.status+', points: '+task.points);
         }
@@ -99,65 +105,72 @@
         this.$.ajaxUpdateTask.go();
       },
       finishTask:function(event, detail, sender){
-        var task = this.tasks[detail.task_pos];
+          var task = this.tasks[detail.task_pos];
 
-                if(detail.task_id == task.id){
+        if(detail.task_id == task.id){
 
-                    // //duplicate to done list
-                    var task_done = (JSON.parse(JSON.stringify(task)));
-                    task_done.deadline = new Date;
-                    this.tasks_done.push(task_done);
+            // //duplicate to done list
+            var task_done = (JSON.parse(JSON.stringify(task)));
+            task_done.deadline = new Date;
+            this.tasks_done.push(task_done);
 
-                    //remove from todo list
-                    this.tasks.splice(detail.task_pos, 1);
+            //remove from todo list
+            this.tasks.splice(detail.task_pos, 1);
 
-                    //add to open list
-                    this.tasks_open.push(task);
+            //add to open list
+            this.tasks_open.push(task);
 
-                    //update header
-                    this.header_todo--;
-                    this.header_done++;
+            //update header
+            this.header_todo--;
+            this.header_done++;
 
-                    //set new deadline @TODO fix real deadlines
-                    if(!task.duration) task.duration = 7;
-                    var date = new Date;
-                    var next = date.setDate(date.getDate() + task.duration);
+            //set new deadline @TODO fix real deadlines
+            if(!task.duration) task.duration = 7;
+            var date = new Date;
+            var next = date.setDate(date.getDate() + task.duration);
 
-                    var deadline = new Date(next),
-                        day = deadline.getDate(),
-                        month = deadline.getMonth(),
-                        months =  [
-                                    "januari",
-                                    "februari",
-                                    "maart",
-                                    "april",
-                                    "mei",
-                                    "juni",
-                                    "juli",
-                                    "augustus",
-                                    "september",
-                                    "oktober",
-                                    "november",
-                                    "december"
-                                  ];
+            var deadline = new Date(next),
+                day = deadline.getDate(),
+                month = deadline.getMonth(),
+                months =  [
+                            "januari",
+                            "februari",
+                            "maart",
+                            "april",
+                            "mei",
+                            "juni",
+                            "juli",
+                            "augustus",
+                            "september",
+                            "oktober",
+                            "november",
+                            "december"
+                          ];
 
-                    task.deadline = day+' '+months[month];
+            task.deadline = day+' '+months[month];
 
-                    //add task to log
-                    this.$.ajaxAddTaskToLog.url = this.domain+'/api/logs/';
-                    this.$.ajaxAddTaskToLog.params = {
-                      'log[name]': task.name,
-                      'log[user_id]' : localStorage.user_id,
-                      'log[points]'  : task.points
-                    };
+            //add task to log
+            this.$.ajaxAddTaskToLog.url = this.domain+'/api/logs/';
+            this.$.ajaxAddTaskToLog.params = {
+              'log[name]': task.name,
+              'log[user_id]' : localStorage.user_id,
+              'log[points]'  : task.points
+            };
 
-                    this.$.ajaxAddTaskToLog.go();
+            this.$.ajaxAddTaskToLog.go();
+            
+            //points
+            if(this.me.points){
+                this.me.points += Number(task.points);
+            }else{
+                this.me.points = Number(task.points);
+            }
 
-                    //update task date
-                    this.$.ajaxUpdateTask.url = this.domain+'/api/tasks/'+detail.task_id;
-                    this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next), 'task[user_id]':''};
-                    this.$.ajaxUpdateTask.go();
-                }
+            //update task date
+            this.$.ajaxUpdateTask.url = this.domain+'/api/tasks/'+detail.task_id;
+            this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next), 'task[user_id]':''};
+            this.$.ajaxUpdateTask.go();
+        }
       },
       taskUpdated:function(event, detail, sender){
         //console.log()
@@ -208,7 +221,7 @@
 
         if(localStorage.groupName){
               this.headername = localStorage.groupName;
-        } else{
+        }else{
              this.headername = 'GROEP';
         }
 
@@ -225,19 +238,11 @@
 
       },
       gotoSettings:function(){
-          that = this;
-          Polymer.import(['components/custom/settings-view.html'], function(){
-             that.fire('go-to', {page:'settings'});
-          });
+          this.fire('go-to', {page:'settings'});
       },
-            logout:function(){
-                localStorage.clear();
-                location.reload();
-            },
-            userSwitch:function(){
-                localStorage.removeItem('user_id');
-                location.reload();
-            }
+      refresh:function(){
+          this.fire('reload');
+      }
 });
 
 

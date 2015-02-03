@@ -10,23 +10,24 @@
 <link rel="import" href="single-task-open.html">
 <link rel="import" href="single-task-group.html">
 <link rel="import" href="single-task-done.html">
+<link rel="import" href="user-points.html">
 
-<polymer-element name="tasks-view" attributes="start">
+<polymer-element name="tasks-view" attributes="start alltasks">
 	<template>
   <link rel="stylesheet" type="text/css" href="style/tasks-view.css">
-		<core-ajax id="ajaxGetTasks"
+		<!--<core-ajax id="ajaxGetTasks"
 			auto="false"
 			on-core-response="{{tasksLoaded}}"
 			handleAs="json"
 			method="GET">
-		</core-ajax>
+		</core-ajax>-->
 
-		<core-ajax id="ajaxUpdateTask"
-			auto="false"
-			on-core-response="{{taskUpdated}}"
-      handleAs="json"
-			method="PUT">
-		</core-ajax>
+    <core-ajax id="ajaxUpdateTask"
+        auto="false"
+        on-core-response="{{taskUpdated}}"
+        handleAs="json"
+        method="PUT">
+    </core-ajax>
 
     <core-ajax id="ajaxAddTaskToLog"
       auto="false"
@@ -45,11 +46,9 @@
 			<header>
 				<h1>{{headername}}</h1>
 
-				<!--<paper-button class="logout" on-tap="{{logout}}">Uitloggen</paper-button>-->
+				<core-icon icon="refresh" on-tap="{{refresh}}"></core-icon>
 
-				<core-icon class="logout_btn" icon="backspace" on-tap="{{userSwitch}}"></core-icon>
-
-				<core-icon class="settings_btn" icon="settings" on-tap="{{gotoSettings}}"></core-icon>
+				<core-icon icon="settings" on-tap="{{gotoSettings}}"></core-icon>
 
 				<div id="photos">
 					<div class="img single" style="background-image:url({{avatar}})"></div>
@@ -57,9 +56,9 @@
 				</div>
 
 				<paper-tabs selected="0" noink="true">
-					<paper-tab on-tap="{{headerToTodo}}"><core-icon icon="subject"></core-icon> {{header_todo}} taken</paper-tab>
-					<paper-tab on-tap="{{headerToDone}}"><core-icon icon="done-all"></core-icon> {{header_done}} afgerond</paper-tab>
-					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{header_points}} punten</paper-tab>
+					<paper-tab on-tap="{{headerToTodo}}"><core-icon icon="subject"></core-icon> {{header_todo}} <span>&nbsp;taken</span></paper-tab>
+					<paper-tab on-tap="{{headerToDone}}"><core-icon icon="done-all"></core-icon> {{header_done}} <span>&nbsp;afgerond</span></paper-tab>
+					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{me.points}} <span>&nbsp;punten</span></paper-tab>
 				</paper-tabs>
 			</header>
 
@@ -70,9 +69,8 @@
 
 							<h2>Wat moet ik nog gaan doen?</h2>
 
-
 							<template repeat="{{task, taskIndex in tasks}}">
-								<single-task name="{{task.name}}" duration="{{task.duration}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>
+								<single-task name="{{task.name}}" duration="{{task.duration}}" created_at="{{task.created_at}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-finish-task="{{finishTask}}"></single-task>
 							</template>
 						</core-collapse>
 
@@ -80,7 +78,7 @@
 							<h2>Wat wordt door de anderen gedaan?</h2>
 
 							<template repeat="{{task in tasks_group}}">
-								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} avatar="{{task.avatar}}"></single-task-group>
+								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}"></single-task-group>
 							</template>
 						</core-collapse>
 
@@ -88,7 +86,7 @@
 							<h2>Wat kan ik nog gaan doen?</h2>
 
 							<template repeat="{{task, taskIndex in tasks_open}}">
-								<single-task-open name="{{task.name}}" deadline="{{task.deadline}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-pick-task="{{pickTask}}"></single-task>
+								<single-task-open name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} task_position="{{taskIndex}}" task_id="{{task.id}}" on-pick-task="{{pickTask}}"></single-task>
 							</template>
 						</section>
 					</div>
@@ -97,7 +95,7 @@
 							<h2>Wat ik al gedaan heb</h2>
 
 							<template repeat="{{task in tasks_done}}">
-								<single-task-done name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}}></single-task-done>
+								<single-task-done name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} done="done"></single-task-done>
 							</template>
 						</core-collapse>
 
@@ -109,8 +107,10 @@
 							</template>
 						</core-collapse>
 					</div>
-					<div>
-						Points
+					<div>						
+						<template repeat="{{user in users}}">
+                            <user-points name="{{user.name}}" points={{user.points}} avatar="{{user.avatar}}" max="{{total_points}}"></user-points>
+                        </template>
 					</div>
 				</core-animated-pages>
 			</div>

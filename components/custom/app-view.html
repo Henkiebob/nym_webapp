@@ -1,23 +1,30 @@
 <link rel="import" href="../paper-spinner/paper-spinner.html">
 <link rel="import" href="../core-collapse/core-collapse.html">
 
-<!--<link rel="import" href="../custom/login-profiles.html">
-<link rel="import" href="../custom/tasks-view.html">-->
+<link rel="import" href="../custom/login-profiles.html">
+<link rel="import" href="../custom/tasks-view.html">
 <link rel="import" href="../custom/settings-view.html">
 
 <polymer-element name="app-view">
 	<template>
-  <link rel="stylesheet" type="text/css" href="style/app-view.css">
-		<core-collapse id="settings">
-            <settings-view on-go-to="{{goTo}}"></settings-view>
+        <core-ajax id="ajaxGetTasks"
+			auto="false"
+			on-core-response="{{tasksLoaded}}"
+			handleAs="json"
+			method="GET">
+		</core-ajax>
+     
+      <link rel="stylesheet" type="text/css" href="style/app-view.css">
+		<core-collapse id="settings" on-reload="{{reloadTasks}}">
+            <settings-view alltasks="{{tasks}}" on-go-to="{{goTo}}"></settings-view>
         </core-collapse>
 
         <core-collapse id="tasks" fixedSize="false">
-            <tasks-view start="false" on-go-to="{{goTo}}"></tasks-view>
+            <tasks-view alltasks="{{tasks}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}"></tasks-view>
         </core-collapse>
 
         <core-collapse id="login" fixedSize="true" class="fixedpage">
-            <login-profiles on-go-to="{{goTo}}"></login-profiles>
+            <login-profiles on-go-to="{{goTo}}" on-goto-tasks="{{loadTasks}}"></login-profiles>
         </core-collapse>
 
         <core-collapse id="register">

@@ -22,16 +22,16 @@ Polymer({
 	},
 	houseLoggedIn:function(){
 		var house  = JSON.parse(this.$.ajaxLogin.response)[0];
-	          var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
+          var apikey = JSON.parse(this.$.ajaxLogin.response)[1];
 
-	          if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
-	              console.log('wrong inlog');
-	          }else{
-	              localStorage.house_id = house.id; //response.apikey[0].house_id;
-	              localStorage.groupName =  house.name;
-	              localStorage.token = apikey.access_token;
-	              this.loadUsers();
-	          }
+          if(JSON.parse(this.$.ajaxLogin.response) == "Geen geldige gegevens"){
+              console.log('wrong inlog');
+          }else{
+              localStorage.house_id = house.id; //response.apikey[0].house_id;
+              localStorage.groupName =  house.name;
+              localStorage.token = apikey.access_token;
+              this.loadUsers();
+          }
 	},
 	loadUsers:function(){
         if(!localStorage.users){
@@ -54,13 +54,14 @@ Polymer({
 	},
 	goToTasks:function(event, detail, sender){
 		if(detail) localStorage.user_id = detail.user_id;
-	          that = this;
+	    /*      that = this;
 		Polymer.import(['components/custom/tasks-view.html'], function(){
 	              that.fire('go-to', {page:'tasks'});
-	          });
+	          });*/
+        this.fire('goto-tasks');
 	},
-	      register:function(event, detail, sender) {
-	          Polymer.import(['components/custom/register-view.html']);
-	          this.fire('go-to', {page:'register'});
-	      }
+  register:function(event, detail, sender) {
+      Polymer.import(['components/custom/register-view.html']);
+      this.fire('go-to', {page:'register'});
+  }
 });

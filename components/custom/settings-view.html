@@ -20,16 +20,16 @@
 <script src="../../lib/sweet-alert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
 
-<polymer-element name="settings-view">
+<polymer-element name="settings-view" attributes="alltasks">
 	<template>
   <link rel="stylesheet" type="text/css" href="style/settings-view.css">
-		<core-ajax id="ajaxGetTasks"
+		<!--<core-ajax id="ajaxGetTasks"
             auto="false"
             url="http://178.62.205.200/api/tasks"
             on-core-response="{{tasksLoaded}}"
             handleAs="json"
             method="GET">
-		</core-ajax>
+		</core-ajax>-->
 
     <core-ajax id="updateTask"
       auto="false"
@@ -109,7 +109,7 @@
                     </div>
                                         
                     <paper-input-decorator label="Naam">
-                        <input type="text" value="{{me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
+                        <input id="name" type="text" value="{{me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
                     </paper-input-decorator>
                     
                     <p><core-icon icon="mail"></core-icon>  {{me.email}}</p>

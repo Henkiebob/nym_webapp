@@ -1,23 +1,19 @@
 Polymer({
-	ready:function(){
+	alltasksChanged:function(){
         //this.domain = "http://localhost:3000";
         this.domain = "http://178.62.205.200";
         
 		var auth = {'Authorization': 'Token token='+localStorage.token};
-		this.$.ajaxGetTasks.headers = auth;
-		this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
+		//this.$.ajaxGetTasks.headers = auth;
+		//this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
 		this.$.updateTask.headers = auth;
 		this.$.deleteTask.headers = auth;
 	    this.$.saveTask.headers = auth;
         this.$.ajaxUploadAvatar.headers = auth;
-        
-	    if(localStorage.house_id && localStorage.token){
-	        this.$.ajaxGetTasks.go();
-	    }
 	    
 	    this.toolbarname = 'Taakbeheer';
 	    
-	    if(localStorage.users){
+	    if(localStorage.users && localStorage.user_id){
 	        var users = JSON.parse(localStorage.users);
 	                            
 	        var me = users.filter(function(obj){
@@ -43,7 +39,9 @@ Polymer({
 	    rotate.duration = 300;
 	    rotate.fill = 'forwards';
 	    rotate.target = this.$.addBtn;
-	},
+
+        this.tasksLoaded();
+    },
     sortTasks:function(a,b){
         var a_name = a.name.toUpperCase();
         var b_name = b.name.toUpperCase();
@@ -57,8 +55,8 @@ Polymer({
         }
     },
 	tasksLoaded:function(){
-		this.tasks = this.$.ajaxGetTasks.response;
-	    
+		//this.tasks = this.$.ajaxGetTasks.response;
+        this.tasks = JSON.parse(this.alltasks);
 	    this.tasks.sort(this.sortTasks);
 	},
     editTask:function(sender, detail, event){
@@ -87,16 +85,6 @@ Polymer({
         }];
         rotate.play();
     },
-	/*updateTask:function(sender, detail, event){
-		console.log('update task '+detail.task_id+' ("'+detail.name+'")');
-
-		this.$.updateTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
-		this.$.updateTask.params = {'task[name]':detail.name, 'task[points]':detail.points};
-		this.$.updateTask.go();
-	},
-	taskUpdated:function(){
-		console.log('task updated');
-	},*/
     checkDelete:function(sender, detail, event){
         if(event.checked === true){
             this.$.btn_delete.hidden = false;
@@ -182,21 +170,26 @@ Polymer({
             points = 5;
         }
         
+        var date = new Date;
+        var next = date.setDate(date.getDate() + duration);
+        var deadline = new Date(next);
+        
 	    if(this.newTaskName){
 	        this.$.saveTask.params = {
 	            'task[name]':this.newTaskName,
 	            'task[house_id]':localStorage.house_id,
 	            'task[duration]':duration,
-                'task[points]':points
+                'task[points]':points,
+                'task[deadline]':deadline
 	        };
 
 	        this.$.saveTask.go();
 	    }else{
+            //SWAL
 	        this.$.name.focus();
 	    }
 	},
-	taskSaved:function(sender, detail, event){   
-        
+	taskSaved:function(sender, detail, event){        
         if(this.editTaskList != null){
             this.tasks[this.editTaskList] = detail.response;
             
@@ -220,6 +213,8 @@ Polymer({
         
         this.toolbarname = 'Taakbeheer';
         this.$.pages.selected = 0;
+        
+        this.fire('reload');
 	},
     selectAvatar:function(event){
         if(event.target.files[0]){            

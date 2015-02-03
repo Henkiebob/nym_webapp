@@ -1,0 +1,61 @@
+<polymer-element name="user-points" attributes="name avatar points max">
+	<template>
+		<style>
+*{
+    box-sizing:border-box;
+}
+.graph{
+    width:100%;
+    height:40px;
+    padding:11px 15px;
+    margin-bottom:20px;
+}
+.bar{
+    width:100%;
+    height:20px;
+    background:#FFF;
+    box-shadow:0px 2px 8px 0px rgba(0,0,0,0.35);
+}
+.bar #fill{
+    position:relative;
+    background:#DC5957;
+    width:0;
+    height:100%;
+    min-width:20px;
+}
+.bar #fill core-image{
+    width:40px;
+    height:40px;
+    position:absolute;
+    top:-11px;
+    right:-10px;
+    border-radius:50%;
+    border:1px solid #B5B5B5;
+    background-color:#FFF;
+}
+		</style>
+		<div class="graph">
+		    <div class="bar">
+		        <div id="fill">
+		              <core-image id="avatar" src="{{avatar}}" sizing="cover"></core-image>  
+		        </div>
+		    </div>
+		</div>	
+		<!--<p>{{name}}: {{points}}</p>-->
+	</template>
+	<script>
+Polymer({
+    ready:function(){
+        this.avatar = 'http://178.62.205.200'+this.avatar;
+    },
+    pointsChanged:function(){
+        if(!this.points){
+            this.points = 0;
+        }
+        
+        var perc = (100 / this.max) * this.points;        
+        this.$.fill.style.width = perc+'%';
+    }
+});
+	</script>
+</polymer-element>

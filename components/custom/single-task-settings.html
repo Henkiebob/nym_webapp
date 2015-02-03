@@ -1,4 +1,4 @@
-<polymer-element name="single-task-settings" attributes="name duration deadline points task_id list_position">
+<polymer-element name="single-task-settings" attributes="name duration deadline points task_id list_position created_at">
 	<template>	
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
 		
@@ -46,7 +46,7 @@ input:focus{
 				<span class="points">{{points}}</span>
 				
 				<core-icon icon="alarm"></core-icon> 
-				<span class="points">{{drationLabel}}</span>
+				<span class="points">{{durationLabel}}</span>
 				
 				<!--<core-icon icon="alarm"></core-icon> {{deadline}}-->
 			</div>
@@ -65,11 +65,13 @@ Polymer({
         }
         
         if(this.duration == 1){
-            this.drationLabel = 'Dagelijks';
+            this.durationLabel = 'Dagelijks';
         }else if(this.duration == 7){
-            this.drationLabel = 'Wekelijks';
-        }if(this.duration == 28){
-            this.drationLabel = 'Maandelijk';
+            this.durationLabel = 'Wekelijks';
+        }else if(this.duration == 28){
+            this.durationLabel = 'Maandelijk';
+        }else if(this.duration == 0){
+            this.durationLabel = 'Eenmalig';
         }
 		//animate = {};
 	},
