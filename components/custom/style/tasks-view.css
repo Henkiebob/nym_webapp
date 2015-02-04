@@ -72,9 +72,9 @@ header paper-tabs core-icon{
   width:18px;
 }
 
-@media (max-width:420px){
-    header paper-tabs span{
-        display:none;
+@media (max-width:360px){
+    header paper-tabs{
+      font-size:10px;
     }
 }
 
