@@ -2,38 +2,38 @@ Polymer({
 	alltasksChanged:function(){
         //this.domain = "http://localhost:3000";
         this.domain = "http://178.62.205.200";
-        
+
 		var auth = {'Authorization': 'Token token='+localStorage.token};
 		//this.$.ajaxGetTasks.headers = auth;
 		//this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
 		this.$.updateTask.headers = auth;
 		this.$.deleteTask.headers = auth;
-	    this.$.saveTask.headers = auth;
-        this.$.ajaxUploadAvatar.headers = auth;
-	    
+	  this.$.saveTask.headers = auth;
+    this.$.ajaxUploadAvatar.headers = auth;
+
 	    this.toolbarname = 'Taakbeheer';
-	    
+
 	    if(localStorage.users && localStorage.user_id){
 	        var users = JSON.parse(localStorage.users);
-	                            
+
 	        var me = users.filter(function(obj){
 	            return obj.id == localStorage.user_id;
 	        });
 	        this.me = me[0];
-            
-            this.me.avatar = 'http://178.62.205.200'+this.me.avatar;
-            	        
+
+            this.me.avatar = 'http://localhost:3000/'+this.me.avatar;
+
 	        var group = users.filter(function(obj){
 	            return obj.id != localStorage.user_id;
 	        });
 	        this.group = group;
-	        
+
 	        this.users = users;
 	    }
-        
+
         this.editTaskId = null;
         this.editTaskList = null;
-        
+
         //add button animation
         rotate = new CoreAnimation();
 	    rotate.duration = 300;
@@ -49,9 +49,9 @@ Polymer({
         if (a_name < b_name){
             return -1;
         }else if (a_name > b_name){
-            return 1;   
+            return 1;
         }else{
-            return 0;   
+            return 0;
         }
     },
 	tasksLoaded:function(){
@@ -62,22 +62,22 @@ Polymer({
     editTask:function(sender, detail, event){
         this.newTaskName = detail.name;
         this.$.radio.selected = detail.duration;
-        
+
         this.toolbarname = 'Taak bewerken';
-        
+
         this.$.deleteBox.hidden = false;
         this.$.btn_delete.hidden = true;
         this.$.btn_save.hidden = false;
         this.$.deleteBox.children[1].checked = false;
-        
+
         this.$.pages.selected = 1;
-        
+
         this.$.saveTask.method = 'PUT';
         this.$.saveTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
-        
+
         this.editTaskId = detail.task_id;
         this.editTaskList = detail.list;
-        
+
         rotate.keyframes = [{
             transform:'rotateZ(0deg)'
         },{
@@ -96,19 +96,19 @@ Polymer({
     },
 	deleteTask:function(event, detail, sender){
         that = this;
-        
+
         swal({
-	        title:'Taak Verwijderen',   
+	        title:'Taak Verwijderen',
 	        text:'Weet je zeker dat je deze taak wilt verwijderen?',
 	        type:'warning',
 	        showCancelButton:true,
 	        cancelButtonText:'Nee',
 	        confirmButtonColor:"#DC5957",
 	        confirmButtonText:'Ja',
-	        closeOnConfirm:false 
+	        closeOnConfirm:false
 	    }, function(){
             that.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+that.editTaskId;
-            that.$.deleteTask.go(); 
+            that.$.deleteTask.go();
 	    });
 	},
     taskDeleted:function(sender, detail){
@@ -116,7 +116,7 @@ Polymer({
             return obj.id != detail.response.id;
         });
         this.tasks = tasks;
-        
+
         this.$.pages.selected = 0;
         this.editTask = null;
         swal('Taak is verwijderd!', '', 'success');
@@ -124,30 +124,30 @@ Polymer({
 	newTask:function(sender){
 	    if(this.$.pages.selected == 0){
 	        this.toolbarname = 'Taak toevoegen';
-        
+
             this.newTaskName = '';
             this.$.radio.selected = 1;
-            
+
             this.$.deleteBox.hidden = true;
             this.$.btn_delete.hidden = true;
             this.$.btn_save.hidden = false;
             this.$.deleteBox.children[1].checked = false;
-            
+
 		    this.$.pages.selected = 1;
-	        
+
 	        rotate.keyframes = [{
 	            transform:'rotateZ(0deg)'
 	        },{
 	            transform:'rotateZ(45deg)'
 	        }];
 	        rotate.play();
-            
+
             this.$.saveTask.method = 'POST';
             this.$.saveTask.url = 'http://178.62.205.200/api/tasks/';
 	    }else{
 	        this.toolbarname = 'Taakbeheer';
 		    this.$.pages.selected = 0;
-	        
+
 	        rotate.keyframes = [{
 	            transform:'rotateZ(45deg)'
 	        },{
@@ -159,7 +159,7 @@ Polymer({
 	saveTask:function(sender, detail, event){
         var duration = Number(this.$.radio.selected);
         var points = 0;
-        
+
         if(duration == 1){
             points = 5;
         }else if(duration == 7){
@@ -169,11 +169,11 @@ Polymer({
         }else if(duration == 0){
             points = 5;
         }
-        
+
         var date = new Date;
         var next = date.setDate(date.getDate() + duration);
         var deadline = new Date(next);
-        
+
 	    if(this.newTaskName){
 	        this.$.saveTask.params = {
 	            'task[name]':this.newTaskName,
@@ -189,18 +189,18 @@ Polymer({
 	        this.$.name.focus();
 	    }
 	},
-	taskSaved:function(sender, detail, event){        
+	taskSaved:function(sender, detail, event){
         if(this.editTaskList != null){
             this.tasks[this.editTaskList] = detail.response;
-            
+
             swal('Gelukt!', 'De wijzigingen zijn opgeslagen.', 'success');
-            
+
             this.editTaskList = null;
             this.editTaskId = null;
         }else{
             this.tasks.push(detail.response);
             this.tasks.sort(this.sortTasks);
-	   
+
             swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
 
             rotate.keyframes = [{
@@ -210,43 +210,70 @@ Polymer({
             }];
             rotate.play();
         }
-        
+
         this.toolbarname = 'Taakbeheer';
         this.$.pages.selected = 0;
-        
+
         this.fire('reload');
 	},
     selectAvatar:function(event){
-        if(event.target.files[0]){            
+        if(event.target.files[0]){
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]);
 
-            name = event.target.files[0].name;
+            files = event.target.files;
+            file = event.target.files[0];
             type = event.target.files[0].type;
-            
+
             that = this;
             reader.onload = function(e){
-                that.me.avatar = e.target.result;
-                //that.processAvatar(e.target.result, name, type);
+                //that.me.avatar = e.target.result;
+                that.processAvatar(file);
             };
         }
     },
-    processAvatar:function(avatar, name, type){
-        this.$.ajaxUploadAvatar.url = this.domain+"/api/users/upload/"+localStorage.user_id;
-        this.$.ajaxUploadAvatar.params = {'image': avatar, 'name' : name, 'type': type};
-        this.$.ajaxUploadAvatar.go();
+    processAvatar:function(file){
+        // this.$.ajaxUploadAvatar.url = this.domain+"/api/users/upload/"+localStorage.user_id;
+        // this.$.ajaxUploadAvatar.params = {'image': name, 'type': type};
+        // this.$.ajaxUploadAvatar.go();
+
+        var data = new FormData();
+        data.append('image', file);
+
+        $.ajax({
+            url: this.domain+"/api/users/upload/"+localStorage.user_id,
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function(data, textStatus, jqXHR)
+            {
+                if (typeof data.error === 'undefined') {
+                    console.log('succces');
+                }
+                else {
+                    console.log('ERRORS: ' + data.error);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('ERRORS: ' + textStatus);
+            }
+        });
+
     },
     updateUsernameBackUp:function(){
-        this.usernameBackUp = this.me.name.toString();  
+        this.usernameBackUp = this.me.name.toString();
     },
     updateUsername:function(){
         if(this.usernameBackUp != this.me.name){
-            this.usernameUpdated();   
+            this.usernameUpdated();
         }
     },
     usernameUpdated:function(){
         swal({
-	        title:'Gebruikersnaam gewijzigd',   
+	        title:'Gebruikersnaam gewijzigd',
 	        //text:'Weet je zeker dat je van gebruiker wilt wisselen?',
 	        type:'success',
 	        confirmButtonColor:"#DC5957",
@@ -271,33 +298,33 @@ Polymer({
 	    //this.$.pages.selected = 3;
 	},
 	updateUser:function(){
-	    
+
 	},
 	switchUser:function(){
 	    swal({
-	        title:'Afmelden',   
+	        title:'Afmelden',
 	        text:'Weet je zeker dat je van gebruiker wilt wisselen?',
 	        type:'warning',
 	        showCancelButton:true,
 	        cancelButtonText:'Nee',
 	        confirmButtonColor:"#DC5957",
 	        confirmButtonText:'Ja',
-	        closeOnConfirm:false 
+	        closeOnConfirm:false
 	    }, function(){
 	        localStorage.removeItem('user_id');
-	        location.reload(); 
+	        location.reload();
 	    });
 	},
 	logOut:function(){
 	    swal({
-	        title:'Uitloggen',   
+	        title:'Uitloggen',
 	        text:'Weet je zeker dat je wilt uitloggen?',
 	        type:'warning',
 	        showCancelButton:true,
 	        cancelButtonText:'Nee',
 	        confirmButtonColor:"#DC5957",
 	        confirmButtonText:'Ja',
-	        closeOnConfirm:false 
+	        closeOnConfirm:false
 	    }, function(){
 	        localStorage.clear();
 	        location.reload();
@@ -307,3 +334,5 @@ Polymer({
 	    this.fire('go-to', {page:'tasks'});
 	}
 });
+
+

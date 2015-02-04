@@ -50,7 +50,7 @@
       handleAs="json"
       method="DELETE">
     </core-ajax>
-    
+
     <core-ajax id="ajaxUploadAvatar"
       auto="false"
       method="PUT">
@@ -74,24 +74,24 @@
                     <paper-input-decorator label="Taaknaam">
                         <input type="text" value="{{newTaskName}}" id="name">
                     </paper-input-decorator>
-                    
+
                     <h4>Herhaling</h4>
-                    
+
                     <paper-radio-group id="radio" selected="1">
                         <paper-radio-button name="0" label="Eenmalig"></paper-radio-button>
                         <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
                         <paper-radio-button name="7" label="Elke week"></paper-radio-button>
                         <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
                     </paper-radio-group>
-                    
+
                     <div id="deleteBox" hidden>
                         <h4>Taak verwijderen?</h4>
-                        
+
                         <paper-checkbox on-change="{{checkDelete}}"></paper-checkbox>
                     </div>
 
                     <paper-button raised on-tap="{{deleteTask}}" id="btn_delete" hidden>Verwijderen</paper-button>
-                    
+
                     <paper-button raised on-tap="{{saveTask}}" id="btn_save">Opslaan</paper-button>
 
                     <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
@@ -100,18 +100,20 @@
 
             <div>
               <!--<single-groupmember id="{{me.id}}" name="{{me.name}}" name_ext=" (ik)" avatar="{{me.avatar}}" email="{{me.email}}" on-edit-user="{{editUser}}"></single-groupmember>-->
-                
+
                 <div class="user">
                     <div class="avatar">
                         <!--<img src="http://178.62.205.200{{me.avatar}}" id="avatar">-->
                         <core-image src="{{me.avatar}}" style="width:130px; height:130px;" sizing="cover"></core-image>
-                        <input type="file" on-change="{{selectAvatar}}">
+                        <form id="avatarform" action="http://localhost:3000/api/users/upload/{{this.user_id}}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="image" on-change="{{selectAvatar}}">
+                        </form>
                     </div>
-                                        
+
                     <paper-input-decorator label="Naam">
                         <input id="name" type="text" value="{{me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
                     </paper-input-decorator>
-                    
+
                     <p><core-icon icon="mail"></core-icon>  {{me.email}}</p>
                 </div>
               <!--<div class="seperator"></div>
@@ -144,4 +146,5 @@
 
 	</template>
     <script type="text/javascript" src="js/settings-view.js"></script>
+    <script type="text/javascript" src="../../lib/jquery-2.1.0.min.js"></script>
 </polymer-element>
