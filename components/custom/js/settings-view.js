@@ -21,7 +21,7 @@ Polymer({
 	        });
 	        this.me = me[0];
 
-            this.me.avatar = 'http://localhost:3000/'+this.me.avatar;
+          this.me.avatar = this.domain+this.me.avatar;
 
 	        var group = users.filter(function(obj){
 	            return obj.id != localStorage.user_id;
@@ -227,16 +227,12 @@ Polymer({
 
             that = this;
             reader.onload = function(e){
-                //that.me.avatar = e.target.result;
+                that.me.avatar = e.target.result;
                 that.processAvatar(file);
             };
         }
     },
     processAvatar:function(file){
-        // this.$.ajaxUploadAvatar.url = this.domain+"/api/users/upload/"+localStorage.user_id;
-        // this.$.ajaxUploadAvatar.params = {'image': name, 'type': type};
-        // this.$.ajaxUploadAvatar.go();
-
         var data = new FormData();
         data.append('image', file);
 
@@ -248,20 +244,12 @@ Polymer({
             dataType: 'json',
             processData: false,
             contentType: false,
-            success: function(data, textStatus, jqXHR)
-            {
+            success: function(data, textStatus, jqXHR) {
                 if (typeof data.error === 'undefined') {
-                    console.log('succces');
+                    //succes
                 }
-                else {
-                    console.log('ERRORS: ' + data.error);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log('ERRORS: ' + textStatus);
             }
         });
-
     },
     updateUsernameBackUp:function(){
         this.usernameBackUp = this.me.name.toString();
