@@ -10,6 +10,7 @@
 <link rel="import" href="single-task-open.html">
 <link rel="import" href="single-task-group.html">
 <link rel="import" href="single-task-done.html">
+<link rel="import" href="add-task-view.html">
 <link rel="import" href="user-points.html">
 
 <polymer-element name="tasks-view" attributes="root">
@@ -48,10 +49,10 @@
 
 				<core-icon icon="refresh" on-tap="{{refresh}}"></core-icon>
 
-				<core-icon icon="settings" on-tap="{{gotoSettings}}"></core-icon>
+				<core-icon icon="assignment" on-tap="{{gotoTasksManager}}"></core-icon>
 
 				<div id="photos">
-					<div class="img single" style="background-image:url({{root.domain}}{{root.me.avatar}})"></div>
+					<div class="img single" on-tap="{{gotoProfile}}" style="background-image:url({{root.domain}}{{root.me.avatar}})"></div>
 					<div class="img group" style="background-image:url('/images/icon.png')"></div>
 				</div>
 

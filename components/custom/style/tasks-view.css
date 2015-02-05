@@ -13,7 +13,7 @@
   background:#F8F8F8;
   -webkit-overflow-scrolling:touch;
   -webkit-user-select: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 header{
@@ -131,7 +131,7 @@ core-icon[icon="refresh"]{
     top:30px;
 }
 
-core-icon[icon="settings"]{
+core-icon[icon="assignment"]{
     position:absolute;
     right:20px;
     top:30px;

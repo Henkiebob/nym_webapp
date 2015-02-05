@@ -93,7 +93,7 @@
 
         //update database
         this.$.ajaxUpdateTask.url = this.root.domain+'/api/tasks/'+detail.task_id;
-        this.$.ajaxUpdateTask.params = {'task[user_id]':this.me.id};
+        this.$.ajaxUpdateTask.params = {'task[user_id]':this.root.me.id};
         this.$.ajaxUpdateTask.go();
       },
       finishTask:function(event, detail, sender){
@@ -228,6 +228,12 @@
       },
       gotoSettings:function(){
           this.fire('go-to', {page:'settings'});
+      },
+      gotoTasksManager:function() {
+        this.fire('go-to', {page:'taskmanager'});
+      },
+      gotoProfile:function() {
+        this.fire('go-to', {page:'profile'});
       },
       refresh:function(){
           this.fire('reload');

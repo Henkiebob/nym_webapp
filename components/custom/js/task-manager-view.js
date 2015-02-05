@@ -1,39 +1,39 @@
 Polymer({
-	rootChanged:function(){
+  rootChanged:function(){
 
-		  this.$.updateTask.headers = this.root.auth;
-		  this.$.deleteTask.headers = this.root.auth;
-	  	this.$.saveTask.headers = this.root.auth;
-    	this.$.ajaxUploadAvatar.headers = this.root.auth;
+      this.$.updateTask.headers = this.root.auth;
+      this.$.deleteTask.headers = this.root.auth;
+      this.$.saveTask.headers = this.root.auth;
+      //this.$.ajaxUploadAvatar.headers = this.root.auth;
 
-	    this.toolbarname = 'Taakbeheer';
+      this.toolbarname = 'Taakbeheer';
 
-	    /*if(localStorage.users && localStorage.user_id){
-	        var users = JSON.parse(localStorage.users);
+      /*if(localStorage.users && localStorage.user_id){
+          var users = JSON.parse(localStorage.users);
 
-	        var me = users.filter(function(obj){
-	            return obj.id == localStorage.user_id;
-	        });
-	        this.me = me[0];
+          var me = users.filter(function(obj){
+              return obj.id == localStorage.user_id;
+          });
+          this.me = me[0];
 
           this.me.avatar = this.domain+this.me.avatar;
 
-	        var group = users.filter(function(obj){
-	            return obj.id != localStorage.user_id;
-	        });
-	        this.group = group;
+          var group = users.filter(function(obj){
+              return obj.id != localStorage.user_id;
+          });
+          this.group = group;
 
-	        this.users = users;
-	    }*/
+          this.users = users;
+      }*/
 
         this.editTaskId = null;
         this.editTaskList = null;
 
         //add button animation
         rotate = new CoreAnimation();
-	    rotate.duration = 300;
-	    rotate.fill = 'forwards';
-	    rotate.target = this.$.addBtn;
+      rotate.duration = 300;
+      rotate.fill = 'forwards';
+      rotate.target = this.$.addBtn;
 
         this.tasksLoaded();
     },
@@ -49,11 +49,11 @@ Polymer({
             return 0;
         }
     },
-	tasksLoaded:function(){
-		//this.tasks = this.$.ajaxGetTasks.response;
+  tasksLoaded:function(){
+    //this.tasks = this.$.ajaxGetTasks.response;
         this.tasks = this.root.tasks;
-	    this.tasks.sort(this.sortTasks);
-	},
+      this.tasks.sort(this.sortTasks);
+  },
     editTask:function(sender, detail, event){
         this.newTaskName = detail.name;
         this.$.radio.selected = detail.duration;
@@ -89,23 +89,23 @@ Polymer({
             this.$.btn_save.hidden = false;
         }
     },
-	deleteTask:function(event, detail, sender){
+  deleteTask:function(event, detail, sender){
         that = this;
 
         swal({
-	        title:'Taak Verwijderen',
-	        text:'Weet je zeker dat je deze taak wilt verwijderen?',
-	        type:'warning',
-	        showCancelButton:true,
-	        cancelButtonText:'Nee',
-	        confirmButtonColor:"#DC5957",
-	        confirmButtonText:'Ja',
-	        closeOnConfirm:false
-	    }, function(){
+          title:'Taak Verwijderen',
+          text:'Weet je zeker dat je deze taak wilt verwijderen?',
+          type:'warning',
+          showCancelButton:true,
+          cancelButtonText:'Nee',
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Ja',
+          closeOnConfirm:false
+      }, function(){
             that.$.deleteTask.url = this.root.domain+'/api/tasks/'+that.editTaskId;
             that.$.deleteTask.go();
-	    });
-	},
+      });
+  },
     taskDeleted:function(sender, detail){
         var tasks = this.tasks.filter(function(obj){
             return obj.id != detail.response.id;
@@ -115,10 +115,10 @@ Polymer({
         this.$.pages.selected = 0;
         this.editTask = null;
         swal('Taak is verwijderd!', '', 'success');
-	},
-	newTask:function(sender){
-	    if(this.$.pages.selected == 0){
-	        this.toolbarname = 'Taak toevoegen';
+  },
+  newTask:function(sender){
+      if(this.$.pages.selected == 0){
+          this.toolbarname = 'Taak toevoegen';
 
             this.newTaskName = '';
             this.$.radio.selected = 1;
@@ -128,30 +128,30 @@ Polymer({
             this.$.btn_save.hidden = false;
             this.$.deleteBox.children[1].checked = false;
 
-		    this.$.pages.selected = 1;
+        this.$.pages.selected = 1;
 
-	        rotate.keyframes = [{
-	            transform:'rotateZ(0deg)'
-	        },{
-	            transform:'rotateZ(45deg)'
-	        }];
-	        rotate.play();
+          rotate.keyframes = [{
+              transform:'rotateZ(0deg)'
+          },{
+              transform:'rotateZ(45deg)'
+          }];
+          rotate.play();
 
             this.$.saveTask.method = 'POST';
             this.$.saveTask.url = this.root.domain+'/api/tasks/';
-	    }else{
-	        this.toolbarname = 'Taakbeheer';
-		    this.$.pages.selected = 0;
+      }else{
+          this.toolbarname = 'Taakbeheer';
+        this.$.pages.selected = 0;
 
-	        rotate.keyframes = [{
-	            transform:'rotateZ(45deg)'
-	        },{
-	            transform:'rotateZ(0deg)'
-	        }];
-	        rotate.play();
-	    }
-	},
-	saveTask:function(sender, detail, event){
+          rotate.keyframes = [{
+              transform:'rotateZ(45deg)'
+          },{
+              transform:'rotateZ(0deg)'
+          }];
+          rotate.play();
+      }
+  },
+  saveTask:function(sender, detail, event){
         var duration = Number(this.$.radio.selected);
         var points = 0;
 
@@ -169,22 +169,22 @@ Polymer({
         var next = date.setDate(date.getDate() + duration);
         var deadline = new Date(next);
 
-	    if(this.newTaskName){
-	        this.$.saveTask.params = {
-	            'task[name]':this.newTaskName,
-	            'task[house_id]':localStorage.house_id,
-	            'task[duration]':duration,
+      if(this.newTaskName){
+          this.$.saveTask.params = {
+              'task[name]':this.newTaskName,
+              'task[house_id]':localStorage.house_id,
+              'task[duration]':duration,
                 'task[points]':points,
                 'task[deadline]':deadline
-	        };
+          };
 
-	        this.$.saveTask.go();
-	    }else{
+          this.$.saveTask.go();
+      }else{
             //SWAL
-	        this.$.name.focus();
-	    }
-	},
-	taskSaved:function(sender, detail, event){
+          this.$.name.focus();
+      }
+  },
+  taskSaved:function(sender, detail, event){
         if(this.editTaskList != null){
             this.tasks[this.editTaskList] = detail.response;
 
@@ -210,7 +210,7 @@ Polymer({
         this.$.pages.selected = 0;
 
         this.fire('reload');
-	},
+  },
     selectAvatar:function(event){
         if(event.target.files[0]){
             var reader = new FileReader();
@@ -266,66 +266,66 @@ Polymer({
     },
     usernameUpdated:function(){
         swal({
-	        title:'Gebruikersnaam gewijzigd',
-	        //text:'Weet je zeker dat je van gebruiker wilt wisselen?',
-	        type:'success',
-	        confirmButtonColor:"#DC5957",
-	        confirmButtonText:'Dank je',
-	    }, function(){
+          title:'Gebruikersnaam gewijzigd',
+          //text:'Weet je zeker dat je van gebruiker wilt wisselen?',
+          type:'success',
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Dank je',
+      }, function(){
 
-	    });
+      });
     },
-	showTakskManager:function(){
-	    this.toolbarname = 'Taakbeheer';
-	    this.$.pages.selected = 0;
-	    this.$.addBtn.hidden = false;
-	},
-	showUsersManager:function(){
-	    this.toolbarname = 'Gebruikers';
-	    this.$.pages.selected = 2;
-	    this.$.addBtn.hidden = true;
-	},
-	editUser:function(sender, detail, event){
-	    this.editUser = detail.id;
-	    this.editUsername = detail.username;
-	    //this.$.pages.selected = 3;
-	},
-	updateUser:function(){
+  showTakskManager:function(){
+      this.toolbarname = 'Taakbeheer';
+      this.$.pages.selected = 0;
+      this.$.addBtn.hidden = false;
+  },
+  showUsersManager:function(){
+      this.toolbarname = 'Gebruikers';
+      this.$.pages.selected = 2;
+      this.$.addBtn.hidden = true;
+  },
+  editUser:function(sender, detail, event){
+      this.editUser = detail.id;
+      this.editUsername = detail.username;
+      //this.$.pages.selected = 3;
+  },
+  updateUser:function(){
 
-	},
-	switchUser:function(){
-	    swal({
-	        title:'Afmelden',
-	        text:'Weet je zeker dat je van gebruiker wilt wisselen?',
-	        type:'warning',
-	        showCancelButton:true,
-	        cancelButtonText:'Nee',
-	        confirmButtonColor:"#DC5957",
-	        confirmButtonText:'Ja',
-	        closeOnConfirm:false
-	    }, function(){
-	        localStorage.removeItem('user_id');
-	        location.reload();
-	    });
-	},
-	logOut:function(){
-	    swal({
-	        title:'Uitloggen',
-	        text:'Weet je zeker dat je wilt uitloggen?',
-	        type:'warning',
-	        showCancelButton:true,
-	        cancelButtonText:'Nee',
-	        confirmButtonColor:"#DC5957",
-	        confirmButtonText:'Ja',
-	        closeOnConfirm:false
-	    }, function(){
-	        localStorage.clear();
-	        location.reload();
-	    });
-	},
-	goBack:function(){
-	    this.fire('go-to', {page:'tasks'});
-	}
+  },
+  switchUser:function(){
+      swal({
+          title:'Afmelden',
+          text:'Weet je zeker dat je van gebruiker wilt wisselen?',
+          type:'warning',
+          showCancelButton:true,
+          cancelButtonText:'Nee',
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Ja',
+          closeOnConfirm:false
+      }, function(){
+          localStorage.removeItem('user_id');
+          location.reload();
+      });
+  },
+  logOut:function(){
+      swal({
+          title:'Uitloggen',
+          text:'Weet je zeker dat je wilt uitloggen?',
+          type:'warning',
+          showCancelButton:true,
+          cancelButtonText:'Nee',
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Ja',
+          closeOnConfirm:false
+      }, function(){
+          localStorage.clear();
+          location.reload();
+      });
+  },
+  goBack:function(){
+      this.fire('go-to', {page:'tasks'});
+  }
 });
 
 
