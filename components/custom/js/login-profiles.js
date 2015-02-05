@@ -52,6 +52,7 @@ Polymer({
 	usersLoaded:function(event, detail, sender){
 		if(detail){
             this.users = detail.response;
+            console.log(this.users);
             localStorage.users = JSON.stringify(this.users);
         }else{
             this.users = JSON.parse(localStorage.users);

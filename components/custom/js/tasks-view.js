@@ -45,7 +45,7 @@
       logLoaded:function(event, detail, sender){
           var done_tasks = detail.response;
 
-          console.log(done_tasks);
+          //console.log(done_tasks);
 
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
@@ -57,9 +57,9 @@
               }else{ //Task done by groupmember
                 this.tasks_group_done.push(task);
 
-                if(this.users[task.user_id].avatar){
-                  task.avatar = this.users[task.user_id].avatar;
-                }
+                //task.avatar = this.users[task.user_id];
+
+                console.log(this.users);
 
               }
               // //points
@@ -91,9 +91,16 @@
             }else { //Task picked-up by groupmember
               this.tasks_group.push(task);
 
-              if(this.users[task.user_id].avatar) {
-                task.avatar = this.domain+this.users[task.user_id].avatar;
-              }
+              this.users.filter(function(obj){
+
+                console.log(obj.id);
+
+                  if(obj.id == task.user_id){
+                    console.log(obj.id);
+                    task.avatar = this.domain+this.users[obj.id].avatar;
+                  }
+              });
+
             }
           //console.log('id: '+task.id+', name: '+task.name+', user: '+task.user_id+', status: '+task.status+', points: '+task.points);
         }
