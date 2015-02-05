@@ -1,19 +1,14 @@
 Polymer({
-	alltasksChanged:function(){
-        //this.domain = "http://localhost:3000";
-        this.domain = "http://178.62.205.200";
+	rootChanged:function(){
 
-		var auth = {'Authorization': 'Token token='+localStorage.token};
-		//this.$.ajaxGetTasks.headers = auth;
-		//this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
-		this.$.updateTask.headers = auth;
-		this.$.deleteTask.headers = auth;
-	  this.$.saveTask.headers = auth;
-    this.$.ajaxUploadAvatar.headers = auth;
+		this.$.updateTask.headers = this.root.auth;
+		this.$.deleteTask.headers = this.root.auth;
+	  	this.$.saveTask.headers = this.root.auth;
+    	this.$.ajaxUploadAvatar.headers = this.root.auth;
 
 	    this.toolbarname = 'Taakbeheer';
 
-	    if(localStorage.users && localStorage.user_id){
+	    /*if(localStorage.users && localStorage.user_id){
 	        var users = JSON.parse(localStorage.users);
 
 	        var me = users.filter(function(obj){
@@ -29,7 +24,7 @@ Polymer({
 	        this.group = group;
 
 	        this.users = users;
-	    }
+	    }*/
 
         this.editTaskId = null;
         this.editTaskList = null;
@@ -56,7 +51,7 @@ Polymer({
     },
 	tasksLoaded:function(){
 		//this.tasks = this.$.ajaxGetTasks.response;
-        this.tasks = JSON.parse(this.alltasks);
+        this.tasks = this.root.tasks;
 	    this.tasks.sort(this.sortTasks);
 	},
     editTask:function(sender, detail, event){
@@ -73,7 +68,7 @@ Polymer({
         this.$.pages.selected = 1;
 
         this.$.saveTask.method = 'PUT';
-        this.$.saveTask.url = 'http://178.62.205.200/api/tasks/'+detail.task_id;
+        this.$.saveTask.url = this.root.domain+'/api/tasks/'+detail.task_id;
 
         this.editTaskId = detail.task_id;
         this.editTaskList = detail.list;
@@ -107,7 +102,7 @@ Polymer({
 	        confirmButtonText:'Ja',
 	        closeOnConfirm:false
 	    }, function(){
-            that.$.deleteTask.url = 'http://178.62.205.200/api/tasks/'+that.editTaskId;
+            that.$.deleteTask.url = this.root.domain+'/api/tasks/'+that.editTaskId;
             that.$.deleteTask.go();
 	    });
 	},
@@ -143,7 +138,7 @@ Polymer({
 	        rotate.play();
 
             this.$.saveTask.method = 'POST';
-            this.$.saveTask.url = 'http://178.62.205.200/api/tasks/';
+            this.$.saveTask.url = this.root.domain+'/api/tasks/';
 	    }else{
 	        this.toolbarname = 'Taakbeheer';
 		    this.$.pages.selected = 0;
@@ -227,7 +222,7 @@ Polymer({
 
             that = this;
             reader.onload = function(e){
-                that.me.avatar = e.target.result;
+                that.root.me.avatar = e.target.result;
                 that.processAvatar(file);
             };
         }
@@ -237,7 +232,7 @@ Polymer({
         data.append('image', file);
 
         $.ajax({
-            url: this.domain+"/api/users/upload/"+localStorage.user_id,
+            url: this.domain+'/api/users/upload/'+this.root.me.id,
             type: 'POST',
             data: data,
             cache: false,
@@ -252,10 +247,10 @@ Polymer({
         });
     },
     updateUsernameBackUp:function(){
-        this.usernameBackUp = this.me.name.toString();
+        this.usernameBackUp = this.root.me.name.toString();
     },
     updateUsername:function(){
-        if(this.usernameBackUp != this.me.name){
+        if(this.usernameBackUp != this.root.me.name){
             this.usernameUpdated();
         }
     },

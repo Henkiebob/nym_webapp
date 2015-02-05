@@ -20,7 +20,7 @@
 <script src="../../lib/sweet-alert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
 
-<polymer-element name="settings-view" attributes="alltasks">
+<polymer-element name="settings-view" attributes="root">
 	<template>
   <link rel="stylesheet" type="text/css" href="style/settings-view.css">
 		<!--<core-ajax id="ajaxGetTasks"
@@ -103,18 +103,16 @@
 
                 <div class="user">
                     <div class="avatar">
-                        <!--<img src="http://178.62.205.200{{me.avatar}}" id="avatar">-->
-                        <core-image src="{{me.avatar}}" style="width:130px; height:130px;" sizing="cover"></core-image>
-                        <form id="avatarform" action="http://localhost:3000/api/users/upload/{{this.user_id}}" method="post" enctype="multipart/form-data">
+                        <core-image src="{{root.me.avatar}}" style="width:130px; height:130px;" sizing="cover"></core-image>
+                        
                         <input type="file" name="image" on-change="{{selectAvatar}}">
-                        </form>
                     </div>
 
                     <paper-input-decorator label="Naam">
-                        <input id="name" type="text" value="{{me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
+                        <input id="name" type="text" value="{{root.me.name}}" on-focus="{{updateUsernameBackUp}}" on-blur="{{updateUsername}}">
                     </paper-input-decorator>
 
-                    <p><core-icon icon="mail"></core-icon>  {{me.email}}</p>
+                    <p><core-icon icon="mail"></core-icon>  {{root.me.email}}</p>
                 </div>
               <!--<div class="seperator"></div>
 

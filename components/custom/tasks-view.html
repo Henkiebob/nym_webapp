@@ -12,7 +12,7 @@
 <link rel="import" href="single-task-done.html">
 <link rel="import" href="user-points.html">
 
-<polymer-element name="tasks-view" attributes="start alltasks">
+<polymer-element name="tasks-view" attributes="root">
 	<template>
   <link rel="stylesheet" type="text/css" href="style/tasks-view.css">
 		<!--<core-ajax id="ajaxGetTasks"
@@ -58,7 +58,7 @@
 				<paper-tabs selected="0" noink="true">
 					<paper-tab on-tap="{{headerToTodo}}"><core-icon icon="subject"></core-icon> {{header_todo}} <span>&nbsp;taken</span></paper-tab>
 					<paper-tab on-tap="{{headerToDone}}"><core-icon icon="done-all"></core-icon> {{header_done}} <span>&nbsp;afgerond</span></paper-tab>
-					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{me.points}} <span>&nbsp;punten</span></paper-tab>
+					<paper-tab on-tap="{{headerToPoints}}"><core-icon icon="trending-up"></core-icon> {{root.me.points}} <span>&nbsp;punten</span></paper-tab>
 				</paper-tabs>
 			</header>
 
@@ -108,7 +108,7 @@
 						</core-collapse>
 					</div>
 					<div>						
-						<template repeat="{{user in users}}">
+						<template repeat="{{user in root.users}}">
                             <user-points name="{{user.name}}" points={{user.points}} avatar="{{user.avatar}}" max="{{total_points}}"></user-points>
                         </template>
 					</div>

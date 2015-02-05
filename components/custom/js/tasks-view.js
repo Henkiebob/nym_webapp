@@ -1,27 +1,17 @@
   Polymer({
-      alltasksChanged:function(){
-        //this.domain = "http://localhost:3000";
-         this.domain = "http://178.62.205.200";
-        if(localStorage.house_id && localStorage.token) {
-            this.users = JSON.parse(localStorage.users);
-
-            //user information
-            var me = this.users.filter(function(obj){
-                return obj.id == localStorage.user_id;
-            });
-
-            this.me = me[0];
-            this.username = this.me.name;
-            this.avatar = this.domain+this.me.avatar;
-
+      rootChanged:function(){
+        if(this.root){
+            this.username = this.root.me.name;
+            this.avatar = this.root.domain+this.root.me.avatar;
+            
             this.headername = this.username;
 
-            var auth = {'Authorization': 'Token token='+localStorage.token};
+            var auth = this.root.auth;
             this.$.ajaxUpdateTask.headers = auth;
             this.$.ajaxAddTaskToLog.headers = auth;
             this.$.ajaxGetLog.headers = auth;
 
-            this.$.ajaxGetLog.url = this.domain+'/api/logs/'+localStorage.house_id;
+            this.$.ajaxGetLog.url = this.root.domain+'/api/logs/'+this.root.house;
             this.$.ajaxGetLog.go();
 
             this.$.tasks_todo.opened = true;
@@ -45,45 +35,40 @@
       logLoaded:function(event, detail, sender){
           var done_tasks = detail.response;
 
-          //console.log(done_tasks);
-
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
-              console.log(task.user_id);
 
-              if(task.user_id != "" && task.user_id == localStorage.user_id){ //Task done by user
+              if(task.user_id != '' && task.user_id == this.root.me.id){ //Task done by user
                 this.tasks_done.push(task);
                 this.header_done++;
               }else{ //Task done by groupmember
-                this.tasks_group_done.push(task);
-
-                //task.avatar = this.users[task.user_id];
-
-                console.log(this.users);
-
+              	  var groupmember = this.root.users.filter(function(obj){
+                      return obj.id == task.user_id;
+                  });
+				  task['avatar'] = groupmember[0]['avatar'];
+                  this.tasks_group_done.push(task);
               }
+              
               // //points
-              var user = this.users.filter(function(obj){
+              var user = this.root.users.filter(function(obj){
                   return obj.id == task.user_id;
               });
 
               if(user[0]['points']){
-                  user[0]['points'] += Number(task.points);
-              }else{
-                  user[0]['points'] = Number(task.points);
-              }
+				  user[0]['points'] += Number(task.points);
+			  }else{ 
+				  user[0]['points'] = Number(task.points);
+			  }
 
               this.total_points += Number(task.points);
           }
-          //localStorage.users = JSON.stringify(this.users);
       },
       tasksLoaded:function(event, detail, sender){
-        //var tasks = detail.response;
-        var tasks = JSON.parse(this.alltasks);
+        var tasks = this.root.tasks;
 
         for(var i = 0; i < tasks.length; i++){
             var task = tasks[i];
-            if(task.user_id == localStorage.user_id){ //Task picked-up by user
+            if(task.user_id == this.root.me.id){ //Task picked-up by user
               this.tasks.push(task);
               this.header_todo++;
             }else if(task.user_id == null){ //Open task
@@ -91,18 +76,13 @@
             }else { //Task picked-up by groupmember
               this.tasks_group.push(task);
 
-              this.users.filter(function(obj){
-
-                console.log(obj.id);
-
+              this.root.users.filter(function(obj){
                   if(obj.id == task.user_id){
-                    console.log(obj.id);
-                    task.avatar = this.domain+this.users[obj.id].avatar;
+                    task.avatar = this.root.domain+this.root.users[obj.id].avatar;
                   }
               });
 
             }
-          //console.log('id: '+task.id+', name: '+task.name+', user: '+task.user_id+', status: '+task.status+', points: '+task.points);
         }
       },
       pickTask:function(event, detail, sender){
@@ -112,8 +92,8 @@
         this.header_todo++;
 
         //update database
-        this.$.ajaxUpdateTask.url = this.domain+'/api/tasks/'+detail.task_id;
-        this.$.ajaxUpdateTask.params = {'task[user_id]':localStorage.user_id};
+        this.$.ajaxUpdateTask.url = this.root.domain+'/api/tasks/'+detail.task_id;
+        this.$.ajaxUpdateTask.params = {'task[user_id]':this.me.id};
         this.$.ajaxUpdateTask.go();
       },
       finishTask:function(event, detail, sender){
@@ -162,7 +142,7 @@
             task.deadline = day+' '+months[month];
 
             //add task to log
-            this.$.ajaxAddTaskToLog.url = this.domain+'/api/logs/';
+            this.$.ajaxAddTaskToLog.url = this.root.domain+'/api/logs/';
             this.$.ajaxAddTaskToLog.params = {
               'log[name]': task.name,
               'log[user_id]' : localStorage.user_id,
@@ -173,14 +153,10 @@
             this.$.ajaxAddTaskToLog.go();
 
             //points
-            if(this.me.points){
-                this.me.points += Number(task.points);
-            }else{
-                this.me.points = Number(task.points);
-            }
+            this.root.me.points += Number(task.points);
 
             //update task date
-            this.$.ajaxUpdateTask.url = this.domain+'/api/tasks/'+detail.task_id;
+            this.$.ajaxUpdateTask.url = this.root.domain+'/api/tasks/'+detail.task_id;
             this.$.ajaxUpdateTask.params = {'task[deadline]':new Date(next), 'task[user_id]':''};
             this.$.ajaxUpdateTask.go();
         }
@@ -257,5 +233,3 @@
           this.fire('reload');
       }
 });
-
-

@@ -14,17 +14,18 @@
 			method="GET">
 		</core-ajax>
      
-      <link rel="stylesheet" type="text/css" href="style/app-view.css">
-		<core-collapse id="settings" on-reload="{{reloadTasks}}">
-            <settings-view alltasks="{{tasks}}" on-go-to="{{goTo}}"></settings-view>
+        <link rel="stylesheet" type="text/css" href="style/app-view.css">
+		
+        <core-collapse id="settings" on-reload="{{reloadTasks}}">
+            <settings-view root="{{root}}" on-go-to="{{goTo}}"></settings-view>
         </core-collapse>
 
         <core-collapse id="tasks" fixedSize="false">
-            <tasks-view alltasks="{{tasks}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}"></tasks-view>
+            <tasks-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}"></tasks-view>
         </core-collapse>
 
         <core-collapse id="login" fixedSize="true" class="fixedpage">
-            <login-profiles on-go-to="{{goTo}}" on-goto-tasks="{{loadTasks}}"></login-profiles>
+            <login-profiles on-go-to="{{goTo}}" on-goto-tasks="{{loadRoot}}"></login-profiles>
         </core-collapse>
 
         <core-collapse id="register">

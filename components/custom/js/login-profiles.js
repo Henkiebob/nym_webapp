@@ -62,14 +62,10 @@ Polymer({
 	},
 	goToTasks:function(event, detail, sender){
 		if(detail) localStorage.user_id = detail.user_id;
-	    /*      that = this;
-		Polymer.import(['components/custom/tasks-view.html'], function(){
-	              that.fire('go-to', {page:'tasks'});
-	          });*/
         this.fire('goto-tasks');
 	},
-  register:function(event, detail, sender) {
-      Polymer.import(['components/custom/register-view.html']);
-      this.fire('go-to', {page:'register'});
-  }
+    register:function(event, detail, sender) {
+        Polymer.import(['components/custom/register-view.html']);
+        this.fire('go-to', {page:'register'});
+    }
 });
