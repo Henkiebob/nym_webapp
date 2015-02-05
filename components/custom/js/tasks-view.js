@@ -2,8 +2,8 @@
       rootChanged:function(){
         if(this.root){
             this.username = this.root.me.name;
-            this.avatar = this.root.domain+this.root.me.avatar;
-            
+            //this.avatar = this.root.domain+this.root.me.avatar;
+
             this.headername = this.username;
 
             var auth = this.root.auth;
@@ -48,7 +48,7 @@
 				  task['avatar'] = groupmember[0]['avatar'];
                   this.tasks_group_done.push(task);
               }
-              
+
               // //points
               var user = this.root.users.filter(function(obj){
                   return obj.id == task.user_id;
@@ -56,7 +56,7 @@
 
               if(user[0]['points']){
 				  user[0]['points'] += Number(task.points);
-			  }else{ 
+			  }else{
 				  user[0]['points'] = Number(task.points);
 			  }
 

@@ -50,18 +50,20 @@ Polymer({
         }
 	},
 	usersLoaded:function(event, detail, sender){
-		if(detail){
-            this.users = detail.response;
-            console.log(this.users);
-            localStorage.users = JSON.stringify(this.users);
-        }else{
-            this.users = JSON.parse(localStorage.users);
-        }
+		if (detail) {
+        this.users = detail.response;
+        localStorage.users = JSON.stringify(this.users);
+        console.log('users loaded first time');
+
+        console.log(localStorage.users);
+    }else{
+        this.users = JSON.parse(localStorage.users);
+    }
 
 		this.$.pages.selected = 1;
 	},
 	goToTasks:function(event, detail, sender){
-		if(detail) localStorage.user_id = detail.user_id;
+		if (detail) localStorage.user_id = detail.user_id;
         this.fire('goto-tasks');
 	},
     register:function(event, detail, sender) {

@@ -37,23 +37,23 @@
 		<div class="graph">
 		    <div class="bar">
 		        <div id="fill">
-		              <core-image id="avatar" src="{{avatar}}" sizing="cover"></core-image>  
+		              <core-image id="avatar" src="{{avatar}}" sizing="cover"></core-image>
 		        </div>
 		    </div>
-		</div>	
+		</div>
 		<!--<p>{{name}}: {{points}}</p>-->
 	</template>
 	<script>
 Polymer({
     ready:function(){
-        this.avatar = 'http://178.62.205.200'+this.avatar;
+
     },
     pointsChanged:function(){
         if(!this.points){
             this.points = 0;
         }
-        
-        var perc = (100 / this.max) * this.points;        
+
+        var perc = (100 / this.max) * this.points;
         this.$.fill.style.width = perc+'%';
     }
 });

@@ -51,7 +51,7 @@
 				<core-icon icon="settings" on-tap="{{gotoSettings}}"></core-icon>
 
 				<div id="photos">
-					<div class="img single" style="background-image:url({{avatar}})"></div>
+					<div class="img single" style="background-image:url({{root.domain}}{{root.me.avatar}})"></div>
 					<div class="img group" style="background-image:url('/images/icon.png')"></div>
 				</div>
 
@@ -103,14 +103,14 @@
 							<h2>Wat de groep al gedaan heeft</h2>
 
 							<template repeat="{{task in tasks_group_done}}">
-								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}" done="done"></single-task-group>
+								<single-task-group name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{root.domain}}{{task.avatar}}" done="done"></single-task-group>
 							</template>
 						</core-collapse>
 					</div>
-					<div>						
+					<div>
 						<template repeat="{{user in root.users}}">
-                            <user-points name="{{user.name}}" points={{user.points}} avatar="{{user.avatar}}" max="{{total_points}}"></user-points>
-                        </template>
+                <user-points name="{{user.name}}" points={{user.points}} avatar="{{root.domain}}{{user.avatar}}" max="{{total_points}}"></user-points>
+            </template>
 					</div>
 				</core-animated-pages>
 			</div>

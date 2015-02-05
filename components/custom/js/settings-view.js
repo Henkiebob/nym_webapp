@@ -222,7 +222,7 @@ Polymer({
 
             that = this;
             reader.onload = function(e){
-                that.root.me.avatar = e.target.result;
+                //that.root.me.avatar = e.target.result;
                 that.processAvatar(file);
             };
         }
@@ -231,8 +231,10 @@ Polymer({
         var data = new FormData();
         data.append('image', file);
 
+        that = this;
+
         $.ajax({
-            url: this.domain+'/api/users/upload/'+this.root.me.id,
+            url: this.root.domain+'/api/users/upload/'+this.root.me.id,
             type: 'POST',
             data: data,
             cache: false,
@@ -241,7 +243,15 @@ Polymer({
             contentType: false,
             success: function(data, textStatus, jqXHR) {
                 if (typeof data.error === 'undefined') {
-                    //succes
+
+                    that.root.me.avatar = data.avatar;
+                    console.log(that.root.me.avatar);
+
+                    //localStorage.clear(that.root.users);
+                    localStorage.users = JSON.stringify(that.root.users);
+
+                    console.log('na localstore');
+                    console.log(that.root.users);
                 }
             }
         });
