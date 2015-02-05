@@ -24,8 +24,14 @@ span{
   margin-right: 20px;
 }
 .addUserButton{
-  font-size: 13px;
-  width: 385px;
-  line-height: 36px;
-  height: 35px;
+  color:white;
+  background:green;
+}
+
+new-groupmember{
+  margin-bottom: 25px;
+  float: left;
+  width: 100%;
+  border-bottom: 2px solid lightgrey;
+  padding-bottom: 25px;
 }

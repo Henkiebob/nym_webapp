@@ -43,8 +43,9 @@
         </core-toolbar>
 
         <div class="registerForm">
-          <form class="file-form" method="post" enctype="multipart/form-data">
+          <form>
 
+            <span>Bedenk een groepsnaam, bijvoorbeeld: "De blije struisvogels"</span>
             <paper-input-decorator label="Groepsnaam">
               <input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam" autofocus="true"/>
             </paper-input-decorator>
@@ -81,11 +82,9 @@
             <new-groupmember name="{{user.name}}" email="{{user.email}}" user_position="{{userIndex}}" on-show-users="{{showUsers}}"></new-groupmember>
           </template>
 
-           <core-icon icon="add-circle-outline" class="addUserButton" on-tap="{{addNewUser}}">
-           Extra huisgenoot
-           </core-icon>
+          <paper-button raised="" on-tap="{{addNewUser}}" class="addUserButton">Extra huisgenoot</paper-button>
 
-          <paper-button raised="" on-tap="{{submitUsers}}" id="sendData" class="nextButton">Huis aanmaken</paper-button>
+          <paper-button raised="" on-tap="{{submitUsers}}" id="sendData" class="nextButton">Opslaan</paper-button>
         </div>
       </div>
 

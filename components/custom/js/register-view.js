@@ -27,13 +27,13 @@ Polymer({
         if(this.errors.length == 0){
 
           this.$.addHouse.url = this.domain+'/api/houses/';
-          console.log(this.housename, this.housepassword);
           this.$.addHouse.params = {
           'house[name]':this.housename,
           'house[password]':this.housepassword,
           'house[password_confirmation]': this.housepassword
           };
 
+          //this.$.pages.selected = 1;
           this.$.addHouse.go();
         }
       },
@@ -41,10 +41,12 @@ Polymer({
 
         if(detail.response[0].apikey) {
 
-          //console.log(detail.response[0].apikey);
+          //localStorage.token     = detail.response[0].apikey;
+          //localStorage.house_id  = detail.response[0].house_id;
 
-          localStorage.token     = detail.response[0].apikey;
-          localStorage.house_id  = detail.response[0].house_id;
+          this.token     = detail.response[0].apikey;
+          this.house_id  = detail.response[0].house_id;
+
 
           this.users.push({'name':'', 'email':'', 'house_id' : detail.response[0].house_id});
           this.users.push({'name':'', 'email':'', 'house_id' : detail.response[0].house_id});
@@ -57,7 +59,7 @@ Polymer({
         }
       },
       addNewUser:function() {
-         this.users.push({'name':'', 'email':'', 'house_id' : localStorage.house_id});
+         this.users.push({'name':'', 'email':'', 'house_id' : this.house_id});
       },
       submitUsers:function(){
 
@@ -69,8 +71,8 @@ Polymer({
           obj['house[users_attributes]['+i+'][house_id]'] = this.users[i]['house_id'];
         }
 
- 				this.$.addUsers.headers = {'Authorization':'Token token='+localStorage.token};
-        this.$.addUsers.url = this.domain+'/api/houses/'+localStorage.house_id;
+ 				this.$.addUsers.headers = {'Authorization':'Token token='+this.token};
+        this.$.addUsers.url = this.domain+'/api/houses/'+this.house_id;
         this.$.addUsers.params = obj;
 
         this.$.addUsers.go();
@@ -99,6 +101,7 @@ Polymer({
           closeOnConfirm:true
           }, function(){
             that.fire('go-to', {page:'login'});
+            location.reload();
           });
 
       }
