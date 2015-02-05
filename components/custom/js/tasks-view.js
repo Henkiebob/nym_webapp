@@ -13,21 +13,15 @@
             this.me = me[0];
             this.username = this.me.name;
             this.avatar = this.domain+this.me.avatar;
-            console.log(this.avatar);
 
             this.headername = this.username;
 
             var auth = {'Authorization': 'Token token='+localStorage.token};
-            //this.$.ajaxGetTasks.headers = auth;
-            //this.$.ajaxGetTasks.url = this.domain+"/api/tasks";
             this.$.ajaxUpdateTask.headers = auth;
             this.$.ajaxAddTaskToLog.headers = auth;
             this.$.ajaxGetLog.headers = auth;
 
-            //this.$.ajaxGetTasks.params = {'house_id':localStorage.house_id};
-            //this.$.ajaxGetTasks.go();
-
-            this.$.ajaxGetLog.url = this.domain+'/api/logs/';
+            this.$.ajaxGetLog.url = this.domain+'/api/logs/'+localStorage.house_id;
             this.$.ajaxGetLog.go();
 
             this.$.tasks_todo.opened = true;
@@ -51,21 +45,28 @@
       logLoaded:function(event, detail, sender){
           var done_tasks = detail.response;
 
+          console.log(done_tasks);
+
           for(var i = 0; i < done_tasks.length; i++){
               var task = done_tasks[i];
+              console.log(task.user_id);
 
-              if(task.user_id == localStorage.user_id){ //Task done by user
+              if(task.user_id != "" && task.user_id == localStorage.user_id){ //Task done by user
                 this.tasks_done.push(task);
                 this.header_done++;
               }else{ //Task done by groupmember
                 this.tasks_group_done.push(task);
-                task.avatar = this.users[task.user_id].avatar;
-              }
 
-              //points
+                if(this.users[task.user_id].avatar){
+                  task.avatar = this.users[task.user_id].avatar;
+                }
+
+              }
+              // //points
               var user = this.users.filter(function(obj){
                   return obj.id == task.user_id;
               });
+
               if(user[0]['points']){
                   user[0]['points'] += Number(task.points);
               }else{
@@ -87,9 +88,12 @@
               this.header_todo++;
             }else if(task.user_id == null){ //Open task
               this.tasks_open.push(task);
-            }else{ //Task picked-up by groupmember
+            }else { //Task picked-up by groupmember
               this.tasks_group.push(task);
-              task.avatar = this.domain+this.users[task.user_id].avatar;
+
+              if(this.users[task.user_id].avatar) {
+                task.avatar = this.domain+this.users[task.user_id].avatar;
+              }
             }
           //console.log('id: '+task.id+', name: '+task.name+', user: '+task.user_id+', status: '+task.status+', points: '+task.points);
         }
@@ -155,7 +159,8 @@
             this.$.ajaxAddTaskToLog.params = {
               'log[name]': task.name,
               'log[user_id]' : localStorage.user_id,
-              'log[points]'  : task.points
+              'log[points]'  : task.points,
+              'log[house_id]': localStorage.house_id
             };
 
             this.$.ajaxAddTaskToLog.go();
@@ -197,18 +202,18 @@
         this.header_todo = this.tasks.length;
         this.header_done = this.tasks_done.length;
 
-                this.headername = this.username;
+        this.headername = this.username;
 
-                var rotate = new CoreAnimation();
-                rotate.duration = 300;
-                rotate.keyframes = [{
-                    transform:'rotateY(180deg)'
-                },{
-                    transform:'rotateY(0deg)'
-                }];
-                rotate.fill = 'forwards';
-                rotate.target = document.querySelector('html /deep/ #photos');
-                rotate.play();
+        var rotate = new CoreAnimation();
+        rotate.duration = 300;
+        rotate.keyframes = [{
+            transform:'rotateY(180deg)'
+        },{
+            transform:'rotateY(0deg)'
+        }];
+        rotate.fill = 'forwards';
+        rotate.target = document.querySelector('html /deep/ #photos');
+        rotate.play();
       },
       showGroup:function(){
         this.$.tasks_group.opened = true;
