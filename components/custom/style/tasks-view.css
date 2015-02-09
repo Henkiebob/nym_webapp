@@ -41,7 +41,7 @@ header #photos{
   transform-style:preserve-3d;
 }
 
-header #photos .img{
+header #photos .img, header #photos core-image{
   position:absolute;
   left:0;
   top:0;

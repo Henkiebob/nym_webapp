@@ -64,38 +64,38 @@
 
     <core-animated-pages id="pages" selected="0" transitions="slide-from-right">
       <div>
-      <template repeat="{{task, taskIndex in tasks}}">
-          <single-task-settings name="{{task.name}}" points="{{task.points}}" duration="{{task.duration}}" deadline="{{task.deadline}}" task_id="{{task.id}}" list_position="{{taskIndex}}" on-edit-task="{{editTask}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
-      </template>
+		  <template repeat="{{task, taskIndex in tasks}}">
+			  <single-task-settings name="{{task.name}}" points="{{task.points}}" duration="{{task.duration}}" deadline="{{task.deadline}}" task_id="{{task.id}}" list_position="{{taskIndex}}" on-edit-task="{{editTask}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+		  </template>
       </div>
 
       <div>
-      <div class="task-form">
-          <paper-input-decorator label="Taaknaam">
-              <input type="text" value="{{newTaskName}}" id="name">
-          </paper-input-decorator>
+		  <div class="task-form">
+			  <paper-input-decorator label="Taaknaam">
+				  <input type="text" value="{{newTaskName}}" id="name">
+			  </paper-input-decorator>
 
-          <h4>Herhaling</h4>
+			  <h4>Herhaling</h4>
 
-          <paper-radio-group id="radio" selected="1">
-              <paper-radio-button name="0" label="Eenmalig"></paper-radio-button>
-              <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
-              <paper-radio-button name="7" label="Elke week"></paper-radio-button>
-              <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
-          </paper-radio-group>
+			  <paper-radio-group id="radio" selected="1">
+				  <paper-radio-button name="0" label="Eenmalig"></paper-radio-button>
+				  <paper-radio-button name="1" label="Elke dag"></paper-radio-button>
+				  <paper-radio-button name="7" label="Elke week"></paper-radio-button>
+				  <paper-radio-button name="28" label="Elke maand"></paper-radio-button>
+			  </paper-radio-group>
 
-          <div id="deleteBox" hidden>
-              <h4>Taak verwijderen?</h4>
+			  <div id="deleteBox" hidden>
+				  <h4>Taak verwijderen?</h4>
 
-              <paper-checkbox on-change="{{checkDelete}}"></paper-checkbox>
-          </div>
+				  <paper-checkbox on-change="{{checkDelete}}"></paper-checkbox>
+			  </div>
 
-          <paper-button raised on-tap="{{deleteTask}}" id="btn_delete" hidden>Verwijderen</paper-button>
+			  <paper-button raised on-tap="{{deleteTask}}" id="btn_delete" hidden>Verwijderen</paper-button>
 
-          <paper-button raised on-tap="{{saveTask}}" id="btn_save">Opslaan</paper-button>
+			  <paper-button raised on-tap="{{saveTask}}" id="btn_save">Opslaan</paper-button>
 
-          <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
-      </div>
+			  <paper-button on-tap="{{newTask}}">Annuleren</paper-button>
+		  </div>
       </div>
 
     </core-animated-pages>

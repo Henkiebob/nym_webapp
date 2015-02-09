@@ -102,7 +102,7 @@ Polymer({
           confirmButtonText:'Ja',
           closeOnConfirm:false
       }, function(){
-            that.$.deleteTask.url = this.root.domain+'/api/tasks/'+that.editTaskId;
+            that.$.deleteTask.url = that.root.domain+'/api/tasks/'+that.editTaskId;
             that.$.deleteTask.go();
       });
   },
