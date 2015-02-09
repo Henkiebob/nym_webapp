@@ -4,7 +4,7 @@
             this.username = this.root.me.name;
             //this.avatar = this.root.domain+this.root.me.avatar;
 			
-			if(!this.root.me.avatar){
+			if(this.root.me.avatar){
 				this.profilepicture = this.root.domain + this.root.me.avatar;
 			}else{
 				this.profilepicture = 'test.jpg';
