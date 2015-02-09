@@ -8,7 +8,7 @@ Polymer({
             this.$.login.opened = true;
 		}
 	},
-	goTo:function(event, detail, sender){		
+	goTo:function(event, detail, sender){
         sender.parentElement.opened = false;
 
         document.querySelector('html /deep/ #'+detail.page).opened = true;
@@ -16,6 +16,7 @@ Polymer({
     loadRoot:function(){
         //close login-form if open
         this.$.login.opened = false;
+
 
         //api domain
         var domain = 'http://178.62.205.200';
@@ -37,8 +38,13 @@ Polymer({
             return obj.id == localStorage.user_id;
         });
         me[0]['points'] = 0;
-		me[0]['profilepicture'] = domain+'/api/users/avatar/'+me[0].id;
+
         root['me'] = me[0];
+
+
+        this.$.ajaxGetAvatar.headers = auth;
+        this.$.ajaxGetAvatar.url = domain+'/api/users/avatar/'+me[0].id;
+        this.$.ajaxGetAvatar.go();
 
         //tasks
         root['tasks'] = [];
@@ -46,18 +52,21 @@ Polymer({
     },
     loadTasks:function(auth, domain, house){
 		this.toggleLoading('',{set:'show'});
-		
+
         this.$.ajaxGetTasks.headers = auth;
         this.$.ajaxGetTasks.url = domain+'/api/tasks';
         this.$.ajaxGetTasks.params = {'house_id':house};
         this.$.ajaxGetTasks.go();
+    },
+    avatarLoaded:function(sender, detail, event) {
+        root.me['profilepicture'] = detail.response.avatar;
     },
     tasksLoaded:function(sender, detail, event){
         root['tasks'] = detail.response;
         this.root = root;
 
         this.$.tasks.opened = true;
-		
+
 		this.toggleLoading('',{set:'hide'});
     },
     reloadTasks:function(){

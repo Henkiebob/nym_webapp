@@ -16,8 +16,15 @@
 			method="GET">
 		</core-ajax>
 
+     <core-ajax id="ajaxGetAvatar"
+      auto="false"
+      on-core-response="{{avatarLoaded}}"
+      handleAs="json"
+      method="GET">
+    </core-ajax>
+
         <link rel="stylesheet" type="text/css" href="style/app-view.css">
-        
+
         <div id="loadingscreen" hidden>
         	<paper-spinner active></paper-spinner>
         </div>
