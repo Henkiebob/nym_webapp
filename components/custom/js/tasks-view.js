@@ -1,9 +1,9 @@
   Polymer({
       rootChanged:function(){
         if(this.root){
-            this.username = this.root.me.name;			
-			
-			this.profilepicture = this.root.domain+'/api/users/avatar/'+this.root.me.id;
+            this.username = this.root.me.name;
+
+			      this.profilepicture = root.me['profilepicture'];
 
             this.headername = this.username;
 
@@ -75,7 +75,7 @@
 
               this.root.users.filter(function(obj){
                   if(obj.id == task.user_id){
-                    task.avatar = this.root.domain+this.root.users[obj.id].avatar;
+                     //task.avatar = this.root.domain+this.root.users[obj.id].avatar;
                   }
               });
 

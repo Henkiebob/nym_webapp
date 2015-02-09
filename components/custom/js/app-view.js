@@ -59,7 +59,7 @@ Polymer({
         this.$.ajaxGetTasks.go();
     },
     avatarLoaded:function(sender, detail, event) {
-        root.me['profilepicture'] = detail.response.avatar;
+        root.me['profilepicture'] = 'http://178.62.205.200/'+detail.response.avatar;
     },
     tasksLoaded:function(sender, detail, event){
         root['tasks'] = detail.response;

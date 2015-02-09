@@ -48,7 +48,6 @@
         this.$.ajaxGetAvatar.url = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
         this.$.ajaxGetAvatar.go();
 
-
 				//this.profilepicture = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
 			},
 			goToTasks:function(){
@@ -56,8 +55,7 @@
 				this.fire('show-tasks', {user_id:this.user_id, user_name:this.name, avatar:this.avatar});
 			},
       avatarLoaded:function(event, detail, sender){
-        this.profilepicture = detail.response.avatar;
-        console.log(this.profilepicture);
+        this.profilepicture = 'http://178.62.205.200/'+detail.response.avatar;
       }
 		});
 	</script>

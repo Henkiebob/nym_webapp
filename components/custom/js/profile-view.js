@@ -31,7 +31,7 @@ Polymer({
         data.append('image', file);
 
 		this.fire('toggle-loading',{set:'show'});
-		
+
         that = this;
 
         $.ajax({
@@ -44,9 +44,9 @@ Polymer({
             contentType: false,
             success: function(data, textStatus, jqXHR) {
                 if (typeof data.error === 'undefined') {
-					
-					var timestamp = new Date().getTime();
-					that.root.me.profilepicture = that.root.me.profilepicture + '?update=' + timestamp;
+
+          					var timestamp = new Date().getTime();
+          					//that.root.me.profilepicture = that.root.me.profilepicture+'?update=' + timestamp;
 
                     that.root.me.avatar = data.avatar;
                     console.log(that.root.me.avatar);
@@ -54,9 +54,6 @@ Polymer({
                     //localStorage.clear(that.root.users);
                     localStorage.users = JSON.stringify(that.root.users);
 
-                    console.log('na localstore');
-                    console.log(that.root.users);
-					
 					that.fire('toggle-loading',{set:'hide'});
                 }
             }
