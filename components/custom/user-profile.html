@@ -13,7 +13,7 @@
 	list-style:none;
 }
 
-.user .img{
+.user core-image{
 	width:120px;
 	height:120px;
 	border-radius:75px;
@@ -31,19 +31,14 @@
 }
 		</style>
 		<li class="user" on-tap="{{goToTasks}}">
-			<div class="img" style="background-image:url(http://178.62.205.200{{avatar}})"></div>
+			<core-image src="{{profilepicture}}" sizing="cover"></core-image>
 			<p>{{name}}</p>
 		</li>
 	</template>
 	<script>
 		Polymer({
 			ready:function(){
-				var avatar = this.avatar;
-
-				if(avatar == '/images/original/missing.png'){
-					this.avatar = 'http://www.studentschema.nl/images/missing.svg';
-				}
-
+				this.profilepicture = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
 			},
 			goToTasks:function(){
 				localStorage.user_id = this.user_id;

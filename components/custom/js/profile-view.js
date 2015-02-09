@@ -30,6 +30,8 @@ Polymer({
         var data = new FormData();
         data.append('image', file);
 
+		this.fire('toggle-loading',{set:'show'});
+		
         that = this;
 
         $.ajax({
@@ -42,6 +44,9 @@ Polymer({
             contentType: false,
             success: function(data, textStatus, jqXHR) {
                 if (typeof data.error === 'undefined') {
+					
+					var timestamp = new Date().getTime();
+					that.root.me.profilepicture = that.root.me.profilepicture + '?update=' + timestamp;
 
                     that.root.me.avatar = data.avatar;
                     console.log(that.root.me.avatar);
@@ -51,6 +56,8 @@ Polymer({
 
                     console.log('na localstore');
                     console.log(that.root.users);
+					
+					that.fire('toggle-loading',{set:'hide'});
                 }
             }
         });

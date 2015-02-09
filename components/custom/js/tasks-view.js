@@ -1,14 +1,9 @@
   Polymer({
       rootChanged:function(){
         if(this.root){
-            this.username = this.root.me.name;
-            //this.avatar = this.root.domain+this.root.me.avatar;
+            this.username = this.root.me.name;			
 			
-			if(this.root.me.avatar){
-				this.profilepicture = this.root.domain + this.root.me.avatar;
-			}else{
-				this.profilepicture = 'test.jpg';
-			}
+			this.profilepicture = this.root.domain+'/api/users/avatar/'+this.root.me.id;
 
             this.headername = this.username;
 
@@ -48,10 +43,6 @@
                 this.tasks_done.push(task);
                 this.header_done++;
               }else{ //Task done by groupmember
-              	  var groupmember = this.root.users.filter(function(obj){
-                      return obj.id == task.user_id;
-                  });
-				  task['avatar'] = groupmember[0]['avatar'];
                   this.tasks_group_done.push(task);
               }
 

@@ -17,13 +17,17 @@
 		</core-ajax>
 
         <link rel="stylesheet" type="text/css" href="style/app-view.css">
+        
+        <div id="loadingscreen" hidden>
+        	<paper-spinner active></paper-spinner>
+        </div>
 
         <core-collapse id="settings" on-reload="{{reloadTasks}}">
             <settings-view root="{{root}}" on-go-to="{{goTo}}"></settings-view>
         </core-collapse>
 
         <core-collapse id="taskmanager" on-reload="{{reloadTasks}}">
-            <task-manager-view root="{{root}}" on-go-to="{{goTo}}"></task-manager-view>
+            <task-manager-view root="{{root}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></task-manager-view>
         </core-collapse>
 
         <core-collapse id="profile" on-reload="{{reloadTasks}}">
@@ -31,7 +35,7 @@
         </core-collapse>
 
         <core-collapse id="tasks" fixedSize="false">
-            <tasks-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}"></tasks-view>
+            <tasks-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></tasks-view>
         </core-collapse>
 
         <core-collapse id="login" fixedSize="true" class="fixedpage">

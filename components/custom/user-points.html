@@ -1,4 +1,4 @@
-<polymer-element name="user-points" attributes="name avatar points max">
+<polymer-element name="user-points" attributes="name user_id points max">
 	<template>
 		<style>
 *{
@@ -37,7 +37,7 @@
 		<div class="graph">
 		    <div class="bar">
 		        <div id="fill">
-		              <core-image id="avatar" src="{{avatar}}" sizing="cover"></core-image>
+		              <core-image id="avatar" src="{{profilepicture}}" sizing="cover"></core-image>
 		        </div>
 		    </div>
 		</div>
@@ -46,7 +46,7 @@
 	<script>
 Polymer({
     ready:function(){
-
+		this.profilepicture = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
     },
     pointsChanged:function(){
         if(!this.points){

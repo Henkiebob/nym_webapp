@@ -89,28 +89,31 @@ Polymer({
             this.$.btn_save.hidden = false;
         }
     },
-  deleteTask:function(event, detail, sender){
-        that = this;
+	deleteTask:function(event, detail, sender){
+		that = this;
 
-        swal({
-          title:'Taak Verwijderen',
-          text:'Weet je zeker dat je deze taak wilt verwijderen?',
-          type:'warning',
-          showCancelButton:true,
-          cancelButtonText:'Nee',
-          confirmButtonColor:"#DC5957",
-          confirmButtonText:'Ja',
-          closeOnConfirm:false
-      }, function(){
-            that.$.deleteTask.url = that.root.domain+'/api/tasks/'+that.editTaskId;
-            that.$.deleteTask.go();
-      });
-  },
+		swal({
+		  title:'Taak Verwijderen',
+		  text:'Weet je zeker dat je deze taak wilt verwijderen?',
+		  type:'warning',
+		  showCancelButton:true,
+		  cancelButtonText:'Nee',
+		  confirmButtonColor:"#DC5957",
+		  confirmButtonText:'Ja',
+		  closeOnConfirm:false
+	  }, function(){
+			that.fire('toggle-loading');
+			that.$.deleteTask.url = that.root.domain+'/api/tasks/'+that.editTaskId;
+			that.$.deleteTask.go();
+	  });
+	},
     taskDeleted:function(sender, detail){
         var tasks = this.tasks.filter(function(obj){
             return obj.id != detail.response.id;
         });
         this.tasks = tasks;
+		
+		this.fire('toggle-loading');
 
         this.$.pages.selected = 0;
         this.editTask = null;

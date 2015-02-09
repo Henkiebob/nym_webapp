@@ -8,7 +8,7 @@ Polymer({
             this.$.login.opened = true;
 		}
 	},
-	goTo:function(event, detail, sender){
+	goTo:function(event, detail, sender){		
         sender.parentElement.opened = false;
 
         document.querySelector('html /deep/ #'+detail.page).opened = true;
@@ -32,13 +32,12 @@ Polymer({
         //users
         root['users'] = JSON.parse(localStorage.users);
 
-        console.log(root['users']);
-
         //current user
         var me = root.users.filter(function(obj){
             return obj.id == localStorage.user_id;
         });
         me[0]['points'] = 0;
+		me[0]['profilepicture'] = domain+'/api/users/avatar/'+me[0].id;
         root['me'] = me[0];
 
         //tasks
@@ -46,6 +45,8 @@ Polymer({
         this.loadTasks(root.auth, root.domain, root.house);
     },
     loadTasks:function(auth, domain, house){
+		this.toggleLoading('',{set:'show'});
+		
         this.$.ajaxGetTasks.headers = auth;
         this.$.ajaxGetTasks.url = domain+'/api/tasks';
         this.$.ajaxGetTasks.params = {'house_id':house};
@@ -56,8 +57,21 @@ Polymer({
         this.root = root;
 
         this.$.tasks.opened = true;
+		
+		this.toggleLoading('',{set:'hide'});
     },
     reloadTasks:function(){
         this.loadTasks(root.auth, root.domain, root.house);
-    }
+    },
+	toggleLoading:function(sender, detail, event){
+		loadingscreen = this.$.loadingscreen;
+
+		if(loadingscreen.hidden == true && detail.set == 'show'){
+			loadingscreen.hidden = false;
+		}else{
+			setTimeout(function(){
+				loadingscreen.hidden = true;
+			}, 500);
+		}
+	}
 });

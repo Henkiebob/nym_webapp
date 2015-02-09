@@ -1,14 +1,15 @@
 Polymer({
 	ready:function(){
+		if(this.root) this.profilepicture = this.root.domain+'/api/users/avatar/'+this.user_id;
 
-    this.deadline_date = "";
+		this.deadline_date = "";
 
-    //fix for deadline with done tasks
-    if(this.deadline){
-      this.deadline_date = this.deadline;
-    } else {
-      this.deadline_date = this.created_at;
-    }
+		//fix for deadline with done tasks
+		if(this.deadline){
+		  this.deadline_date = this.deadline;
+		} else {
+		  this.deadline_date = this.created_at;
+		}
 
 		var deadline = new Date(this.deadline_date),
             day = deadline.getDate(),

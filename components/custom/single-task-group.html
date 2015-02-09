@@ -1,9 +1,9 @@
-<polymer-element name="single-task-group" attributes="name deadline points avatar done created_at">
+<polymer-element name="single-task-group" attributes="root name deadline points user_id done created_at">
 	<template>
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
 
 		<div class="task group {{done}}">
-			<img class="btn avatar" src="{{avatar}}">
+			<img class="btn avatar" src="{{profilepicture}}">
 
 			<h3>{{name}}</h3>
 

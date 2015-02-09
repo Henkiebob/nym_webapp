@@ -95,9 +95,9 @@ header paper-tabs core-icon{
 }
 
 paper-tabs#navigation, core-toolbar{
-  position:fixed;
+  /*position:fixed;
   left:0;
-  bottom:0;
+  bottom:0;*/
   height:50px;
   width:100%;
   background:#DC5957;
