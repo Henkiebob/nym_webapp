@@ -64,7 +64,7 @@
 
     <core-animated-pages id="pages" selected="0" transitions="slide-from-right">
       <div>
-		  <template repeat="{{task, taskIndex in tasks}}">
+		  <template repeat="{{task, taskIndex in root.tasks}}">
 			  <single-task-settings name="{{task.name}}" points="{{task.points}}" duration="{{task.duration}}" deadline="{{task.deadline}}" task_id="{{task.id}}" list_position="{{taskIndex}}" on-edit-task="{{editTask}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
 		  </template>
       </div>

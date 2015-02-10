@@ -37,22 +37,10 @@ Polymer({
 
         this.tasksLoaded();
     },
-    sortTasks:function(a,b){
-        var a_name = a.name.toUpperCase();
-        var b_name = b.name.toUpperCase();
-
-        if (a_name < b_name){
-            return -1;
-        }else if (a_name > b_name){
-            return 1;
-        }else{
-            return 0;
-        }
-    },
 	tasksLoaded:function(){
 		//this.tasks = this.$.ajaxGetTasks.response;
-        this.tasks = this.root.tasks;
-	    this.tasks.sort(this.sortTasks);
+        //this.tasks = this.root.tasks;
+	    //this.tasks.sort(this.sortTasks);
 	},
     editTask:function(sender, detail, event){
         this.newTaskName = detail.name;
@@ -194,7 +182,7 @@ Polymer({
             this.editTaskId = null;
         }else{
             this.tasks.push(detail.response);
-            this.tasks.sort(this.sortTasks);
+            //this.tasks.sort(this.sortTasks);
 
             swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
 

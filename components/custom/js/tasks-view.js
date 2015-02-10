@@ -3,7 +3,7 @@
         if(this.root){
             this.username = this.root.me.name;
 
-			      this.profilepicture = root.me['profilepicture'];
+			this.profilepicture = root.me['profilepicture'];
 
             this.headername = this.username;
 
@@ -33,6 +33,18 @@
             this.tasksLoaded();
         }
       },
+	  sortTasks:function(a,b){
+		var a_name = a.deadline;
+		var b_name = b.deadline;
+
+		if (a_name < b_name){
+			return -1;
+		}else if (a_name > b_name){
+			return 1;
+		}else{
+			return 0;
+		}
+      },
       logLoaded:function(event, detail, sender){
           var done_tasks = detail.response;
 
@@ -61,8 +73,8 @@
           }
       },
       tasksLoaded:function(event, detail, sender){
-        var tasks = this.root.tasks;
-
+        tasks = this.root.tasks;
+		  
         for(var i = 0; i < tasks.length; i++){
             var task = tasks[i];
             if(task.user_id == this.root.me.id){ //Task picked-up by user
@@ -81,6 +93,11 @@
 
             }
         }
+		  
+		this.tasks.sort(this.sortTasks);
+        this.tasks_open.sort(this.sortTasks);
+
+        this.tasks_group.sort(this.sortTasks);
       },
       pickTask:function(event, detail, sender){
         var task = this.tasks_open[detail.task_pos];
@@ -234,5 +251,6 @@
       },
       refresh:function(){
           this.fire('reload');
+		  this.rootChanged();
       }
 });

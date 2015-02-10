@@ -50,6 +50,20 @@ Polymer({
         root['tasks'] = [];
         this.loadTasks(root.auth, root.domain, root.house);
     },
+	tasksError:function(){
+		swal({
+          title:'Oeps, er ging iets fout!',
+          //type:'warning',
+          confirmButtonColor:"#DC5957",
+          confirmButtonText:'Opnieuw inloggen',
+          closeOnConfirm:false,
+		  imageUrl:'/images/alerts/warning.jpg',
+		  imageSize:'120x120'
+      }, function(){
+          localStorage.clear();
+          location.reload();
+      });
+	},
     loadTasks:function(auth, domain, house){
 		this.toggleLoading('',{set:'show'});
 
@@ -62,15 +76,32 @@ Polymer({
         root.me['profilepicture'] = 'http://178.62.205.200/'+detail.response.avatar;
     },
     tasksLoaded:function(sender, detail, event){
-        root['tasks'] = detail.response;
+        if(!root){
+			root = this.root;
+			this.root = {};
+		}
+		
+		root['tasks'] = detail.response.sort(this.sortTasks);
         this.root = root;
 
         this.$.tasks.opened = true;
 
 		this.toggleLoading('',{set:'hide'});
-    },
+	},
     reloadTasks:function(){
         this.loadTasks(root.auth, root.domain, root.house);
+    },
+	sortTasks:function(a,b){
+        var a_name = a.name.toUpperCase();
+        var b_name = b.name.toUpperCase();
+
+        if (a_name < b_name){
+            return -1;
+        }else if (a_name > b_name){
+            return 1;
+        }else{
+            return 0;
+        }
     },
 	toggleLoading:function(sender, detail, event){
 		loadingscreen = this.$.loadingscreen;

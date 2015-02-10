@@ -31,28 +31,15 @@ Polymer({
 
         //add button animation
         rotate = new CoreAnimation();
-      rotate.duration = 300;
-      rotate.fill = 'forwards';
-      rotate.target = this.$.addBtn;
+      	rotate.duration = 300;
+      	rotate.fill = 'forwards';
+      	rotate.target = this.$.addBtn;
 
         this.tasksLoaded();
     },
-    sortTasks:function(a,b){
-        var a_name = a.name.toUpperCase();
-        var b_name = b.name.toUpperCase();
-
-        if (a_name < b_name){
-            return -1;
-        }else if (a_name > b_name){
-            return 1;
-        }else{
-            return 0;
-        }
-    },
   tasksLoaded:function(){
     //this.tasks = this.$.ajaxGetTasks.response;
-        this.tasks = this.root.tasks;
-      this.tasks.sort(this.sortTasks);
+      this.tasks = this.root.tasks;
   },
     editTask:function(sender, detail, event){
         this.newTaskName = detail.name;
@@ -197,7 +184,7 @@ Polymer({
             this.editTaskId = null;
         }else{
             this.tasks.push(detail.response);
-            this.tasks.sort(this.sortTasks);
+            //this.tasks.sort(this.sortTasks);
 
             swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
 

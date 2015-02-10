@@ -12,6 +12,7 @@
         <core-ajax id="ajaxGetTasks"
 			auto="false"
 			on-core-response="{{tasksLoaded}}"
+			on-core-error="{{tasksError}}"
 			handleAs="json"
 			method="GET">
 		</core-ajax>
