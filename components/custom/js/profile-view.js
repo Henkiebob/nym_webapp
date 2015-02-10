@@ -45,8 +45,8 @@ Polymer({
             success: function(data, textStatus, jqXHR) {
                 if (typeof data.error === 'undefined') {
 
-          					var timestamp = new Date().getTime();
-          					//that.root.me.profilepicture = that.root.me.profilepicture+'?update=' + timestamp;
+          			var timestamp = new Date().getTime();
+          			//that.root.me.profilepicture = that.root.me.profilepicture+'?update=' + timestamp;
 
                     that.root.me.avatar = data.avatar;
                     console.log(that.root.me.avatar);
@@ -98,14 +98,16 @@ Polymer({
   },
   switchUser:function(){
       swal({
-          title:'Afmelden',
+          title:'Gebruiker wisselen',
           text:'Weet je zeker dat je van gebruiker wilt wisselen?',
-          type:'warning',
+          //type:'warning',
           showCancelButton:true,
           cancelButtonText:'Nee',
           confirmButtonColor:"#DC5957",
           confirmButtonText:'Ja',
-          closeOnConfirm:false
+          closeOnConfirm:false,
+		  imageUrl:'/images/alerts/warning.jpg',
+		  imageSize:'120x120'
       }, function(){
           localStorage.removeItem('user_id');
           location.reload();
@@ -115,12 +117,14 @@ Polymer({
       swal({
           title:'Uitloggen',
           text:'Weet je zeker dat je wilt uitloggen?',
-          type:'warning',
+          //type:'warning',
           showCancelButton:true,
           cancelButtonText:'Nee',
           confirmButtonColor:"#DC5957",
           confirmButtonText:'Ja',
-          closeOnConfirm:false
+          closeOnConfirm:false,
+		  imageUrl:'/images/alerts/warning.jpg',
+		  imageSize:'120x120'
       }, function(){
           localStorage.clear();
           location.reload();

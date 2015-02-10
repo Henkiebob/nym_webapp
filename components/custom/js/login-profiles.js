@@ -51,14 +51,14 @@ Polymer({
 	},
 	usersLoaded:function(event, detail, sender){
 		if (detail) {
-        this.users = detail.response;
-        localStorage.users = JSON.stringify(this.users);
-        console.log('users loaded first time');
+			this.users = detail.response;
+			localStorage.users = JSON.stringify(this.users);
+			console.log('users loaded first time');
 
-        console.log(localStorage.users);
-    }else{
-        this.users = JSON.parse(localStorage.users);
-    }
+			console.log(localStorage.users);
+		}else{
+			this.users = JSON.parse(localStorage.users);
+		}
 
 		this.$.pages.selected = 1;
 	},
