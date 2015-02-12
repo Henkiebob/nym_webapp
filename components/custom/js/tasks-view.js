@@ -3,7 +3,6 @@
 		  'root.updated':'rootUpdated'
 	  },
       rootUpdated:function(){
-		  console.log('root changed');
         if(this.root){
             this.username = this.root.me.name;
 
@@ -77,7 +76,6 @@
           }
       },
       tasksLoaded:function(event, detail, sender){
-		console.log('tasks devided');
         tasks = this.root.tasks;
 		  
         for(var i = 0; i < tasks.length; i++){
@@ -89,8 +87,6 @@
               this.tasks_open.push(task);
             }else { //Task picked-up by groupmember
               this.tasks_group.push(task);
-				
-				console.log(task.avatar);
             }
 		}
 		  
