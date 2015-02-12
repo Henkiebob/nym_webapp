@@ -89,16 +89,10 @@
               this.tasks_open.push(task);
             }else { //Task picked-up by groupmember
               this.tasks_group.push(task);
-
-              this.root.users.filter(function(obj){
-                  if(obj.id == task.user_id){
-                     //task.avatar = this.root.domain+this.root.users[obj.id].avatar;
-                  }
-              });
-
+				
+				console.log(task.avatar);
             }
-          }
-		 
+		}
 		  
 		this.tasks.sort(function(a,b){
 			var a_name = a.deadline;

@@ -1,6 +1,6 @@
 Polymer({
  	observe:{
-		  'root.updated':'rootUpdated'
+		'root.updated':'rootUpdated'
  	},
   	rootUpdated:function(){
       this.$.updateTask.headers = this.root.auth;
