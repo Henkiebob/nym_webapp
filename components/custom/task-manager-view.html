@@ -65,7 +65,7 @@
     <core-animated-pages id="pages" selected="0" transitions="slide-from-right">
       <div>
 		  <template repeat="{{task, taskIndex in root.tasks}}">
-			  <single-task-settings name="{{task.name}}" points="{{task.points}}" duration="{{task.duration}}" deadline="{{task.deadline}}" task_id="{{task.id}}" list_position="{{taskIndex}}" on-edit-task="{{editTask}}" on-delete-task="{{deleteTask}}" on-update-task="{{updateTask}}"></single-task>
+			  <single-task-settings name="{{task.name}}" points="{{task.points}}" duration="{{task.duration}}" deadline="{{task.deadline}}" task_id="{{task.id}}" list_position="{{taskIndex}}" on-edit-task="{{editTask}}"></single-task-settings>
 		  </template>
       </div>
 
@@ -99,8 +99,6 @@
       </div>
 
     </core-animated-pages>
-
-
   </template>
     <script type="text/javascript" src="js/task-manager-view.js"></script>
     <script type="text/javascript" src="../../lib/jquery-2.1.0.min.js"></script>

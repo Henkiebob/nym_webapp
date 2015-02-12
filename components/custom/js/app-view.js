@@ -10,13 +10,14 @@ Polymer({
 	},
 	goTo:function(event, detail, sender){
         sender.parentElement.opened = false;
-
         document.querySelector('html /deep/ #'+detail.page).opened = true;
     },
     loadRoot:function(){
         //close login-form if open
         this.$.login.opened = false;
-
+		
+		//root datetime
+		root['updated'] = new Date().getTime();
 
         //api domain
         var domain = 'http://178.62.205.200';
@@ -76,10 +77,10 @@ Polymer({
         root.me['profilepicture'] = 'http://178.62.205.200/'+detail.response.avatar;
     },
     tasksLoaded:function(sender, detail, event){
-        if(!root){
+        /*if(!root){
 			root = this.root;
 			this.root = {};
-		}
+		}*/
 		
 		root['tasks'] = detail.response.sort(this.sortTasks);
         this.root = root;
@@ -90,6 +91,11 @@ Polymer({
 	},
     reloadTasks:function(){
         this.loadTasks(root.auth, root.domain, root.house);
+		this.root['updated'] = new Date().getTime();
+    },
+	refreshTasks:function(){
+        //this.loadTasks(root.auth, root.domain, root.house);
+		this.root['updated'] = new Date().getTime();
     },
 	sortTasks:function(a,b){
         var a_name = a.name.toUpperCase();

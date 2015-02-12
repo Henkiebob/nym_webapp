@@ -3,7 +3,7 @@
 
 <link rel="import" href="../custom/login-profiles.html">
 <link rel="import" href="../custom/tasks-view.html">
-<link rel="import" href="../custom/settings-view.html">
+<!--<link rel="import" href="../custom/settings-view.html">-->
 <link rel="import" href="../custom/task-manager-view.html">
 <link rel="import" href="../custom/profile-view.html">
 
@@ -35,7 +35,7 @@
         </core-collapse>
 
         <core-collapse id="taskmanager" on-reload="{{reloadTasks}}">
-            <task-manager-view root="{{root}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></task-manager-view>
+            <task-manager-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></task-manager-view>
         </core-collapse>
 
         <core-collapse id="profile" on-reload="{{reloadTasks}}">

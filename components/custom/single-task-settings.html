@@ -31,8 +31,8 @@ input:focus{
 }
 		</style>
 		
-		<div class="task todo" on-tap="{{taskTap0}}">						
-			<div class="btn" on-tap="{{editTask}}"><core-icon icon="create"></core-icon> Bewerken</div>
+		<div class="task todo">						
+			<div class="btn" on-tap="{{edit}}"><core-icon icon="create"></core-icon> Bewerken</div>
 			
 			<h3>{{name}}</h3>
 			<!--<input type="text" on-focus="{{focusName}}" on-blur="{{focusOutName}}" value="{{name}}">-->
@@ -75,8 +75,9 @@ Polymer({
         }
 		//animate = {};
 	},
-    editTask:function(){
+    edit:function(){
         this.fire('edit-task', {task_id:this.task_id, name:this.name, duration:this.duration, points:this.points, list:this.list_position});
+		console.log('edit task');
     }
     /*
 	updateTask:function(){

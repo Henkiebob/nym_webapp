@@ -1,5 +1,9 @@
   Polymer({
-      rootChanged:function(){
+	  observe:{
+		  'root.updated':'rootUpdated'
+	  },
+      rootUpdated:function(){
+		  console.log('root changed');
         if(this.root){
             this.username = this.root.me.name;
 
@@ -73,6 +77,7 @@
           }
       },
       tasksLoaded:function(event, detail, sender){
+		console.log('tasks devided');
         tasks = this.root.tasks;
 		  
         for(var i = 0; i < tasks.length; i++){
@@ -92,12 +97,25 @@
               });
 
             }
-        }
+          }
+		 
 		  
-		this.tasks.sort(this.sortTasks);
+		this.tasks.sort(function(a,b){
+			var a_name = a.deadline;
+			var b_name = b.deadline;
+
+			if (a_name < b_name){
+				return -1;
+			}else if (a_name > b_name){
+				return 1;
+			}else{
+				return 0;
+			}
+		});
         this.tasks_open.sort(this.sortTasks);
 
         this.tasks_group.sort(this.sortTasks);
+		  
       },
       pickTask:function(event, detail, sender){
         var task = this.tasks_open[detail.task_pos];
@@ -251,6 +269,6 @@
       },
       refresh:function(){
           this.fire('reload');
-		  this.rootChanged();
+		  //this.rootChanged();
       }
 });

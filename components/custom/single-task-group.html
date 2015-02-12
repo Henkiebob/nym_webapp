@@ -1,4 +1,4 @@
-<polymer-element name="single-task-group" attributes="root name deadline points user_id done created_at">
+<polymer-element name="single-task-group" attributes="root name deadline deadlineLabel points user_id done created_at">
 	<template>
 		<link rel="stylesheet" type="text/css" href="style/single-task.css">
 
@@ -9,7 +9,7 @@
 
 			<div class="details">
 				<core-icon icon="star"></core-icon> {{points}}
-				<core-icon icon="alarm"></core-icon> {{deadline}}
+				<core-icon icon="alarm"></core-icon> {{deadlineLabel}}
 			</div>
 		</div>
 	</template>
