@@ -1,6 +1,8 @@
 Polymer({
-  rootChanged:function(){
-
+ 	observe:{
+		  'root.updated':'rootUpdated'
+ 	},
+  	rootUpdated:function(){
       this.$.updateTask.headers = this.root.auth;
       this.$.deleteTask.headers = this.root.auth;
       this.$.saveTask.headers = this.root.auth;
@@ -187,7 +189,7 @@ Polymer({
             this.editTaskId = null;
         }else{
             this.root.tasks.push(detail.response);
-            //this.allTasks.sort(this.sortTasks);
+            this.root.tasks.sort(this.sortTasks);
 
             swal('Gelukt!', 'De nieuwe taak is toegevoed', 'success');
 
@@ -204,6 +206,18 @@ Polymer({
 
         this.root.updated = new Date().getTime();
   },
+	sortTasks:function(a,b){
+		var a_name = a.name.toUpperCase();
+		var b_name = b.name.toUpperCase();
+
+		if (a_name < b_name){
+			return -1;
+		}else if (a_name > b_name){
+			return 1;
+		}else{
+			return 0;
+		}
+	},
   goBack:function(){
       this.fire('go-to', {page:'tasks'});
   }
