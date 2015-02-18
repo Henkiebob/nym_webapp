@@ -1,0 +1,68 @@
+<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+
+<link rel="import" href="../custom/login-profiles.html">
+<link rel="import" href="../custom/tasks-view.html">
+<!--<link rel="import" href="../custom/settings-view.html">-->
+<link rel="import" href="../custom/task-manager-view.html">
+<link rel="import" href="../custom/profile-view.html">
+
+<polymer-element name="app-view">
+	<template>
+        <core-ajax id="ajaxGetTasks"
+			auto="false"
+			on-core-response="{{tasksLoaded}}"
+			on-core-error="{{tasksError}}"
+			handleAs="json"
+			method="GET">
+		</core-ajax>
+
+     <core-ajax id="ajaxGetAvatar"
+      auto="false"
+      on-core-response="{{avatarLoaded}}"
+      handleAs="json"
+      method="GET">
+    </core-ajax>
+
+        <link rel="stylesheet" type="text/css" href="style/app-view.css">
+
+        <div id="loadingscreen" hidden>
+        	<paper-spinner active></paper-spinner>
+        </div>
+
+        <core-collapse id="settings" on-reload="{{reloadTasks}}">
+            <settings-view root="{{root}}" on-go-to="{{goTo}}"></settings-view>
+        </core-collapse>
+
+        <core-collapse id="taskmanager" on-reload="{{reloadTasks}}">
+            <task-manager-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></task-manager-view>
+        </core-collapse>
+
+        <core-collapse id="profile" on-reload="{{reloadTasks}}">
+            <profile-view root="{{root}}" on-go-to="{{goTo}}"></profile-view>
+        </core-collapse>
+
+        <core-collapse id="tasks" fixedSize="false">
+            <tasks-view root="{{root}}" on-reload="{{reloadTasks}}" on-go-to="{{goTo}}" on-toggle-loading="{{toggleLoading}}"></tasks-view>
+        </core-collapse>
+
+        <core-collapse id="login" fixedSize="true" class="fixedpage">
+            <login-profiles on-go-to="{{goTo}}" on-goto-tasks="{{loadRoot}}"></login-profiles>
+        </core-collapse>
+
+        <core-collapse id="register">
+            <register-view on-go-to="{{goTo}}"></register-view>
+        </core-collapse>
+
+		<!--<paper-spinner class="white" active></paper-spinner>
+
+		<login-profiles on-go-to="{{goTo}}" hidden></login-profiles>
+
+		<tasks-view start="false" on-go-to="{{goTo}}" hidden></tasks-view>
+
+		<settings-view on-go-to="{{goTo}}" hidden></settings-view>
+
+		<register-view on-go-to="{{goTo}}"></register-view>-->
+	</template>
+	<script type="text/javascript" src="js/app-view.js"></script>
+</polymer-element>

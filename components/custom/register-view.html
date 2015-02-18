@@ -1,0 +1,95 @@
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-animation/core-animation.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+
+<script src="../../lib/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/sweet-alert.css">
+
+<link rel="import" href="new-groupmember.html">
+<link rel="import" href="new-error.html">
+
+<polymer-element name="register-view">
+  <template>
+    <link rel="stylesheet" type="text/css" href="style/register-view.css">
+
+    <core-ajax id="addHouse"
+      auto="false"
+      on-core-response="{{houseAdded}}"
+      handleAs="json"
+      method="POST">
+    </core-ajax>
+
+    <core-ajax id="addUsers"
+      auto="false"
+      on-core-response="{{usersAdded}}"
+      handleAs="json"
+      method="PUT">
+    </core-ajax>
+
+    <core-animated-pages id="pages" selected="0" transitions="slide-from-right">
+
+      <div id="stepone">
+
+        <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+          <div flex>Registeren stap 1 van 3</div>
+        </core-toolbar>
+
+        <div class="registerForm">
+          <form>
+
+            <span>Bedenk een groepsnaam, bijvoorbeeld: "De blije struisvogels"</span>
+            <paper-input-decorator label="Groepsnaam">
+              <input type="text" value="{{housename}}" placeholder="Groepsnaam" class="groepsnaam" autofocus="true"/>
+            </paper-input-decorator>
+
+            <paper-input-decorator label="Groepswachtwoord">
+              <input id="password" is="core-input" name="password" type="password" value="{{housepassword}}"/>
+            </paper-input-decorator>
+
+            <paper-input-decorator label="Groepswachtwoord nog een keer">
+              <input id="password" is="core-input" name="password" type="password" value="{{housepassword_confirmation}}"/>
+            </paper-input-decorator>
+
+            <span>Iets wat iedereen makkelijk kan onthouden, zoals het wifi wachtwoord.</span>
+          </form>
+
+          <paper-button raised="" class="nextButton" on-tap="{{SubmitHouse}}" class="colored" role="button" tabindex="0">
+          Volgende stap
+          </paper-button>
+
+          <template repeat="{{error, errorIndex in errors}}">
+          <new-error message="{{error.message}}" error_position="{{errorIndex}}"></new-error>
+          </template>
+        </div>
+      </div>
+
+      <div id="steptwo">
+         <core-toolbar>
+          <core-icon-button icon="arrow-back" on-tap="{{back}}"></core-icon-button>
+          <div flex>Registeren stap 2 van 3</div>
+        </core-toolbar>
+
+        <div class="registerForm">
+          <template repeat="{{user, userIndex in users}}">
+            <new-groupmember name="{{user.name}}" email="{{user.email}}" user_position="{{userIndex}}" on-show-users="{{showUsers}}"></new-groupmember>
+          </template>
+
+          <paper-button raised="" on-tap="{{addNewUser}}" class="addUserButton">Extra huisgenoot</paper-button>
+
+          <paper-button raised="" on-tap="{{submitUsers}}" id="sendData" class="nextButton">Opslaan</paper-button>
+        </div>
+      </div>
+
+
+    </core-animated-pages>
+  </template>
+  <script type="text/javascript" src="js/register-view.js"></script>
+</polymer-element>

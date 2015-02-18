@@ -1,0 +1,62 @@
+<polymer-element name="user-profile" attributes="name avatar user_id">
+	<template>
+       <core-ajax id="ajaxGetAvatar"
+      auto="false"
+      on-core-response="{{avatarLoaded}}"
+      handleAs="json"
+      method="GET">
+    </core-ajax>
+		<style>
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+
+.user{
+	float:left;
+	margin:0 15px 10px;
+	list-style:none;
+}
+
+.user core-image{
+	width:120px;
+	height:120px;
+	border-radius:75px;
+	margin:5px 0;
+	border:2px solid #FFF;
+	background-size:cover;
+	background-position:center;
+	background-repeat:no-repeat;
+}
+
+.user p{
+	font-weight:lighter;
+	color:#FFF;
+	text-transform:capitalize;
+}
+		</style>
+		<li class="user" on-tap="{{goToTasks}}">
+			<core-image src="{{profilepicture}}" sizing="cover"></core-image>
+			<p>{{name}}</p>
+		</li>
+	</template>
+	<script>
+		Polymer({
+			ready:function(){
+
+        this.$.ajaxGetAvatar.url = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
+        this.$.ajaxGetAvatar.go();
+
+				//this.profilepicture = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
+			},
+			goToTasks:function(){
+				localStorage.user_id = this.user_id;
+				this.fire('show-tasks', {user_id:this.user_id, user_name:this.name, avatar:this.avatar});
+			},
+      avatarLoaded:function(event, detail, sender){
+        this.profilepicture = 'http://178.62.205.200/'+detail.response.avatar;
+      }
+		});
+	</script>
+</polymer-element>

@@ -1,0 +1,31 @@
+<polymer-element name="new-error" attributes="message">
+  <template>
+  <style>
+      .notification-bar{
+        width:100%;
+        padding:10px;
+        font-size:12px;
+        background:#FFD2D1;
+        color:black;
+        border-left:3px #DC5957 solid;
+        opacity: 0.9;
+        float:left;
+        border-bottom:2px white solid;
+        margin-top:20px;
+    }
+    core-icon{
+      color:red;
+    }
+  </style>
+       <div class="notification-bar">
+         <core-icon icon="error" on-tap="{{hideNotification}}"></core-icon>
+        {{message}}
+       </div>
+  </template>
+    <script>
+    Polymer({
+        ready:function(){
+        }
+    });
+    </script>
+</polymer-element>

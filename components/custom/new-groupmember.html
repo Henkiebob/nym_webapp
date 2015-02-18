@@ -1,0 +1,18 @@
+<polymer-element name="new-groupmember" attributes="name email user_position">
+  <template>
+    <span class="user">Huisgenoot</span>
+    <paper-input-decorator label="Naam">
+      <input value="{{name}}" type="name" name="user[name]" autofocus="true"/>
+    </paper-input-decorator>
+
+    <paper-input-decorator label="E-mail">
+      <input value="{{email}}" type="e-mail" name="user[email]"/>
+    </paper-input-decorator>
+  </template>
+    <script>
+    Polymer({
+        ready:function(){
+        }
+    });
+    </script>
+</polymer-element>

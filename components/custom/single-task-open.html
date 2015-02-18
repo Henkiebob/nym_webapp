@@ -1,0 +1,18 @@
+<polymer-element name="single-task-open" attributes="name deadline deadlineLabel points task_id task_position created_at">
+	<template>	
+		<link rel="stylesheet" type="text/css" href="style/single-task.css">
+		
+		<div class="task">						
+			<div class="btn open" on-tap="{{pickTask}}">Oppakken</div>
+			
+			<h3>{{name}}</h3>
+			
+			<div class="details">
+				<core-icon icon="star"></core-icon> {{points}}
+				<core-icon icon="alarm"></core-icon> {{deadlineLabel}}
+			</div>
+		</div>
+	</template>
+	
+	<script type="text/javascript" src="js/single-task.js"></script>
+</polymer-element>

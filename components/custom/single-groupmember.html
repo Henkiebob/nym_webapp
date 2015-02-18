@@ -1,0 +1,23 @@
+<polymer-element name="single-groupmember" attributes="user_id name name_ext avatar email">
+	<template>
+		<link rel="stylesheet" type="text/css" href="style/single-task.css">
+
+		<div class="task todo" on-tap="{{userTap}}">
+			<img class="btn avatar" src="{{root.domain}}{{root.me.avatar}}">
+
+			<h3>{{name}}{{name_ext}}</h3>
+
+			<div class="details">
+				<core-icon icon="mail"></core-icon> {{email}}
+			</div>
+		</div>
+	</template>
+
+	<script>
+Polymer({
+    userTap:function(){
+        this.fire('edit-user', {user_id:this.user_id, username:this.name});
+    }
+});
+    </script>
+</polymer-element>

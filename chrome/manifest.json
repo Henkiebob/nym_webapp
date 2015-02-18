@@ -1,0 +1,23 @@
+{
+	"name": "Not Your Mom",
+	"description": "Not Your Mom - Studentschema.nl",
+	"version": "0.1",
+	"manifest_version": 2,
+	"app": {
+		"urls": [
+			"*://localhost/Polymer"
+		],
+		"launch": {
+			"web_url": "http://localhost/Polymer",
+			"container":"panel",
+			"width":400,
+			"height":550
+		}
+	},
+  	"icons": {
+	  "128": "icon.png"
+  	},
+	"permissions": [
+		"background"
+	]
+}
