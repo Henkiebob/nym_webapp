@@ -1,0 +1,144 @@
+<html>
+<head>
+	<title>Studentschema.nl</title>
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/md-icons.css">
+
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<script type="text/javascript">if(screen.width < 360) document.getElementById("viewport").setAttribute("content", "width=360, user-scalable=no");</script>
+
+	<link href="images/icon.png" rel="icon">
+	<link href="images/icon.png" rel="apple-touch-icon">
+	<link rel="shortcut icon" href="image/favicon.ico">
+
+	<meta property="og:title" content="Studentschema.nl">
+	<meta property="og:url" content="'http://studentschema.nl/">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="http://studentschema.nl/image/icon.png">
+	
+	<meta name="description" content="Makkelijk, Eerlijk en Automatisch takenlijsten maken voor in je studentenhuis.">
+	<meta name="keywords" content="Student, Studenten, Stundentenhuis, Stundentenhuizen, Huisgenoten, Planning, Schema, Taken, Takenlijst">
+		
+	<meta name="author" content="Harold Mulder & Tjerk Dijkstra">
+	<meta name="robots" content="index, follow">
+	<meta name="revisit-after" content="3 month">
+</head>
+<body>
+<div id="generator">
+	<header>
+		<h1>
+			<i class="md md-done-all"></i> Studentschema.nl
+		</h1>
+	</header>
+
+	<section class="inner">
+		<div id="form">
+			<div class="slide" data-name="persons">
+				<h3>
+					<i class="md md-people"></i> Voeg huisgenoten toe
+				</h3>
+				<div class="fields">
+					<div class="person"><input type="text" placeholder="Naam..."><i class="md md-clear"></i></div>
+					<div class="person"><input type="text" placeholder="Naam..."><i class="md md-clear"></i></div>
+					<div class="person"><input type="text" placeholder="Naam..."><i class="md md-clear"></i></div>
+
+					<div class="new newperson">
+						<i class="md md-person-add"></i> Persoon toevoegen
+					</div>
+				</div>
+				<div class="btn left mob_info"><i class="md md-info"></i></div>
+
+				<div class="btn next">Selecteer taken</div>
+			</div>
+
+			<div class="slide right" data-name="tasks">
+				<h3>
+					<i class="md md-assignment"></i> Kies taken
+				</h3>
+
+				<div class="fields">
+					<label class="task" data-task="wc schoonmaken" data-task-duration="short" data-task-type="default"><input type="checkbox"><i class="md md-check-box-outline-blank"></i> WC Schoonmaken <span>Kort</span></label>
+					<label class="task" data-task="keuken schoonmaken" data-task-duration="long" data-task-type="default"><input type="checkbox"><i class="md md-check-box-outline-blank"></i> Keuken Schoonmaken <span>Lang</span></label>
+					<label class="task" data-task="badkamer schoonmaken" data-task-duration="long" data-task-type="default"><input type="checkbox"><i class="md md-check-box-outline-blank"></i> Badkamer Schoonmaken <span>Lang</span></label>
+					<label class="task" data-task="gang schoonmaken" data-task-duration="short" data-task-type="default"><input type="checkbox"><i class="md md-check-box-outline-blank"></i> Gang Schoonmaken <span>Kort</span></label>
+					<label class="task" data-task="vuilnis wegbrengen" data-task-duration="short" data-task-type="default"><input type="checkbox"><i class="md md-check-box-outline-blank"></i> Vuilnis Wegbrengen <span>Kort</span></label>
+
+					<div class="new newtask">
+						<i class="md md-add-circle"></i>
+						Nieuwe taak
+					</div>
+
+					<div class="btn-text">Terug</div>
+					<div class="btn">Maak Schema</div>
+				</div>
+			</div>
+
+			<div class="slide down" data-name="newtask">
+				<h3>
+					<i class="md md-assignment"></i>
+					Nieuwe taak
+				</h3>
+
+				<div class="fields">
+					<input type="text" placeholder="Taaknaam..." class="tasktitle">
+
+					<div class="taskduration">
+						<p><i class="md md-schedule"></i> Duur:</p>
+						<label><input type="radio" name="duration" value="short" checked><i class="md md-radio-button-off"></i> Korter dan 20 min.</label>
+						<label><input type="radio" name="duration" value="long"><i class="md md-radio-button-off"></i> Langer dan 20 min.</label>
+					</div>
+				</div>
+
+				<div class="btn-text">Annuleren</div>
+				<div class="btn">Toevoegen</div>
+			</div>
+
+			<div class="slide right" data-name="overview">
+				<h3>Weeknummer</h3>
+				<table></table>
+        		
+        		<a href="https://docs.google.com/forms/d/1KFn1vVuL1TxkfUJPpETAuPgPStn_MQfc3JkWsZmkHxo/viewform" target="_blank" class="btn left orange"><i class="md md-comment"></i> Geef Feedback</a>
+        		<div class="btn second clear" onclick="clearLocalStore()"><i class="md md-sync"></i></div>
+				<div class="btn" onclick="javascript:print()">Print Schema</div>
+			</div>
+
+			<div class="slide down" data-name="mob_info">
+				<h3>Makkelijk, Eerlijk en Automatisch takenlijsten maken voor in je studentenhuis.</h3>
+				<p>Met de schemagenerator van Studentschema.nl maak je in een handomdraai een duidelijk en eerlijke takenlijst voor in je studentenhuis. Vul de namen in van je huisgenoten, de taken die gedaan moeten worden en voil&agrave; een eerlijke takenlijst die direct geprint kan worden.</p>
+
+				<a href="https://docs.google.com/forms/d/1KFn1vVuL1TxkfUJPpETAuPgPStn_MQfc3JkWsZmkHxo/viewform" target="_blank" class="btn left orange"><i class="md md-comment"></i> Geef Feedback</a>
+				<div class="btn"><i class="md md-clear"></i></div>
+			</div>
+		</div>
+		<div id="info">
+			<h2>Makkelijk, Eerlijk en Automatisch takenlijsten maken voor in je studentenhuis.</h2>
+			<p>Met de schemagenerator van Studentschema.nl maak je in een handomdraai een duidelijk en eerlijke takenlijst voor in je studentenhuis. Vul de namen in van je huisgenoten, de taken die gedaan moeten worden en voil&agrave; een eerlijke takenlijst die direct geprint kan worden.</p>
+		</div>
+	</section>
+
+	<a href="https://docs.google.com/forms/d/1KFn1vVuL1TxkfUJPpETAuPgPStn_MQfc3JkWsZmkHxo/viewform" id="feedback" target="_blank"><i class="md md-comment "></i> Feedback</a>
+</div>
+<div id="printschema">
+	<div class="container">
+		<header>
+			<h1><i class="md md-done-all"></i> Studentschema.nl</h1>
+			<h2><i class="md md-today"></i> week 21</h2>
+		</header>
+
+		<table></table>
+
+		<footer>
+			<img src="http://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=http://www.studentschema.nl" alt="qrcode">
+			<h3>Dit schema is gemaakt met behulp van Studentschema.nl</h3>
+			<h4>Makkelijk, Eerlijk en Automatisch takenlijsten maken voor in je studentenhuis.</h4>
+		</footer>
+	</div>
+</div>
+
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

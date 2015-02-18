@@ -1,0 +1,397 @@
+//http://zavoloklom.github.io/material-design-iconic-font/icons.html
+
+$blue:#428BCA
+$orange:#FF7400
+
+*
+	margin:0;
+	padding:0;
+	box-sizing:border-box
+	-moz-box-sizing:border-box
+	
+body
+	font-family:'Open Sans'
+
+	h1, h2, h3, h4
+		font-weight:300
+
+#generator
+	background:#333 url('../image/background-2.jpg') no-repeat center
+	background-size:cover
+	
+	&.overview *[data-name="overview"]
+		left:0 !important
+		transition:none !important
+		-webkit-transition:none !important
+	
+	@media screen and (max-width:360px)
+		background:none
+	
+	@media print
+		display:none
+	
+	header
+		height:60px
+		width:100%
+		position:fixed
+		left:0
+		top:0
+		background:$blue
+		color:white
+		padding:0 10px
+		
+		h1
+			margin:6px 0
+			
+			i
+				font-size:42px
+	
+	.inner
+		width:100%
+		height:100%
+		min-height:400px
+		max-width:900px
+		margin:0 auto
+		padding:90px 0 30px
+	
+		#form
+			position:relative
+			display:inline-block
+			width:360px
+			height:100%
+			background:white
+			vertical-align:middle
+			overflow:hidden
+	
+			.slide
+				position:absolute
+				top:0
+				left:0
+				width:100%
+				height:100%
+				padding:20px
+				background:white
+				box-shadow:0px 0px 10px #000
+				transition:all 400ms ease
+				-webkit-transition:all 400ms ease
+		
+				h3
+					text-align:center
+					margin-bottom:20px
+		
+					i
+						font-size:24px
+		
+				p
+					word-spacing:7px
+				
+		
+				.fields
+					height:80%
+					overflow-y:auto
+					overflow-x:hidden
+					-webkit-overflow-scrolling:touch
+		
+					.person
+						margin-bottom:20px
+						border:1px solid #333
+		
+						input
+							width:280px
+							padding:9px 10px
+							font-size:14px
+							border:0
+		
+							&:focus
+								border-color:$blue
+								outline:none
+						i
+							vertical-align:top
+							line-height:36px
+							font-size:20px
+							margin-left:10px
+							cursor:pointer
+		
+							&:hover
+								color:red
+		
+					.task
+						display:block
+						width:100%
+						padding:5px
+						border:1px solid #000
+						margin-bottom:15px
+						font-size:14px
+						line-height:25px
+						cursor:pointer
+						text-transform:lowercase
+		
+						i
+							font-size:23px
+		
+						input[type="checkbox"]
+							display:none
+		
+						input[type="checkbox"]:checked + i
+							&.md
+								color:$blue
+		
+								&:before
+									content:'\f2e1';
+			
+						span
+							font-size:12px
+							color:#AAA
+							float:right
+							margin-right:10px
+		
+						.md-clear
+							float:right
+		
+							&:hover
+								color:red
+					
+					.tasktitle
+						width:100%
+						margin-bottom:20px
+						border:1px solid #333
+						padding:9px 10px
+						font-size:14px
+
+						&:focus
+							border-color:$blue
+							outline:none
+		
+					.taskduration
+						p
+							line-height:25px
+							
+						label
+							display:block
+							line-height:25px
+							cursor:pointer
+		
+							input[type="radio"]
+								display:none;
+		
+							input[type="radio"]:checked + i
+								color:$blue
+		
+								&:before
+									content:"\f2e4"
+		
+					.new
+						font-size:14px
+						display:inline-block
+						cursor:pointer
+		
+						i
+							font-size:20px
+
+				table
+					width:100%
+					
+					th
+						text-align:left
+		
+					th, td
+						padding:10px
+		
+					tr
+						background:#eee
+	
+						&.dark
+							background:#aaa
+	
+					th.check, td.check
+						display:none
+					
+				.btn
+					position:absolute
+					right:20px
+					bottom:20px
+					font-size:13px
+					background:$blue
+					padding:7px 10px
+					color:white
+					border-radius:3px
+					cursor:pointer
+					border:2px solid $blue
+					box-shadow:inset 0px 0px 0px 1px #FFF
+					text-decoration:none
+		
+					&.orange
+						border-color:$orange
+						background:$orange
+		
+					&.left
+						left:20px
+						right:auto
+						
+					&.second
+						right:130px
+		
+					i
+						font-size:18px
+					
+					@media screen and (min-width:900px)
+						&.mob_info
+							display:none
+		
+				.btn-text
+					position:absolute
+					left:20px
+					right:auto
+					bottom:20px
+					background:none
+					color:$blue
+					border:0
+					box-shadow:none
+					padding:7px 0
+					font-size:13px
+					cursor:pointer
+		
+					&:hover
+						text-decoration:underline
+					
+			
+				&.right
+					left:400px
+					opacity:0
+				
+				&.down
+					top:110%
+					opacity:0
+	
+		#info
+			display:inline-block
+			width:450px
+			background:rgba($blue, 0.7)
+			vertical-align:middle
+			color:white
+			margin-left:80px
+			padding:20px 20px 40px
+	
+			h2
+				margin-bottom:25px
+		
+			p
+				font-weight:300
+		
+		@media screen and (max-width:900px)
+			#form
+				display:block
+				margin:0 auto
+		
+			#info
+				display:none
+		
+		@media screen and (max-width:360px)
+			padding:60px 0 0
+
+	#feedback
+		position:absolute
+		left:-75px
+		top:300px
+		z-index:10
+		height:100px
+		width:160px
+		line-height:50px
+		background:$orange
+		color:#FFF
+		text-align:center
+		text-transform:uppercase
+		border-radius:10px 10px 0 0
+		transform:rotate(90deg)
+		-webkit-transform:rotate(90deg)
+		transition:left 200ms ease
+		-webkit-transition:left 200ms ease
+		letter-spacing:3px
+		text-decoration:none
+		border:3px solid $orange
+		box-shadow:inset 0 0 0 1px #FFF
+		padding:5px 10px
+	
+		&:hover
+			left:-65px
+	
+		@media screen and (max-width:360px)
+			display:none
+	
+#printschema
+	-webkit-print-color-adjust:exact
+	display:none
+	
+	@media print
+		display:block
+	
+	.container
+		width:800px
+		height:1130px
+		margin:0 auto
+		position:relative
+	
+		header
+			height:70px
+			margin-bottom:50px
+			border-bottom:1px solid #000
+	
+			h1
+				float:left
+				line-height:50px
+			h2
+				float:right
+				line-height:50px
+		
+		table
+			font-size:20px
+	
+			tr
+				background:#eee
+		
+				&.dark
+					background:#aaa
+				
+				th, td
+					padding:15px 0 15px 10px
+		
+				th.check, td.check
+					width:60px
+					padding:0
+					text-align:center
+		
+			th
+				text-align:left
+		
+				&.name
+					width:200px
+		
+				&.task
+					width:600px
+		
+		.sub 
+			margin-top:40px
+	
+			p
+				margin-bottom:10px
+				font-size:14px
+				font-style:italic
+		
+		footer
+			position:absolute
+			bottom:0
+			left:0
+			height:100px
+			width:100%
+			padding:10px
+			border-top:1px solid #000
+	
+			h3
+				margin:10px 0 15px
+				font-weight:bolder
+		
+			h4
+				font-weight:bolder
+		
+			img
+				float:right

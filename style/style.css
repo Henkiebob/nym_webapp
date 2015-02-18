@@ -1,0 +1,318 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; }
+
+body {
+  font-family: 'Open Sans'; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 300; }
+
+#generator {
+  background: #333 url('../image/background.jpg') no-repeat center;
+  background-size: cover; }
+  #generator.overview *[data-name="overview"] {
+    left: 0 !important;
+    transition: none !important;
+    -webkit-transition: none !important; }
+  @media screen and (max-width: 360px) {
+    #generator {
+      background: none; } }
+  @media print {
+    #generator {
+      display: none; } }
+  #generator header {
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #428BCA;
+    color: white;
+    padding: 0 10px; }
+    #generator header h1 {
+      margin: 6px 0; }
+      #generator header h1 i {
+        font-size: 42px; }
+  #generator .inner {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 90px 0 30px; }
+    #generator .inner #form {
+      position: relative;
+      display: inline-block;
+      width: 360px;
+      height: 100%;
+      min-height:360px;
+      background: white;
+      vertical-align: middle;
+      overflow: hidden; }
+      #generator .inner #form .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background: white;
+        box-shadow: 0px 0px 10px #000;
+        transition: all 400ms ease;
+        -webkit-transition: all 400ms ease; }
+        #generator .inner #form .slide h3 {
+          text-align: center;
+          margin-bottom: 20px; }
+          #generator .inner #form .slide h3 i {
+            font-size: 24px; }
+        #generator .inner #form .slide p {
+          word-spacing: 7px; }
+        #generator .inner #form .slide .fields {
+          height: 80%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch; }
+          #generator .inner #form .slide .fields .person {
+            margin-bottom: 20px;
+            border: 1px solid #333; }
+            #generator .inner #form .slide .fields .person input {
+              width: 280px;
+              padding: 9px 10px;
+              font-size: 14px;
+              border: 0; }
+              #generator .inner #form .slide .fields .person input:focus {
+                border-color: #428BCA;
+                outline: none; }
+            #generator .inner #form .slide .fields .person i {
+              vertical-align: top;
+              line-height: 36px;
+              font-size: 20px;
+              margin-left: 10px;
+              cursor: pointer; }
+              #generator .inner #form .slide .fields .person i:hover {
+                color: red; }
+          #generator .inner #form .slide .fields .task {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #000;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 25px;
+            cursor: pointer;
+            text-transform: lowercase; }
+            #generator .inner #form .slide .fields .task i {
+              font-size: 23px; }
+            #generator .inner #form .slide .fields .task input[type="checkbox"] {
+              display: none; }
+            #generator .inner #form .slide .fields .task input[type="checkbox"]:checked + i.md {
+              color: #428BCA; }
+              #generator .inner #form .slide .fields .task input[type="checkbox"]:checked + i.md:before {
+                content: '\f2e1'; }
+            #generator .inner #form .slide .fields .task span {
+              font-size: 12px;
+              color: #AAA;
+              float: right;
+              margin-right: 10px; }
+            #generator .inner #form .slide .fields .task .md-clear {
+              float: right; }
+              #generator .inner #form .slide .fields .task .md-clear:hover {
+                color: red; }
+          #generator .inner #form .slide .fields .tasktitle {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            padding: 9px 10px;
+            font-size: 14px; }
+            #generator .inner #form .slide .fields .tasktitle:focus {
+              border-color: #428BCA;
+              outline: none; }
+          #generator .inner #form .slide .fields .taskduration p {
+            line-height: 25px; }
+          #generator .inner #form .slide .fields .taskduration label {
+            display: block;
+            line-height: 25px;
+            cursor: pointer; }
+            #generator .inner #form .slide .fields .taskduration label input[type="radio"] {
+              display: none; }
+            #generator .inner #form .slide .fields .taskduration label input[type="radio"]:checked + i {
+              color: #428BCA; }
+              #generator .inner #form .slide .fields .taskduration label input[type="radio"]:checked + i:before {
+                content: "\f2e4"; }
+          #generator .inner #form .slide .fields .new {
+            font-size: 14px;
+            display: inline-block;
+            cursor: pointer; }
+            #generator .inner #form .slide .fields .new i {
+              font-size: 20px; }
+        #generator .inner #form .slide table {
+          width: 100%; }
+          #generator .inner #form .slide table th {
+            text-align: left; }
+          #generator .inner #form .slide table th, #generator .inner #form .slide table td {
+            padding: 10px; }
+          #generator .inner #form .slide table tr {
+            background: #eee; }
+            #generator .inner #form .slide table tr.dark {
+              background: #aaa; }
+          #generator .inner #form .slide table th.check, #generator .inner #form .slide table td.check {
+            display: none; }
+        #generator .inner #form .slide .btn {
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+          font-size: 13px;
+          background: #428BCA;
+          padding: 7px 10px;
+          color: white;
+          border-radius: 3px;
+          cursor: pointer;
+          border: 2px solid #428BCA;
+          box-shadow: inset 0px 0px 0px 1px #FFF;
+          text-decoration: none; }
+          #generator .inner #form .slide .btn.orange {
+            border-color: #FF7400;
+            background: #FF7400; }
+          #generator .inner #form .slide .btn.left {
+            left: 20px;
+            right: auto; }
+          #generator .inner #form .slide .btn.second {
+          	right: 130px}
+          #generator .inner #form .slide .btn i {
+            font-size: 18px; }
+          @media screen and (min-width: 900px) {
+            #generator .inner #form .slide .btn.mob_info {
+              display: none; } }
+        #generator .inner #form .slide .btn-text {
+          position: absolute;
+          left: 20px;
+          right: auto;
+          bottom: 20px;
+          background: none;
+          color: #428BCA;
+          border: 0;
+          box-shadow: none;
+          padding: 7px 0;
+          font-size: 13px;
+          cursor: pointer; }
+          #generator .inner #form .slide .btn-text:hover {
+            text-decoration: underline; }
+        #generator .inner #form .slide.right {
+          left: 400px;
+          opacity: 0; }
+        #generator .inner #form .slide.down {
+          top: 110%;
+          opacity: 0; }
+    #generator .inner #info {
+      display: inline-block;
+      width: 450px;
+      background: rgba(66, 139, 202, 0.7);
+      vertical-align: middle;
+      color: white;
+      margin-left: 80px;
+      padding: 20px 20px 40px; }
+      #generator .inner #info h2 {
+        margin-bottom: 25px; }
+      #generator .inner #info p {
+        font-weight: 300; }
+    @media screen and (max-width: 900px) {
+      #generator .inner #form {
+        display: block;
+        margin: 0 auto; }
+      #generator .inner #info {
+        display: none; } }
+    @media screen and (max-width: 360px) {
+      #generator .inner {
+        padding: 60px 0 0; } }
+  #generator #feedback {
+    position: absolute;
+    left: -75px;
+    top: 300px;
+    z-index: 10;
+    height: 100px;
+    width: 160px;
+    line-height: 50px;
+    background: #FF7400;
+    color: #FFF;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 10px 10px 0 0;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transition: left 200ms ease;
+    -webkit-transition: left 200ms ease;
+    letter-spacing: 3px;
+    text-decoration: none;
+    border: 3px solid #FF7400;
+    box-shadow: inset 0 0 0 1px #FFF;
+    padding: 5px 10px; }
+    #generator #feedback:hover {
+      left: -65px; }
+    @media screen and (max-width: 360px) {
+      #generator #feedback {
+        display: none; } }
+
+#printschema {
+  -webkit-print-color-adjust: exact;
+  display: none; }
+  @media print {
+    #printschema {
+      display: block; } }
+  #printschema .container {
+    width: 800px;
+    height: 1130px;
+    margin: 0 auto;
+    position: relative; }
+    #printschema .container header {
+      height: 70px;
+      margin-bottom: 50px;
+      border-bottom: 1px solid #000; }
+      #printschema .container header h1 {
+        float: left;
+        line-height: 50px; }
+      #printschema .container header h2 {
+        float: right;
+        line-height: 50px; }
+    #printschema .container table {
+      font-size: 20px; }
+      #printschema .container table tr {
+        background: #eee; }
+        #printschema .container table tr.dark {
+          background: #aaa; }
+        #printschema .container table tr th, #printschema .container table tr td {
+          padding: 15px 0 15px 10px; }
+        #printschema .container table tr th.check, #printschema .container table tr td.check {
+          width: 60px;
+          padding: 0;
+          text-align: center; }
+      #printschema .container table th {
+        text-align: left; }
+        #printschema .container table th.name {
+          width: 200px; }
+        #printschema .container table th.task {
+          width: 600px; }
+    #printschema .container .sub {
+      margin-top: 40px; }
+      #printschema .container .sub p {
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-style: italic; }
+    #printschema .container footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 100px;
+      width: 100%;
+      padding: 10px;
+      border-top: 1px solid #000; }
+      #printschema .container footer h3 {
+        margin: 10px 0 15px;
+        font-weight: bolder; }
+      #printschema .container footer h4 {
+        font-weight: bolder; }
+      #printschema .container footer img {
+        float: right; }
+
+/*# sourceMappingURL=style.css.map */
