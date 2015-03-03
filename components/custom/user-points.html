@@ -1,4 +1,4 @@
-<polymer-element name="user-points" attributes="name user_id points max">
+<polymer-element name="user-points" attributes="name user_id points max root avatar">
 	<template>
 		<style>
 *{
@@ -46,7 +46,8 @@
 	<script>
 Polymer({
     ready:function(){
-		this.profilepicture = 'http://178.62.205.200/api/users/avatar/'+this.user_id;
+		  this.profilepicture = this.root.domain+'/'+this.avatar;
+      console.log(this.profilepicture);
     },
     pointsChanged:function(){
         if(!this.points){

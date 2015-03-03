@@ -110,7 +110,7 @@
 					</div>
 					<div>
 						<template repeat="{{user in root.users}}">
-							<user-points name="{{user.name}}" points={{user.points}} user_id="{{user.id}}" max="{{total_points}}"></user-points>
+							<user-points avatar="{{user.avatar}}" root="{{root}}" name="{{user.name}}" points={{user.points}} user_id="{{user.id}}" max="{{total_points}}"></user-points>
 						</template>
 					</div>
 				</core-animated-pages>
