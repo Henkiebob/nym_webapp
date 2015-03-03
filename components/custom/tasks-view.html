@@ -79,7 +79,7 @@
 							<h2>Wat wordt door de anderen gedaan?</h2>
 
 							<template repeat="{{task in tasks_group}}">
-								<single-task-group root="{{root}}" name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}"></single-task-group>
+								<single-task-group root="{{root}}" name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} avatar="{{task.avatar}}" username="{{task.user.name}}"></single-task-group>
 							</template>
 						</core-collapse>
 
@@ -104,7 +104,7 @@
 							<h2>Wat de groep al gedaan heeft</h2>
 
 							<template repeat="{{task in tasks_group_done}}">
-								<single-task-group root="{{root}}" name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} user_id="{{task.user_id}}" avatar="{{task.avatar}}" done="done"></single-task-group>
+								<single-task-group root="{{root}}" name="{{task.name}}" deadline="{{task.deadline}}" created_at="{{task.created_at}}" points={{task.points}} user_id="{{task.user_id}}" avatar="{{task.avatar}}" username="{{task.user.name}}" done="done"></single-task-group>
 							</template>
 						</core-collapse>
 					</div>

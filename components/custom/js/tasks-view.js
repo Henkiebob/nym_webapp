@@ -79,6 +79,7 @@
                   return obj.id == task.user_id;
               });
 
+
               if(user[0]['points']){
 				  user[0]['points'] += Number(task.points);
 			  }else{
@@ -116,7 +117,6 @@
 			}
 		});
         this.tasks_open.sort(this.sortTasks);
-
         this.tasks_group.sort(this.sortTasks);
 
       },
