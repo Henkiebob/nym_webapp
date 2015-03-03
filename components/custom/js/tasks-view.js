@@ -92,6 +92,8 @@
       tasksLoaded:function(event, detail, sender){
         tasks = this.root.tasks;
 
+        console.log(tasks);
+
         for(var i = 0; i < tasks.length; i++){
             var task = tasks[i];
             if(task.user_id == this.root.me.id){ //Task picked-up by user
