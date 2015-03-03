@@ -1,4 +1,17 @@
   Polymer({
+    ready:function(){
+      //iOS in browser height fix.
+      var ios = navigator.userAgent.match(/(iPad|iPhone|iPod)/g);
+      if(ios && ios.length > 0){
+        console.log('i am ios');
+        if(window.navigator.standalone && window.navigator.standalone == false){
+          console.log('i am not standalone');
+          setTimeout(function(){
+            document.querySelector('html /deep/ #wrapper').classList.add('ios');
+          }, 100);
+        }
+      }
+    },
 	  observe:{
 		  'root.updated':'rootUpdated'
 	  },
@@ -77,7 +90,7 @@
       },
       tasksLoaded:function(event, detail, sender){
         tasks = this.root.tasks;
-		  
+
         for(var i = 0; i < tasks.length; i++){
             var task = tasks[i];
             if(task.user_id == this.root.me.id){ //Task picked-up by user
@@ -89,7 +102,7 @@
               this.tasks_group.push(task);
             }
 		}
-		  
+
 		this.tasks.sort(function(a,b){
 			var a_name = a.deadline;
 			var b_name = b.deadline;
@@ -105,7 +118,7 @@
         this.tasks_open.sort(this.sortTasks);
 
         this.tasks_group.sort(this.sortTasks);
-		  
+
       },
       pickTask:function(event, detail, sender){
         var task = this.tasks_open[detail.task_pos];
