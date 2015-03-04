@@ -49,6 +49,17 @@ h3{
 .details core-icon[icon="alarm"]{
 	margin-left:10px;
 }
+.details core-icon[icon="perm-identity"]{
+  margin-left:10px;
+}
+.nowrap{
+  width: 67px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
 .btn{
 	position:absolute;
 	right:15px;
