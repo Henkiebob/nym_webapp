@@ -43,6 +43,7 @@
 
             this.header_todo = 0;
             this.header_done = 0;
+			this.root.me.points = 0;
 
             this.total_points = 0;
 
